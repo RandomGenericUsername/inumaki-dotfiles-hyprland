@@ -38,13 +38,28 @@ parse_options() {
     done
 }
 
-# Load other scripts
-setup=.install/setup.sh
-install=.install/install.sh
-debug_functions=.lib/debug_functions.sh
+# Log path
+export LOGS_PATH=./logs
+install_log="$LOGS_PATH/install.log"
 
 # Get access to the debug functions
+debug_functions=.lib/debug_functions.sh
 source $debug_functions # debug_print
+
+# Get access to the pkg installer functions
+pkg_installer_functions=.lib/pkg_installer.sh
+source $pkg_installer_functions # iterate_pkg_list
+
+# Get access to utils
+utils=.lib/utils.sh
+source $utils
+
+# Get access to auth 
+auth_def=.lib/auth.sh
+source $auth_def
+
+# Path to the list of packages
+pkg_list_path=packages.sh
 
 # Initialize the debug flag
 export DEBUG="false"
@@ -52,13 +67,19 @@ export DEBUG="false"
 # Parse the comand line arguments
 parse_options "$@"
 
-# Parse the comand line arguments
-parse_options "$@"
-
 debug_print "[ Running installation script ]"
 
-#$setup
-#$install
+# Create the dir for logging
+create_dir_for_file $install_log
+clean_log $install_log
+
+# Ask for authentication
+auth "Please provide root privileges to continue with the installation..."
+
+# Install the packages
+install_packages $pkg_list_path $install_log
+
+# Copy the required files
 
 debug_print "[ Installation finished!!! ]"
 
