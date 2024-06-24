@@ -1,2 +1,2 @@
 # inumaki-dotfiles-hyprland
-dotfiler for hyprland
+dotfiles for hyprland
