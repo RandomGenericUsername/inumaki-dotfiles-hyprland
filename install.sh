@@ -6,18 +6,22 @@
  /_//_/    /___/_/ /_/____/\__/\__,_/_/_/\___/_/       /_//_/
 
 '
+#######################################################################################################################
 
 #!/bin/bash
-# File: install.sh
 
-# Get the script name
-script_name=$(basename "$0")
+#######################################################################################################################
+
+# Function to display pretty installer in terminal 
+show_pretty_messsage() {
+    figlet -f slant -t "# Installer #" | lolcat -t 
+}
 
 # Function to display help information
 show_help() {
-    echo "Usage: $script_name [-d|--debug]"
+    echo "Usage: $0 [--debug]"
     echo -e "\nOptions:"
-    echo "  -d, --debug      Enable debug mode for verbose output."
+    echo "  --debug      Enable debug mode for verbose output."
     echo -e "\nExample:"
     echo "  $0 --debug"
 }
@@ -38,48 +42,59 @@ parse_options() {
     done
 }
 
-# Log path
-export LOGS_PATH=./logs
-install_log="$LOGS_PATH/install.log"
+prompt_install(){
+    while true; do
+    read -p ":: Do you want to start the installation now? (Yy/Nn): " yn
+    case $yn in
+        [Yy]* )
+            echo ":: Installation started."
+        break;;
+        [Nn]* ) 
+            echo ":: Installation canceled."
+            exit;
+        break;;
+        * ) echo ":: Please answer yes or no.";;
+    esac
+done
 
-# Get access to the debug functions
-debug_functions=.lib/debug_functions.sh
-source $debug_functions # debug_print
 
-# Get access to the pkg installer functions
-pkg_installer_functions=.lib/pkg_installer.sh
-source $pkg_installer_functions # iterate_pkg_list
+}
 
-# Get access to utils
-utils=.lib/utils.sh
-source $utils
+#######################################################################################################################
 
-# Get access to auth 
-auth_def=.lib/auth.sh
-source $auth_def
-
-# Path to the list of packages
-pkg_list_path=packages.sh
-
-# Initialize the debug flag
 export DEBUG="false"
 
-# Parse the comand line arguments
-parse_options "$@"
+#######################################################################################################################
 
-debug_print "[ Running installation script ]"
+script_dir=$(pwd)
+vars=$script_dir/vars.sh
+source $vars
 
-# Create the dir for logging
-create_dir_for_file $install_log
-clean_log $install_log
+#######################################################################################################################
 
-# Ask for authentication
-auth "Please provide root privileges to continue with the installation..."
+parse_options "$@" || exit $?
+check_distro_support $supported_distro || exit $?
+show_pretty_messsage || exit $?
+prompt_install 
 
-# Install the packages
-install_packages $pkg_list_path $install_log
+#######################################################################################################################
 
-# Copy the required files
+create_file $installed_pkg_logs
 
-debug_print "[ Installation finished!!! ]"
+#######################################################################################################################
+
+detect_previous_install $dotfiles_install_path || exit $?
+
+#######################################################################################################################
+
+auth "Please provide root privileges to install packages"
+install_packages $packages
+drop_root_privileges
+
+#######################################################################################################################
+
+# Copy required files
+
+
+
 

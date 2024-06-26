@@ -12,7 +12,7 @@
 script_dir=$(dirname $BASH_SOURCE)
 
 # Access debug function
-debug_functions=$script_dir/debug_functions.sh
+debug_functions=$script_dir/debug.sh
 source $debug_functions #debug_print
 
 # Function to detect the package manager
@@ -39,7 +39,7 @@ install_function() {
     local pkg_manager=$(detect_package_manager)
 
     if ! command -v "$pkg" >/dev/null; then
-        echo "Attempting to install $pkg using $pkg_manager..."
+        print "Attempting to install $pkg using $pkg_manager..." debug
         case $pkg_manager in
             apt-get)
                 sudo apt-get install -y "$pkg" || echo "Failed to install $pkg" >> "$logfile"
@@ -61,7 +61,7 @@ install_function() {
                 ;;
         esac
     else
-        echo "$pkg is already installed."
+        print "$pkg is already installed." debug
     fi
 }
 
@@ -71,13 +71,11 @@ iterate_pkg_list() {
     local package_file="$1"
     local callback="$2"
     local logfile="$3"
-    #local callback=${2:-install_function}
-    #local logfile=${3:-"./install_log.txt"}  # Default log file path if not provided
 
-    debug_print "[ Reading package list from $package_file... ]"
+    print "Reading package list from $package_file..." debug
     while read -r pkg; do
         if [ -n "$pkg" ] && [ "${pkg:0:1}" != "#" ]; then  # Skip empty lines and comments
-            debug_print "Processing $pkg"
+            print "Processing $pkg" debug
             $callback "$pkg" "$logfile"
         fi
     done < "$package_file"
