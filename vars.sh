@@ -9,12 +9,14 @@ dotfiles_install_path=/home/$USER/dotfiles/dev
 
 supported_distro=$__script_dir/supported_distro.sh
 packages=$__script_dir/packages.sh
+yay_packages=$__script_dir/packages.yay
 dotfiles=$__script_dir/dotfiles
 lib=$__script_dir/.lib
 
 
 logs=/home/$USER/.logs/$dotfiles_id
 installed_pkg_logs=$logs/installed_pkg.log
+yay_installed_pkg_logs=$logs/yay_installed_pkg.log
 
 
 auth=$lib/auth.sh

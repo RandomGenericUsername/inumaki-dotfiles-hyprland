@@ -80,6 +80,7 @@ prompt_install
 #######################################################################################################################
 
 create_file $installed_pkg_logs
+create_file $yay_installed_pkg_logs
 
 #######################################################################################################################
 
@@ -88,13 +89,10 @@ detect_previous_install $dotfiles_install_path || exit $?
 #######################################################################################################################
 
 auth "Please provide root privileges to install packages"
-install_packages $packages
+install_packages $packages $installed_pkg_logs
+install_yay
 drop_root_privileges
 
 #######################################################################################################################
 
 # Copy required files
-
-
-
-
