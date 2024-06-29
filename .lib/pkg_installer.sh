@@ -53,18 +53,6 @@ _isInstalledYay() {
     return $result
 }
 
-_isFolderEmpty() {
-    folder="$1"
-    if [ -d $folder ] ;then
-        if [ -z "$(ls -A $folder)" ]; then
-            return 0
-        else
-            return 1
-        fi
-    else
-        return 1
-    fi
-}
 
 # ------------------------------------------------------
 # Function Install all package if not installed
@@ -93,10 +81,12 @@ _forcePackagesPacman() {
     done;
 
     if [[ "${toInstall[@]}" == "" ]] ; then
+        print "All packages are installed" "debug" "$log"
         return 0;
     fi;
 
     # printf "Package not installed:\n%s\n" "${toInstall[@]}";
+    print "Installing ${toInstall[@]}" "debug" "$log"
     sudo pacman --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 
@@ -122,21 +112,31 @@ _forcePackagesYay() {
         toInstall+=("${pkg}");
     done;
     if [[ "${toInstall[@]}" == "" ]] ; then
+        print "All packages are installed" "debug" "$log"
         return 0;
     fi;
+    print "Installing ${toInstall[@]}" "debug" "$log"
     yay --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 
 install_pacman_packages(){
     local packagesFilePath="$1"
     local packages="$(_parsePackagesFromFile $packagesFilePath)"
-    _installPackagesPacman $packages
+    if [[ "$2" == "-f" || "$2" == "--force" ]]; then
+        _forcePackagesPacman $packages
+    else
+        _installPackagesPacman $packages
+    fi
 }
 
 install_yay_packages(){
     local packagesFilePath="$1"
     local packages="$(_parsePackagesFromFile $packagesFilePath)"
-    _installPackagesYay $packages
+    if [[ "$2" == "-f" || "$2" == "--force" ]]; then
+        _forcePackagesYay $packages
+    else
+        _installPackagesYay $packages
+    fi
 }
 
 
@@ -170,29 +170,4 @@ _installSymLink() {
         fi
     fi
 }
-
-
-
-
-# ------------------------------------------------------
-# System check
-# ------------------------------------------------------
-_commandExists() {
-    package="$1";
-    if ! type $package > /dev/null 2>&1; then
-        echo ":: ERROR: $package doesn't exists. Please install it with yay -S $2"
-    else
-        echo ":: OK: $package command found."
-    fi
-}
-
-_folderExists() {
-    folder="$1";
-    if [ ! -d $folder ]; then
-        echo ":: ERROR: $folder doesn't exists. $2"
-    else
-        echo ":: OK: $folder found."
-    fi
-}
-
 

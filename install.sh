@@ -43,10 +43,6 @@ parse_options() {
     done
 }
 
-############################################## Define and export global variables ##############################################
-
-export DEBUG="false"
-export LOG="false"
 
 ###################################### Source relevant variables/constants and functions ########################################
 
@@ -60,7 +56,9 @@ parse_options "$@" || exit $?
 
 ################################################### Create log files ################################################
 
-create_file $log
+if [ "$LOG" == "true" ]; then
+    create_file $log
+fi
 
 ############################################# Validate if the distro is suppored ############################################
 
@@ -71,14 +69,40 @@ check_distro_support $supported_distro || exit $?
 show_pretty_message "Installer"
 prompt_install 
 
+################################################ Check for previous installation ################################################
+
+check_previous_installation $dotfiles_install_path || exit $?
+
 ################################################ Install required packages ################################################
 
-auth "Please provide root privileges to install packages"
-install_pacman_packages $pacman_packages
-install_yay
-drop_root_privileges
-install_yay_packages $yay_packages
+#auth "Please provide root privileges to install packages"
+#install_pacman_packages $pacman_packages
+#install_yay
+#drop_root_privileges
+#install_yay_packages $yay_packages
 
-#######################################################################################################################
+############################################ Copy dotfiles ################################################
 
-# Copy required files
+cp -r $dotfiles_dir $dotfiles_install_path
+
+############################################ Run dedicated installation scripts ################################################
+
+install_wal
+
+#####################################################################################################################################
+
+print "Installation finished!" "info" "$log"
+if [ "$LOG" == "true" ] && [ "$DEBUG" == "true" ]; then
+    print "Installation log generated at $log" debug $log
+fi
+
+exit 0
+
+
+# List of display managers to check
+#display_managers="sddm waybar swaync hyprland hyprpaper wpaperd polkit NetworkManager bolt bluetooth"
+#output="$(detect_enabled_services $display_managers)"
+#output2="$(detect_running_processes $display_managers)"
+#echo "services: $output"
+#echo "processes: $output2"
+

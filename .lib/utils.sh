@@ -121,56 +121,54 @@ create_file() {
     return 0  # Exit the function successfully
 }
 
-# Detects running processes based on a list of names
-detect_running_processes() {
-    local names=("$@")  # Accept an array of process names as arguments
-    local running_processes=()
 
-    for name in "${names[@]}"; do
-        if pgrep -x "$name" > /dev/null; then
-            running_processes+=("$name")
+# ------------------------------------------------------
+# System check
+# ------------------------------------------------------
+
+dir_exists() {
+    local dir="$1";
+    if [ -d $dir ]; then
+        return 1
+    fi
+    return 0
+}
+
+is_dir_empty() {
+    local dir="$1"
+    if [ -d $dir ] ;then
+        if [ -z "$(ls -A $dir)" ]; then
+            return 0
+        else
+            return 1
         fi
-    done
-
-    echo "${running_processes[@]}"
+    else
+        return 1
+    fi
 }
 
-# Detects enabled services based on a list of service names
-detect_enabled_services() {
-    local services=("$@")  # Accept an array of service names as arguments
-    local enabled_services=()
+# Function to check for previous installations
+check_previous_installation() {
+    local install_path="$1"
 
-    for service in "${services[@]}"; do
-        if systemctl --user is-enabled "${service}.service" 2>/dev/null | grep -q "enabled"; then
-            enabled_services+=("$service")
+    dir_exists "$install_path"
+    folder_exists=$?
+
+    if [ $folder_exists -eq 1 ]; then
+        is_dir_empty "$install_path"
+        folder_empty=$?
+
+        if [ $folder_empty -eq 1 ]; then
+            print "Previous installation detected in $install_path." "debug" "$log"
+            return 1
+        else
+            print "Installation folder exists but is empty." "debug" "$log"
+            return 0
         fi
-    done
-
-    echo "${enabled_services[@]}"
+    else
+        print "No previous installation found." "debug" "$log"
+        return 0
+    fi
 }
 
-# Kills running processes based on a list of names
-kill_running_processes() {
-    local processes=("$@")  # Accept an array of process names as arguments
-
-    for process in "${processes[@]}"; do
-        pkill -x "$process"
-        echo "Killed running process: $process"
-    done
-}
-
-# Disables services based on a list of service names
-disable_services() {
-    local services=("$@")  # Accept an array of service names as arguments
-
-    for service in "${services[@]}"; do
-        systemctl --user disable "${service}.service"
-        echo "Disabled service: ${service}.service"
-    done
-}
-
-# Function to check if a command is available
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
 

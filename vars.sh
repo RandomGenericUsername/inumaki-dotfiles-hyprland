@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEBUG="false"
+LOG="false"
+
 __script_dir=$(pwd)
 
 dotfiles_id=inumaki-dotfiles-hyprland
@@ -10,6 +13,7 @@ log=$log_dir/log
 
 lib=$__script_dir/.lib
 install_files_dir=.install
+install=$__script_dir/$install_files_dir
 dotfiles_dir=$__script_dir/dotfiles
 supported_distro=$__script_dir/$install_files_dir/supported_distro.sh
 pacman_packages=$__script_dir/$install_files_dir/packages/packages.pacman
@@ -22,6 +26,8 @@ pkg_installer=$lib/pkg_installer.sh
 previous_installation=$lib/previous_installation.sh
 check_distro=$lib/check_distro.sh
 install_yay=$lib/install_yay.sh
+processes_and_services=$lib/processes_and_services.sh
+install_wal=$install/wal.sh
 
 source $auth
 source $utils
@@ -30,3 +36,7 @@ source $pkg_installer
 source $previous_installation
 source $check_distro
 source $install_yay
+source $processes_and_services
+source $install_wal
+
+
