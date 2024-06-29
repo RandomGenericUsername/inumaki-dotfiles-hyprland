@@ -46,7 +46,7 @@ drop_root_privileges() {
         return 1  # Exit the function with an error status if SUDO_USER is not set
     fi
 
-    echo "Dropping root privileges, switching to user: $SUDO_USER"
+    print "Dropping root privileges, switching to user: $SUDO_USER" "debug"
     exec sudo -u "$SUDO_USER" -- "$SHELL"
     # This will start a new shell as SUDO_USER, replacing the current shell
 }

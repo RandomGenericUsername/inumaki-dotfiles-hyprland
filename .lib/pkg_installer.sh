@@ -15,153 +15,196 @@ script_dir=$(dirname $BASH_SOURCE)
 debug_functions=$script_dir/debug.sh
 source $debug_functions #debug_print
 
-# Function to detect the package manager
-detect_package_manager() {
-    if command -v apt-get >/dev/null; then
-        echo "apt-get"
-    elif command -v yum >/dev/null; then
-        echo "yum"
-    elif command -v dnf >/dev/null; then
-        echo "dnf"
-    elif command -v pacman >/dev/null; then
-        echo "pacman"
-    elif command -v zypper >/dev/null; then
-        echo "zypper"
+
+_parsePackagesFromFile() {
+    file="$1"
+    packages=""
+
+    while IFS= read -r line; do
+        # Skip empty lines and comments
+        if [[ -n "$line" && "${line:0:1}" != "#" ]]; then
+            if [[ -z "$packages" ]]; then
+                packages="$line"
+            else
+                packages="$packages $line"
+            fi
+        fi
+    done < "$file"
+
+    echo "$packages"
+}
+
+_isInstalledPacman() {
+    package="$1";
+    check="$(sudo pacman -Qs --color always $package | grep 'local' | grep $package)"
+    if [ -n "${check}" ] ; then
+        result=0
+        print "Package $package is already installed." debug
     else
-        echo "UNKNOWN"
+        result=1
+        print "Package $package is not installed." debug
     fi
+    return $result
 }
 
 
-# Function to install a package using the specified package manager or detect one if not provided, and log the result
-pkg_install() {
-    local pkg=$1
-    local logfile=$2
-    local pkg_manager=$(detect_package_manager)
-
-    echo "Checking if $pkg is installed..." >> "$logfile"
-    if ! command -v "$pkg" >/dev/null; then
-        print "Attempting to install $pkg using $pkg_manager..." debug
-        echo "Attempting to install $pkg using $pkg_manager..." >> "$logfile"
-        case $pkg_manager in
-            apt-get)
-                if sudo apt-get install -y "$pkg"; then
-                    echo "Successfully installed $pkg" >> "$logfile"
-                else
-                    echo "Failed to install $pkg" >> "$logfile"
-                fi
-                ;;
-            yum)
-                if sudo yum install -y "$pkg"; then
-                    echo "Successfully installed $pkg" >> "$logfile"
-                else
-                    echo "Failed to install $pkg" >> "$logfile"
-                fi
-                ;;
-            dnf)
-                if sudo dnf install -y "$pkg"; then
-                    echo "Successfully installed $pkg" >> "$logfile"
-                else
-                    echo "Failed to install $pkg" >> "$logfile"
-                fi
-                ;;
-            pacman)
-                if sudo pacman -S --noconfirm "$pkg"; then
-                    echo "Successfully installed $pkg" >> "$logfile"
-                else
-                    echo "Failed to install $pkg" >> "$logfile"
-                fi
-                ;;
-            zypper)
-                if sudo zypper install -y "$pkg"; then
-                    echo "Successfully installed $pkg" >> "$logfile"
-                else
-                    echo "Failed to install $pkg" >> "$logfile"
-                fi
-                ;;
-            yay)
-                if sudo yay -S "$pkg" --noconfirm; then
-                    echo "Successfully installed $pkg with yay" >> "$logfile"
-                else
-                    echo "Failed to install $pkg with yay" >> "$logfile"
-                fi
-                ;;
-            *)
-                echo "Package manager not supported: $pkg_manager" >> "$logfile"
-                ;;
-        esac
+_isInstalledYay() {
+    package="$1";
+    check="$(yay -Qs --color always $package | grep 'local' | grep '\.' | grep $package)"
+    if [ -n "${check}" ] ; then
+        result=0
+        print "Package $package is already installed." debug
     else
-        print "$pkg is already installed." debug
-        echo "$pkg is already installed." >> "$logfile"
+        result=1
+        print "Package $package is not installed." debug
     fi
+    return $result
 }
 
-
-# Function to iterate over a list of packages and handle logging
-iterate_pkg_list() {
-    local callback=""
-    local package_file=""
-    local logfile=""
-
-    while [[ "$#" -gt 0 ]]; do
-        case $1 in
-            --callback|-c)
-                callback="$2"
-                shift 2
-                ;;
-            --package|-p)
-                package_file="$2"
-                shift 2
-                ;;
-            --log|-l)
-                logfile="$2"
-                shift 2
-                ;;
-            *)
-                echo "Unknown parameter: $1"
-                return 1
-                ;;
-        esac
-    done
-
-    if [[ -z "$callback" || -z "$package_file" || -z "$logfile" ]]; then
-        echo "Usage: iterate_pkg_list [--callback | -c] <callback> [--package | -p] <path/to/file> [--log | -l] <path/to/log>"
+_isFolderEmpty() {
+    folder="$1"
+    if [ -d $folder ] ;then
+        if [ -z "$(ls -A $folder)" ]; then
+            return 0
+        else
+            return 1
+        fi
+    else
         return 1
     fi
+}
 
-    echo "Reading package list from $package_file..." # Assuming 'print' function defined elsewhere
-    while read -r pkg; do
-        if [[ -n "$pkg" && "${pkg:0:1}" != "#" ]]; then  # Skip empty lines and comments
-            print "Processing $pkg" debug
-            $callback "$pkg" "$logfile"
+# ------------------------------------------------------
+# Function Install all package if not installed
+# ------------------------------------------------------
+_installPackagesPacman() {
+    toInstall=();
+    for pkg; do
+        if  _isInstalledPacman "${pkg}"; then
+            continue
         fi
-    done < "$package_file"
+        toInstall+=("${pkg}")
+    done
+
+    if [[ "${toInstall[@]}" == "" ]] ; then
+        print "All packages are installed" "debug"
+        return 0
+    fi;
+    print "Installing ${toInstall[@]}"
+    sudo pacman --noconfirm -S "${toInstall[@]}";
 }
 
-install_packages() {
-    local package_file="$1"
-    local logfile="$2"
-    local callback=pkg_install
-    command="iterate_pkg_list --callback $callback --package $package_file --log $logfile"
-    eval $command
+_forcePackagesPacman() {
+    toInstall=();
+    for pkg; do
+        toInstall+=("${pkg}");
+    done;
+
+    if [[ "${toInstall[@]}" == "" ]] ; then
+        return 0;
+    fi;
+
+    # printf "Package not installed:\n%s\n" "${toInstall[@]}";
+    sudo pacman --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 
-yay_install() {
-    local pkg=$1
-    local log=$2
-    echo "Attempting to install $pkg..." >> "$log"
-    if yay -S "$pkg" --noconfirm; then
-        echo "Successfully installed $pkg" >> "$log"
+_installPackagesYay() {
+    toInstall=();
+    for pkg; do
+        if _isInstalledYay "${pkg}"; then
+            continue
+        fi
+        toInstall+=("${pkg}");
+    done;
+    if [[ "${toInstall[@]}" == "" ]] ; then
+        print "All packages are installed" "debug"
+        return 0;
+    fi;
+    print "Installing ${toInstall[@]}" "debug"
+    yay --noconfirm -S "${toInstall[@]}";
+}
+
+_forcePackagesYay() {
+    toInstall=();
+    for pkg; do
+        toInstall+=("${pkg}");
+    done;
+    if [[ "${toInstall[@]}" == "" ]] ; then
+        return 0;
+    fi;
+    yay --noconfirm -S "${toInstall[@]}" --ask 4;
+}
+
+install_pacman_packages(){
+    local packagesFilePath="$1"
+    local packages="$(_parsePackagesFromFile $packagesFilePath)"
+    print "path: $packagesFilePath" "debug"
+    print "packages: $packages" "debug"
+    #_forcePackagesPacman $packages
+    _installPackagesPacman $packages
+}
+
+install_yay_packages(){
+    local packagesFilePath="$1"
+    local packages="$(_parsePackagesFromFile $packagesFilePath)"
+    #_forcePackagesYay $packages
+    _installPackagesYay $packages
+}
+
+
+# ------------------------------------------------------
+# Create symbolic links
+# ------------------------------------------------------
+_installSymLink() {
+    name="$1"
+    symlink="$2";
+    linksource="$3";
+    linktarget="$4";
+
+    if [ -L "${symlink}" ]; then
+        rm ${symlink}
+        ln -s ${linksource} ${linktarget}
+        print "Symlink ${linksource} -> ${linktarget} created."
     else
-        echo "Failed to install $pkg" >> "$log"
+        if [ -d ${symlink} ]; then
+            rm -rf ${symlink}/
+            ln -s ${linksource} ${linktarget}
+            print "Symlink for directory ${linksource} -> ${linktarget} created."
+        else
+            if [ -f ${symlink} ]; then
+                rm ${symlink}
+                ln -s ${linksource} ${linktarget}
+                print "Symlink to file ${linksource} -> ${linktarget} created."
+            else
+                ln -s ${linksource} ${linktarget}
+                print "New symlink ${linksource} -> ${linktarget} created."
+            fi
+        fi
     fi
 }
 
 
-yay_install_packages() {
-    local package_file="$1"
-    local logfile="$2"
-    local callback=yay_install
-    command="iterate_pkg_list --callback $callback --package $package_file --log $logfile"
-    eval $command
+
+
+# ------------------------------------------------------
+# System check
+# ------------------------------------------------------
+_commandExists() {
+    package="$1";
+    if ! type $package > /dev/null 2>&1; then
+        echo ":: ERROR: $package doesn't exists. Please install it with yay -S $2"
+    else
+        echo ":: OK: $package command found."
+    fi
 }
+
+_folderExists() {
+    folder="$1";
+    if [ ! -d $folder ]; then
+        echo ":: ERROR: $folder doesn't exists. $2"
+    else
+        echo ":: OK: $folder found."
+    fi
+}
+
+

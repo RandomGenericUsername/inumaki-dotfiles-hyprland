@@ -15,28 +15,25 @@ script_dir=$(dirname $BASH_SOURCE)
 debug_functions=$script_dir/debug.sh
 source $debug_functions 
 
-detect_previous_install(){
-    local dotfiles_install_path=$1
-    # Remove previous installation
-    if [ -d $dotfiles_install_path ]; then
-        print "Previous installation detected at $dotfiles_install_path" info
-        print "Abort installation? [y/N]: " "alert"
-        read -p "" confirmation
-        case "$confirmation" in
-            [yY][eE][sS]|[yY])
-                print "Aborted installation" "alert"
-                return 1
-                ;;
-            *)
-                print "Deleting previous installation at: $dotfiles_install_path" "alert"
-                ;;
-            esac
-    fi
-    delete_directory $dotfiles_install_path -y
-    return 0
+show_pretty_message() {
+    figlet -f slant -t "$1" | lolcat -t
 }
 
-
+prompt_install(){
+    while true; do
+        read -p ":: Do you want to start the installation now? (Yy/Nn): " yn
+        case $yn in
+            [Yy]* )
+                echo ":: Installation started."
+            break;;
+            [Nn]* ) 
+                echo ":: Installation canceled."
+                exit;
+            break;;
+            * ) echo ":: Please answer yes or no.";;
+        esac
+    done
+}
 
 # Function to safely delete a directory with confirmation
 delete_directory() {
@@ -129,50 +126,6 @@ create_file() {
     fi
     return 0  # Exit the function successfully
 }
-
-
-
-# Function to check if the current Linux distribution is supported
-check_distro_support() {
-    local distro_file="$1"
-
-    # Check if the distribution file exists
-    if [ ! -f "$distro_file" ]; then
-        print "Distribution file $distro_file not found" error
-        return 1
-    fi
-
-    # Read the current distribution ID_LIKE from /etc/os-release
-    if [ -f /etc/os-release ]; then
-        source /etc/os-release
-    else
-        print "Error: /etc/os-release not found" error
-        return 1
-    fi
-
-    print "$ID_LIKE based distro detected" debug
-
-    # Read supported distributions from the provided file
-    local is_supported="false"
-    local distro
-    while read -r distro; do
-        if [[ "$ID_LIKE" == *"$distro"* ]]; then
-            is_supported="true"
-            break
-        fi
-    done < "$distro_file"
-
-    # Handle unsupported distributions
-    if [ "$is_supported" != "true" ]; then
-        print "Distribution $ID_LIKE is not supported" error
-        print "Exiting..." debug
-        return 2
-    fi
-
-    print "Distribution $ID_LIKE is supported" debug
-    return 0
-}
-
 
 # Detects running processes based on a list of names
 detect_running_processes() {

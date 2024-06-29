@@ -12,10 +12,6 @@
 
 #######################################################################################################################
 
-# Function to display pretty installer in terminal 
-show_pretty_messsage() {
-    figlet -f slant -t "# Installer #" | lolcat -t 
-}
 
 # Function to display help information
 show_help() {
@@ -42,56 +38,40 @@ parse_options() {
     done
 }
 
-prompt_install(){
-    while true; do
-    read -p ":: Do you want to start the installation now? (Yy/Nn): " yn
-    case $yn in
-        [Yy]* )
-            echo ":: Installation started."
-        break;;
-        [Nn]* ) 
-            echo ":: Installation canceled."
-            exit;
-        break;;
-        * ) echo ":: Please answer yes or no.";;
-    esac
-done
-
-
-}
-
-#######################################################################################################################
+############################################## Define and export global variables ##############################################
 
 export DEBUG="false"
 
-#######################################################################################################################
+###################################### Source relevant variables/constants and functions ########################################
 
 script_dir=$(pwd)
 vars=$script_dir/vars.sh
 source $vars
 
-#######################################################################################################################
+############################################## Validate command line arguments ##############################################
 
 parse_options "$@" || exit $?
+
+############################################# Validate if the distro is suppored ############################################
+
 check_distro_support $supported_distro || exit $?
-show_pretty_messsage || exit $?
+
+################################################ Prompt for installation ################################################
+
+show_pretty_message "Installer"
 prompt_install 
 
-#######################################################################################################################
+################################################ Create log files ################################################
 
-create_file $installed_pkg_logs
-create_file $yay_installed_pkg_logs
+create_file $log
 
-#######################################################################################################################
-
-detect_previous_install $dotfiles_install_path || exit $?
-
-#######################################################################################################################
+################################################ Install required packages ################################################
 
 auth "Please provide root privileges to install packages"
-install_packages $packages $installed_pkg_logs
+install_pacman_packages $pacman_packages
 install_yay
 drop_root_privileges
+install_yay_packages $yay_packages
 
 #######################################################################################################################
 
