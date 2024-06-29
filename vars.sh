@@ -5,7 +5,8 @@ __script_dir=$(pwd)
 dotfiles_id=inumaki-dotfiles-hyprland
 #dotfiles_install_path=/home/$USER/dotfiles/$dotfiles_id
 dotfiles_install_path=/home/$USER/dotfiles/dev
-log=/home/$USER/.logs/$dotfiles_id/log
+log_dir=/home/$USER/.logs/$dotfiles_id
+log=$log_dir/log
 
 lib=$__script_dir/.lib
 install_files_dir=.install
@@ -20,6 +21,7 @@ debug=$lib/debug.sh
 pkg_installer=$lib/pkg_installer.sh
 previous_installation=$lib/previous_installation.sh
 check_distro=$lib/check_distro.sh
+install_yay=$lib/install_yay.sh
 
 source $auth
 source $utils
@@ -27,3 +29,4 @@ source $debug
 source $pkg_installer
 source $previous_installation
 source $check_distro
+source $install_yay

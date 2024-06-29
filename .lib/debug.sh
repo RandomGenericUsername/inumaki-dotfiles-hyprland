@@ -1,7 +1,5 @@
 # File: debug_functions.sh
 
-__dir=$(dirname "$BASH_SOURCE")
-__name=$(basename "$0")
 
 # Function to handle debug messages
 debug_print() {
@@ -10,9 +8,18 @@ debug_print() {
     fi
 }
 
+log(){
+    local log_line=$1
+    local log_path=$2
+    if [[ "$LOG" == "true" ]]; then
+        echo "$log_line" >> "$log_path"
+    fi
+}
+
 print() {
     local message="$1"
     local level_info="$2"
+    local log_path="$3"
 
     # Normalize message if no dashes imply it contains spaces
     if [[ "$message" != *-* ]]; then
@@ -23,16 +30,20 @@ print() {
     case "$level_info" in
         info)
             echo ":: $message"
+            log ":: $message" $log_path
             ;;
         alert)
             echo " !! $message !! "
+            log "!! $message !!" $log_path
             ;;
         error)
             echo "ERROR: $message"
+            log "ERROR: $message" $log_path
             ;;
         debug)
             if [[ "${DEBUG}" == "true" ]]; then
                 echo "[DEBUG]: [ $message ]"
+                log "[DEBUG]: [ $message ]" $log_path
             fi
             ;;
         udebug)
@@ -40,6 +51,7 @@ print() {
                 # Convert message to upper case for udebug level
                 local upper_message=$(echo "$message" | tr '[:lower:]' '[:upper:]')
                 echo "[DEBUG]: [ $upper_message ]"
+                log "[DEBUG]: [ $upper_message ]" $log_path
             fi
             ;;
         *)

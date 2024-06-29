@@ -8,14 +8,6 @@
 '
 #!/bin/bash
 
-# Script dir
-script_dir=$(dirname $BASH_SOURCE)
-
-# Access debug function
-debug_functions=$script_dir/debug.sh
-source $debug_functions #debug_print
-
-
 _parsePackagesFromFile() {
     file="$1"
     packages=""
@@ -39,10 +31,10 @@ _isInstalledPacman() {
     check="$(sudo pacman -Qs --color always $package | grep 'local' | grep $package)"
     if [ -n "${check}" ] ; then
         result=0
-        print "Package $package is already installed." debug
+        print "Package $package is already installed." "debug" "$log"
     else
         result=1
-        print "Package $package is not installed." debug
+        print "Package $package is not installed." "debug" "$log"
     fi
     return $result
 }
@@ -53,10 +45,10 @@ _isInstalledYay() {
     check="$(yay -Qs --color always $package | grep 'local' | grep '\.' | grep $package)"
     if [ -n "${check}" ] ; then
         result=0
-        print "Package $package is already installed." debug
+        print "Package $package is already installed." "debug" "$log"
     else
         result=1
-        print "Package $package is not installed." debug
+        print "Package $package is not installed."  "debug" "$log"
     fi
     return $result
 }
@@ -87,10 +79,10 @@ _installPackagesPacman() {
     done
 
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print "All packages are installed" "debug"
+        print "All packages are installed" "debug" "$log"
         return 0
     fi;
-    print "Installing ${toInstall[@]}"
+    print "Installing ${toInstall[@]}" "debug" "$log"
     sudo pacman --noconfirm -S "${toInstall[@]}";
 }
 
@@ -117,10 +109,10 @@ _installPackagesYay() {
         toInstall+=("${pkg}");
     done;
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print "All packages are installed" "debug"
+        print "All packages are installed" "debug" "$log"
         return 0;
     fi;
-    print "Installing ${toInstall[@]}" "debug"
+    print "Installing ${toInstall[@]}" "debug" "$log"
     yay --noconfirm -S "${toInstall[@]}";
 }
 
@@ -138,16 +130,12 @@ _forcePackagesYay() {
 install_pacman_packages(){
     local packagesFilePath="$1"
     local packages="$(_parsePackagesFromFile $packagesFilePath)"
-    print "path: $packagesFilePath" "debug"
-    print "packages: $packages" "debug"
-    #_forcePackagesPacman $packages
     _installPackagesPacman $packages
 }
 
 install_yay_packages(){
     local packagesFilePath="$1"
     local packages="$(_parsePackagesFromFile $packagesFilePath)"
-    #_forcePackagesYay $packages
     _installPackagesYay $packages
 }
 
@@ -164,20 +152,20 @@ _installSymLink() {
     if [ -L "${symlink}" ]; then
         rm ${symlink}
         ln -s ${linksource} ${linktarget}
-        print "Symlink ${linksource} -> ${linktarget} created."
+        print "Symlink ${linksource} -> ${linktarget} created." "debug" "$log"
     else
         if [ -d ${symlink} ]; then
             rm -rf ${symlink}/
             ln -s ${linksource} ${linktarget}
-            print "Symlink for directory ${linksource} -> ${linktarget} created."
+            print "Symlink for directory ${linksource} -> ${linktarget} created."  "debug" "$log"
         else
             if [ -f ${symlink} ]; then
                 rm ${symlink}
                 ln -s ${linksource} ${linktarget}
-                print "Symlink to file ${linksource} -> ${linktarget} created."
+                print "Symlink to file ${linksource} -> ${linktarget} created."  "debug" "$log"
             else
                 ln -s ${linksource} ${linktarget}
-                print "New symlink ${linksource} -> ${linktarget} created."
+                print "New symlink ${linksource} -> ${linktarget} created."  "debug" "$log"
             fi
         fi
     fi

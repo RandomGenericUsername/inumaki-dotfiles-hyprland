@@ -15,11 +15,12 @@
 
 # Function to display help information
 show_help() {
-    echo "Usage: $0 [--debug]"
+    echo "Usage: $0 [--debug|-d] [--log|-l]"
     echo -e "\nOptions:"
     echo "  --debug      Enable debug mode for verbose output."
+    echo "  --log        Enable log mode for loggin output."
     echo -e "\nExample:"
-    echo "  $0 --debug"
+    echo "  $0 --debug --log"
 }
 
 # Function to parse command-line options
@@ -28,6 +29,10 @@ parse_options() {
         case $1 in
             -d|--debug)
                 export DEBUG="true"
+                shift # Move past the processed argument
+                ;;
+            -l|--log)
+                export LOG="true"
                 shift # Move past the processed argument
                 ;;
             *)
@@ -41,6 +46,7 @@ parse_options() {
 ############################################## Define and export global variables ##############################################
 
 export DEBUG="false"
+export LOG="false"
 
 ###################################### Source relevant variables/constants and functions ########################################
 
@@ -52,6 +58,10 @@ source $vars
 
 parse_options "$@" || exit $?
 
+################################################### Create log files ################################################
+
+create_file $log
+
 ############################################# Validate if the distro is suppored ############################################
 
 check_distro_support $supported_distro || exit $?
@@ -60,10 +70,6 @@ check_distro_support $supported_distro || exit $?
 
 show_pretty_message "Installer"
 prompt_install 
-
-################################################ Create log files ################################################
-
-create_file $log
 
 ################################################ Install required packages ################################################
 

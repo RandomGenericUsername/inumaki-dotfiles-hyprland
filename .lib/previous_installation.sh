@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Script dir
-script_dir=$(dirname $BASH_SOURCE)
-
-# Access debug function
-debug_functions=$script_dir/debug.sh
-source $debug_functions
-
 prompt_existing_installation(){
 
     print "Do you wish to: " "info"

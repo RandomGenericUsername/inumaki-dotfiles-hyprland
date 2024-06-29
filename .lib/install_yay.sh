@@ -9,25 +9,26 @@ command_exists() {
 
 # Function to install yay
 install_yay() {
+
     # Check if yay is already installed
     if command_exists yay; then
-        print "yay is already installed." debug
+        print "yay is already installed." "debug" "$log"
         return 0
     fi
 
     # Ensure the script is run on Arch Linux
     if [[ ! -e /etc/arch-release ]]; then
-        print "This script is intended for Arch Linux only." error
+        print "This script is intended for Arch Linux only." "error" "$log"
         return 1
     fi
 
     # Temporary directory for cloning yay
     temp_dir=$(mktemp -d -t yay-installation-XXXXXX)
 
-    print "Cloning yay repository..." debug
+    print "Cloning yay repository..." "debug" "$log"
     git clone https://aur.archlinux.org/yay.git "$temp_dir/yay"
     if [[ $? -ne 0 ]]; then
-        print "Failed to clone yay repository." error
+        print "Failed to clone yay repository." "error" "$log"
         return 1
     fi
 
@@ -42,9 +43,9 @@ install_yay() {
 
     # Check if the installation was successful
     if [[ $result -eq 0 ]]; then
-        echo "yay installed successfully."
+        print "yay installed successfully." "debug" "$log"
     else
-        echo "Failed to install yay."
+        print "Failed to install yay." "debug" "$log"
     fi
 
     return $result

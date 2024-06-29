@@ -8,12 +8,6 @@
 '
 #!/bin/bash
 
-# Script dir
-script_dir=$(dirname $BASH_SOURCE)
-
-# Access debug function
-debug_functions=$script_dir/debug.sh
-source $debug_functions 
 
 show_pretty_message() {
     figlet -f slant -t "$1" | lolcat -t
@@ -92,7 +86,7 @@ create_file() {
     local file_path="$1"
 
     if [[ -z "$file_path" ]]; then
-        print "No file path provided." error
+        print "No file path provided." "error" "$log"
         return 1  # Exit the function with an error status
     fi
 
@@ -101,10 +95,10 @@ create_file() {
 
     # Check if the directory exists, create it if it doesn't
     if [[ ! -d "$dir_path" ]]; then
-        print "Directory does not exist, creating directory: $dir_path" debug
+        print "Directory does not exist, creating directory: $dir_path" "debug" "$log"
         mkdir -p "$dir_path"
         if [[ $? -ne 0 ]]; then
-            print "Failed to create directory at $dir_path" error
+            print "Failed to create directory at $dir_path" "error" "$log"
             return 2  # Exit the function with an error status if directory creation fails
         fi
     fi
@@ -112,15 +106,15 @@ create_file() {
 
     # Check if the file exists
     if [[ -f "$file_path" ]]; then
-        print "File exists, clearing contents: $file_path" debug
+        print "File exists, clearing contents: $file_path" "debug" "$log"
         # Clear the file if it exists
         > "$file_path"
     else
-        print "File does not exist, creating file: $file_path" debug
+        print "File does not exist, creating file: $file_path" "debug" "$log"
         # Create the file if it does not exist
         touch "$file_path"
         if [[ $? -ne 0 ]]; then
-            print "Failed to create file at $file_path" error
+            print "Failed to create file at $file_path" "error" "$log"
             return 2  # Exit the function with an error status if file creation fails
         fi
     fi
@@ -179,48 +173,4 @@ disable_services() {
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
-
-# Function to install yay
-install_yay() {
-    # Check if yay is already installed
-    if command_exists yay; then
-        print "yay is already installed." debug
-        return 0
-    fi
-
-    # Ensure the script is run on Arch Linux
-    if [[ ! -e /etc/arch-release ]]; then
-        print "This script is intended for Arch Linux only." error
-        return 1
-    fi
-
-    # Temporary directory for cloning yay
-    temp_dir=$(mktemp -d -t yay-installation-XXXXXX)
-
-    print "Cloning yay repository..." debug
-    git clone https://aur.archlinux.org/yay.git "$temp_dir/yay"
-    if [[ $? -ne 0 ]]; then
-        print "Failed to clone yay repository." error
-        return 1
-    fi
-
-    # Change to the directory and build yay
-    pushd "$temp_dir/yay"
-    makepkg -si
-    local result=$?
-    popd
-
-    # Clean up the temporary directory
-    rm -rf "$temp_dir"
-
-    # Check if the installation was successful
-    if [[ $result -eq 0 ]]; then
-        echo "yay installed successfully."
-    else
-        echo "Failed to install yay."
-    fi
-
-    return $result
-}
-
 
