@@ -1,0 +1,6 @@
+{
+    "dotfiles_target" : "Path to install dotfiles",
+    "wallpaper_cache_dir": "Path to wallpaper cache directory",
+    "log" : "Path to log file",
+    "LOG" : "is logging enabled"
+}

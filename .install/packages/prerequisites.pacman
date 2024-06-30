@@ -3,6 +3,7 @@ lolcat
 figlet
 python
 python-pip
+python-cookiecutter
 gum
 git
 go

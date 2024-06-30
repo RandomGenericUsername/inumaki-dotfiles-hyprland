@@ -1,0 +1,6 @@
+{
+  "dotfiles_target": "/home/inumaki/dotfiles/dev",
+  "wallpaper_cache_dir": "Path to wallpaper cache directory",
+  "log": "/home/inumaki/.logs/inumaki-dotfiles-hyprland/log",
+  "LOG": "false"
+}

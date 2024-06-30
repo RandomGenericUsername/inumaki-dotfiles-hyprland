@@ -78,9 +78,9 @@ install_yay
 drop_root_privileges
 install_yay_packages $yay_packages 
 
-################################################ Copy the dotfiles ################################################
+############################################ Dotfiles ################################################
 
-cp -r $dotfiles_source $dotfiles_target
+.lib/.create_cookiecutter_context.sh -t $cookiecutter_template -e $cookiecutter_env
 
 ############################################ Print installation is finished ################################################
 
