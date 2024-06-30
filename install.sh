@@ -72,7 +72,7 @@ check_previous_installation $dotfiles_target || exit $?
 
 ################################################ install required packages ################################################
 
-auth "Please provide root privileges to install packages"
+#auth "Please provide root privileges to install packages"
 install_pacman_packages $pacman_packages 
 install_yay 
 drop_root_privileges
@@ -80,7 +80,6 @@ install_yay_packages $yay_packages
 
 ############################################ Dotfiles ################################################
 
-.lib/.create_cookiecutter_context.sh -t $cookiecutter_template -e $cookiecutter_env
 
 ############################################ Print installation is finished ################################################
 
