@@ -10,6 +10,22 @@ swappy
 cliphist
 grim
 sddm
+xdg-desktop-portal 
+xdg-desktop-portal-wlr
+xdg-desktop-portal-gtk
+
+# web browsers
+google-chrome
+chromium
+brave
+firefox
+
+# Terminal
+zsh
+alacritty
+kitty
+
+
 
 # lock
 hyprlock
@@ -29,11 +45,7 @@ cowsay
 jp2a
 
 # Other deps
-python
-python-pip
-gum
-git
-go
+
 vim
 thunar
 nautilus

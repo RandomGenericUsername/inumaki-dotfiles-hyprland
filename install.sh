@@ -32,13 +32,20 @@ parse_options() {
     done
 }
 
-
 ###################################### Source relevant variables/constants and functions ########################################
 
 clear
 script_dir=$(pwd)
 vars=$script_dir/vars.sh
 source $vars
+
+################################################ Prompt for installation ################################################
+
+prompt_install 
+
+################################################ Execute the setup for pre-installing ################################################
+
+setup
 
 ############################################## Validate command line arguments ##############################################
 
@@ -51,19 +58,9 @@ if [ "$LOG" == "true" ]; then
     create_file $log
 fi
 
-exit 0
-
 ############################################# Validate if the distro is suppored ############################################
 
 check_distro_support $supported_distro || exit $?
-
-################################################ Prompt for installation ################################################
-
-prompt_install 
-
-################################################ Execute the setup for pre-installing ################################################
-
-setup
 
 ################################################ Pretty print installer message ################################################
 
@@ -71,24 +68,21 @@ gum spin --spinner dot --title "Starting the installation now..." -- sleep 1
 
 ################################################ Check for previous installation ################################################
 
-check_previous_installation $dotfiles_install_path || exit $?
+check_previous_installation $dotfiles_target || exit $?
 
-################################################ Install required packages ################################################
+################################################ install required packages ################################################
 
-exit 0
 auth "Please provide root privileges to install packages"
-install_pacman_packages $pacman_packages
-install_yay
+install_pacman_packages $pacman_packages 
+install_yay 
 drop_root_privileges
-install_yay_packages $yay_packages
+install_yay_packages $yay_packages 
 
-exit 0
+################################################ Copy the dotfiles ################################################
 
-############################################ Install each corresponding component ################################################
+cp -r $dotfiles_source $dotfiles_target
 
-install_wal
-
-#####################################################################################################################################
+############################################ Print installation is finished ################################################
 
 print "Installation finished!" "info" "$log"
 if [ "$LOG" == "true" ] && [ "$DEBUG" == "true" ]; then
@@ -97,6 +91,11 @@ fi
 
 exit 0
 
+############################################ Install each corresponding component ################################################
+
+install_wal
+
+#####################################################################################################################################
 
 # List of display managers to check
 #display_managers="sddm waybar swaync hyprland hyprpaper wpaperd polkit NetworkManager bolt bluetooth"
