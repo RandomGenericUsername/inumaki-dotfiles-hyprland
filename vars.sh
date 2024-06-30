@@ -31,7 +31,7 @@ install=$__script_dir/.install
 dotfiles_source=$__script_dir/dotfiles
 
 # Path where to intall the dotfiles
-# Replace by this -> dotfiles_target=/home/$USER/dotfiles/$DOTFILES_ID
+# Replace by this -> dotfiles_target=/home/$USER/dotfiles/$DOTFILES_NAME
 dotfiles_target=/home/$USER/dotfiles/dev 
 
 # Path of the file containing the packages required to install using pacman
