@@ -147,28 +147,15 @@ is_dir_empty() {
     fi
 }
 
-# Function to check for previous installations
-check_previous_installation() {
-    local install_path="$1"
-
-    dir_exists "$install_path"
-    folder_exists=$?
-
-    if [ $folder_exists -eq 1 ]; then
-        is_dir_empty "$install_path"
-        folder_empty=$?
-
-        if [ $folder_empty -eq 1 ]; then
-            print "Previous installation detected in $install_path." "debug" "$log"
-            return 1
-        else
-            print "Installation folder exists but is empty." "debug" "$log"
-            return 0
-        fi
-    else
-        print "No previous installation found." "debug" "$log"
-        return 0
-    fi
+# Function to display help information
+show_help() {
+    echo -e "${RED}"
+    echo "Usage: $0 [--debug|-d] [--log|-l]"
+    echo -e "\nOptions:"
+    echo "  --debug      Enable debug mode for verbose output."
+    echo "  --log        Enable log mode for loggin output."
+    echo -e "\nExample:"
+    echo "  $0 --debug --log"
+    echo -e "${NONE}"
 }
-
 

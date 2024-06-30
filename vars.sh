@@ -1,24 +1,58 @@
 #!/bin/bash
 
+
+###################################### Define global variables for the setup and installation ########################################
+# Variable for enabling installation with debug printing 
 DEBUG="false"
+
+# Variable for enabling installation with log creation
 LOG="false"
 
+# Installation type: clean | update
+INSTALLATION_TYPE="clean"
+
+# Name for the directory to copy the dotfiles under /home/$USER/dotfiles/<DOTFILES_NAME>
+DOTFILES_NAME=inumaki-dotfiles-hyprland
+
+###################################### Define directories for each component of the setup/installation ########################################
+# Path to this script
 __script_dir=$(pwd)
 
-dotfiles_id=inumaki-dotfiles-hyprland
-#dotfiles_install_path=/home/$USER/dotfiles/$dotfiles_id
-dotfiles_install_path=/home/$USER/dotfiles/dev
-log_dir=/home/$USER/.logs/$dotfiles_id
-log=$log_dir/log
+# Path to log
+log=/home/$USER/.logs/$DOTFILES_NAME/log
 
+# Path to lib dir
 lib=$__script_dir/.lib
-install_files_dir=.install
-install=$__script_dir/$install_files_dir
-dotfiles_dir=$__script_dir/dotfiles
-supported_distro=$__script_dir/$install_files_dir/supported_distro.sh
-pacman_packages=$__script_dir/$install_files_dir/packages/packages.pacman
-yay_packages=$__script_dir/$install_files_dir/packages/packages.yay
 
+# Path to install dir
+install=$__script_dir/.install
+
+# Path to dotfiles source
+dotfiles_source=$__script_dir/dotfiles
+
+# Path where to intall the dotfiles
+# Replace by this -> dotfiles_target=/home/$USER/dotfiles/$DOTFILES_ID
+dotfiles_target=/home/$USER/dotfiles/dev 
+
+# Path of the file containing the packages required to install using pacman
+pacman_packages=$install/packages/packages.pacman
+
+# Path of the file containing the packages required to install using yay 
+yay_packages=$install/packages/packages.yay
+
+# Path of the file containing the packages required to run the installation 
+prerequisites=$install/packages/prerequisites.pacman
+
+# Path to file containing the supported distributions
+supported_distro=$install/setup/supported_distro.sh
+
+# Include this to provide colors for the terminal
+colors=$install/setup/colors.sh
+
+# Path to setup script
+setup=$install/setup.sh
+
+# Path to several files providing the required functionalities for the setup/installation
 auth=$lib/auth.sh
 utils=$lib/utils.sh
 debug=$lib/debug.sh
@@ -29,6 +63,8 @@ install_yay=$lib/install_yay.sh
 processes_and_services=$lib/processes_and_services.sh
 install_wal=$install/wal.sh
 
+# Source all files/scripts
+source $setup
 source $auth
 source $utils
 source $debug
@@ -38,5 +74,6 @@ source $check_distro
 source $install_yay
 source $processes_and_services
 source $install_wal
+source $colors
 
 

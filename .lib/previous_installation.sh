@@ -2,30 +2,22 @@
 
 prompt_existing_installation(){
 
-    print "Do you wish to: " "info" "$log"
-    print "Abort [Aa]" "info" "$log"
-    print "Overwrite [Oo]" "info" "$log"
-    print "Update [Uu]" "info" "$log"
-    read -p "" confirmation
-    case "$confirmation" in
-        [Aa])
-            print "Aborted installation" "alert" "$log"
-            return 1
+    local gum_options=("Update" "Overwrite (clean install)" "Abort")
+    local msg="Please select how would you like to keep going with the installation:"
+    choice=$(gum choose "${gum_options[@]}" --header="$msg")
+    case "$choice" in
+        "Update")
+            INSTALLATION_TYPE="update"
             ;;
-        [Oo])
-            print "Overwriting installation" "alert" "$log"
-            return 0
+        "Overwrite (clean install)")
+            INSTALLATION_TYPE="clean"
             ;;
-        [Uu])
-            print "Updating installation" "alert" "$log"
-            return 0
-            ;;
-        *)
-            print "Unknown option used: $confirmation." "alert" "$log"
-            print "Exiting the installation script now" "alert" "$log"
+        "Abort")
+            print "Installation aborted" "alert" "$log"
             exit 1
             ;;
-        esac
+    esac
+    return 0
 }
 
 # Function to check for previous installations

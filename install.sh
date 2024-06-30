@@ -12,17 +12,6 @@
 
 #######################################################################################################################
 
-
-# Function to display help information
-show_help() {
-    echo "Usage: $0 [--debug|-d] [--log|-l]"
-    echo -e "\nOptions:"
-    echo "  --debug      Enable debug mode for verbose output."
-    echo "  --log        Enable log mode for loggin output."
-    echo -e "\nExample:"
-    echo "  $0 --debug --log"
-}
-
 # Function to parse command-line options
 parse_options() {
     while [ $# -gt 0 ]; do
@@ -46,12 +35,14 @@ parse_options() {
 
 ###################################### Source relevant variables/constants and functions ########################################
 
+clear
 script_dir=$(pwd)
 vars=$script_dir/vars.sh
 source $vars
 
 ############################################## Validate command line arguments ##############################################
 
+show_pretty_message "Installer"
 parse_options "$@" || exit $?
 
 ################################################### Create log files ################################################
@@ -60,14 +51,23 @@ if [ "$LOG" == "true" ]; then
     create_file $log
 fi
 
+exit 0
+
 ############################################# Validate if the distro is suppored ############################################
 
 check_distro_support $supported_distro || exit $?
 
 ################################################ Prompt for installation ################################################
 
-show_pretty_message "Installer"
 prompt_install 
+
+################################################ Execute the setup for pre-installing ################################################
+
+setup
+
+################################################ Pretty print installer message ################################################
+
+gum spin --spinner dot --title "Starting the installation now..." -- sleep 1
 
 ################################################ Check for previous installation ################################################
 
@@ -75,17 +75,16 @@ check_previous_installation $dotfiles_install_path || exit $?
 
 ################################################ Install required packages ################################################
 
-#auth "Please provide root privileges to install packages"
-#install_pacman_packages $pacman_packages
-#install_yay
-#drop_root_privileges
-#install_yay_packages $yay_packages
+exit 0
+auth "Please provide root privileges to install packages"
+install_pacman_packages $pacman_packages
+install_yay
+drop_root_privileges
+install_yay_packages $yay_packages
 
-############################################ Copy dotfiles ################################################
+exit 0
 
-cp -r $dotfiles_dir $dotfiles_install_path
-
-############################################ Run dedicated installation scripts ################################################
+############################################ Install each corresponding component ################################################
 
 install_wal
 
