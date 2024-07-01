@@ -2,16 +2,11 @@
 
 
 # Function to handle debug messages
-debug_print() {
-    if [[ "$DEBUG" == "true" ]]; then
-        echo "[DEBUG]: $1"
-    fi
-}
 
 log(){
     local log_line=$1
     local log_path=$2
-    if [[ "$LOG" == "true" ]]; then
+    if [[ "$ENABLE_LOG" == "true" ]] && [[ $log_path != "" ]]; then
         echo "$log_line" >> "$log_path"
     fi
 }
@@ -41,13 +36,13 @@ print() {
             log "ERROR: $message" $log_path
             ;;
         debug)
-            if [[ "${DEBUG}" == "true" ]]; then
+            if [[ "${ENABLE_DEBUG}" == "true" ]]; then
                 echo "[DEBUG]: [ $message ]"
                 log "[DEBUG]: [ $message ]" $log_path
             fi
             ;;
         udebug)
-            if [[ "${DEBUG}" == "true" ]]; then
+            if [[ "${ENABLE_DEBUG}" == "true" ]]; then
                 # Convert message to upper case for udebug level
                 local upper_message=$(echo "$message" | tr '[:lower:]' '[:upper:]')
                 echo "[DEBUG]: [ $upper_message ]"

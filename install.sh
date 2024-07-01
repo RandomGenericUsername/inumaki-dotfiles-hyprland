@@ -17,11 +17,11 @@ parse_options() {
     while [ $# -gt 0 ]; do
         case $1 in
             -d|--debug)
-                export DEBUG="true"
+                export ENABLE_DEBUG="true"
                 shift # Move past the processed argument
                 ;;
             -l|--log)
-                export LOG="true"
+                export ENABLE_LOG="true"
                 shift # Move past the processed argument
                 ;;
             *)
@@ -35,9 +35,18 @@ parse_options() {
 ###################################### Source relevant variables/constants and functions ########################################
 
 clear
-script_dir=$(pwd)
-vars=$script_dir/vars.sh
-source $vars
+source "$(pwd)/installation_settings.sh"
+source "$(pwd)/lib.sh"
+source "$(pwd)/setup_resources.sh"
+source "$(pwd)/installation_resources.sh"
+
+############################################## Validate command line arguments ##############################################
+
+parse_options "$@" || exit $?
+
+################################################### Create log files ################################################
+
+create_log
 
 ################################################ Prompt for installation ################################################
 
@@ -45,18 +54,13 @@ prompt_install
 
 ################################################ Execute the setup for pre-installing ################################################
 
+exit 0
 setup
 
-############################################## Validate command line arguments ##############################################
+
 
 show_pretty_message "Installer"
-parse_options "$@" || exit $?
 
-################################################### Create log files ################################################
-
-if [ "$LOG" == "true" ]; then
-    create_file $log
-fi
 
 ############################################# Validate if the distro is suppored ############################################
 

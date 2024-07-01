@@ -18,10 +18,14 @@ prompt_install(){
         read -p ":: Do you want to start the installation now? (Yy/Nn): " yn
         case $yn in
             [Yy]* )
+                echo -e "${GREEN}"
                 echo ":: Installation started."
+                echo -e "${NONE}"
             break;;
             [Nn]* ) 
+                echo -e "${RED}"
                 echo ":: Installation canceled."
+                echo -e "${NONE}"
                 exit;
             break;;
             * ) echo ":: Please answer yes or no.";;
@@ -79,46 +83,26 @@ delete_directory() {
     fi
 }
 
-
-
-# Function to create a new file or clear it if it already exists
-create_file() {
-    local file_path="$1"
-
-    if [[ -z "$file_path" ]]; then
-        print "No file path provided." "error" "$log"
-        return 1  # Exit the function with an error status
-    fi
-
-    # Extract the directory path from the file path
-    local dir_path="$(dirname "$file_path")"
-
-    # Check if the directory exists, create it if it doesn't
-    if [[ ! -d "$dir_path" ]]; then
-        print "Directory does not exist, creating directory: $dir_path" "debug" "$log"
-        mkdir -p "$dir_path"
-        if [[ $? -ne 0 ]]; then
-            print "Failed to create directory at $dir_path" "error" "$log"
-            return 2  # Exit the function with an error status if directory creation fails
+create_log() {
+    if [ "$ENABLE_LOG" == "true" ]; then
+        if [ -d "$LOG_DIR" ]; then
+            # Directory exists
+            if [ -f "$LOG" ]; then
+                print "Log file exists, cleaning it." "debug" ""
+                # Log file exists, clean it
+                : > "$LOG"
+            else
+                print "Log file doesn't exist, creating it." "debug" ""
+                # Log file doesn't exist, create it
+                touch "$LOG"
+            fi
+        else
+            print "Log file doesn't exist, creating it." "debug" ""
+            # Directory doesn't exist, create it and then the log file
+            mkdir -p "$LOG_DIR"
+            touch "$LOG"
         fi
     fi
-
-
-    # Check if the file exists
-    if [[ -f "$file_path" ]]; then
-        print "File exists, clearing contents: $file_path" "debug" "$log"
-        # Clear the file if it exists
-        > "$file_path"
-    else
-        print "File does not exist, creating file: $file_path" "debug" "$log"
-        # Create the file if it does not exist
-        touch "$file_path"
-        if [[ $? -ne 0 ]]; then
-            print "Failed to create file at $file_path" "error" "$log"
-            return 2  # Exit the function with an error status if file creation fails
-        fi
-    fi
-    return 0  # Exit the function successfully
 }
 
 
@@ -149,6 +133,16 @@ is_dir_empty() {
 
 # Function to display help information
 show_help() {
+
+    echo -e "${GREEN}"
+    cat <<"EOF"
+        ____           __        ____         
+       /  _/___  _____/ /_____ _/ / /__  _____
+       / // __ \/ ___/ __/ __ `/ / / _ \/ ___/
+     _/ // / / (__  ) /_/ /_/ / / /  __/ /    
+    /___/_/ /_/____/\__/\__,_/_/_/\___/_/     
+EOF
+    echo -e "${NONE}"
     echo -e "${RED}"
     echo "Usage: $0 [--debug|-d] [--log|-l]"
     echo -e "\nOptions:"
