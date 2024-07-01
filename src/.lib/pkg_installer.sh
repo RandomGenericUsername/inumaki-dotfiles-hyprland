@@ -31,10 +31,10 @@ _isInstalledPacman() {
     check="$(sudo pacman -Qs --color always $package | grep 'local' | grep $package)"
     if [ -n "${check}" ] ; then
         result=0
-        print "Package $package is already installed." "debug" "$log"
+        print "Package $package is already installed." -t "debug" -l "$LOG"
     else
         result=1
-        print "Package $package is not installed." "debug" "$log"
+        print "Package $package is not installed." -t "debug" -l "$LOG"
     fi
     return $result
 }
@@ -45,10 +45,10 @@ _isInstalledYay() {
     check="$(yay -Qs --color always $package | grep 'local' | grep '\.' | grep $package)"
     if [ -n "${check}" ] ; then
         result=0
-        print "Package $package is already installed." "debug" "$log"
+        print "Package $package is already installed." -t "debug" -l "$LOG"
     else
         result=1
-        print "Package $package is not installed."  "debug" "$log"
+        print "Package $package is not installed."  -t "debug" -l "$LOG"
     fi
     return $result
 }
@@ -67,10 +67,10 @@ _installPackagesPacman() {
     done
 
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print "All packages are installed" "debug" "$log"
+        print "All packages are installed" -t "debug" -l "$LOG"
         return 0
     fi;
-    print "Installing ${toInstall[@]}" "debug" "$log"
+    print "Installing ${toInstall[@]}" -t "debug" -l "$LOG"
     sudo pacman --noconfirm -S "${toInstall[@]}";
 }
 
@@ -81,12 +81,12 @@ _forcePackagesPacman() {
     done;
 
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print "All packages are installed" "debug" "$log"
+        print "All packages are installed" -t "debug" -l "$LOG"
         return 0;
     fi;
 
     # printf "Package not installed:\n%s\n" "${toInstall[@]}";
-    print "Installing ${toInstall[@]}" "debug" "$log"
+    print "Installing ${toInstall[@]}" -t "debug" -l "$LOG"
     sudo pacman --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 
@@ -99,10 +99,10 @@ _installPackagesYay() {
         toInstall+=("${pkg}");
     done;
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print "All packages are installed" "debug" "$log"
+        print "All packages are installed" -t "debug" -l "$LOG"
         return 0;
     fi;
-    print "Installing ${toInstall[@]}" "debug" "$log"
+    print "Installing ${toInstall[@]}" -t "debug" -l "$LOG"
     yay --noconfirm -S "${toInstall[@]}";
 }
 
@@ -112,10 +112,10 @@ _forcePackagesYay() {
         toInstall+=("${pkg}");
     done;
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print "All packages are installed" "debug" "$log"
+        print "All packages are installed" -t "debug" -l "$LOG"
         return 0;
     fi;
-    print "Installing ${toInstall[@]}" "debug" "$log"
+    print "Installing ${toInstall[@]}" -t "debug" -l "$LOG"
     yay --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 
@@ -152,20 +152,20 @@ _installSymLink() {
     if [ -L "${symlink}" ]; then
         rm ${symlink}
         ln -s ${linksource} ${linktarget}
-        print "Symlink ${linksource} -> ${linktarget} created." "debug" "$log"
+        print "Symlink ${linksource} -> ${linktarget} created." -t "debug" -l "$LOG"
     else
         if [ -d ${symlink} ]; then
             rm -rf ${symlink}/
             ln -s ${linksource} ${linktarget}
-            print "Symlink for directory ${linksource} -> ${linktarget} created."  "debug" "$log"
+            print "Symlink for directory ${linksource} -> ${linktarget} created."  -t "debug" -l "$LOG"
         else
             if [ -f ${symlink} ]; then
                 rm ${symlink}
                 ln -s ${linksource} ${linktarget}
-                print "Symlink to file ${linksource} -> ${linktarget} created."  "debug" "$log"
+                print "Symlink to file ${linksource} -> ${linktarget} created."  -t "debug" -l "$LOG"
             else
                 ln -s ${linksource} ${linktarget}
-                print "New symlink ${linksource} -> ${linktarget} created."  "debug" "$log"
+                print "New symlink ${linksource} -> ${linktarget} created."  -t "debug" -l "$LOG"
             fi
         fi
     fi

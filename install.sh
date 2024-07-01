@@ -44,6 +44,10 @@ source "$(pwd)/installation_resources.sh"
 
 parse_options "$@" || exit $?
 
+################################################ Pretty print installer message ################################################
+
+pretty_print_installer_msg
+
 ################################################### Create log files ################################################
 
 create_log
@@ -52,19 +56,13 @@ create_log
 
 prompt_install 
 
-################################################ Execute the setup for pre-installing ################################################
-
-exit 0
-setup
-
-
-
-show_pretty_message "Installer"
-
-
 ############################################# Validate if the distro is suppored ############################################
 
-check_distro_support $supported_distro || exit $?
+check_distro_support $SUPPORTED_DISTRO || exit $?
+
+################################################ Execute the setup for pre-installing ################################################
+
+setup
 
 ################################################ Pretty print installer message ################################################
 
@@ -72,27 +70,29 @@ gum spin --spinner dot --title "Starting the installation now..." -- sleep 1
 
 ################################################ Check for previous installation ################################################
 
-check_previous_installation $dotfiles_target || exit $?
+check_previous_installation $DOTFILES_INSTALL_DIR || exit $?
+
+################################################ Print installation type ################################################
+
+show_install_type
 
 ################################################ install required packages ################################################
 
 #auth "Please provide root privileges to install packages"
-install_pacman_packages $pacman_packages 
+install_pacman_packages $PACMAN_PKGS
 install_yay 
 drop_root_privileges
-install_yay_packages $yay_packages 
+install_yay_packages $YAY_PKGS 
 
 ############################################ Dotfiles ################################################
 
 
 ############################################ Print installation is finished ################################################
 
-print "Installation finished!" "info" "$log"
-if [ "$LOG" == "true" ] && [ "$DEBUG" == "true" ]; then
-    print "Installation log generated at $log" debug $log
+print "Installation finished!" -t "info" -l "$LOG"
+if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
+    print "Installation log generated at $LOG" -t "debug" -l "$LOG"
 fi
-
-exit 0
 
 ############################################ Install each corresponding component ################################################
 

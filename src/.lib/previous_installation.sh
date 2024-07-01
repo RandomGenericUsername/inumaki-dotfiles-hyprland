@@ -13,7 +13,7 @@ prompt_existing_installation(){
             INSTALLATION_TYPE="clean"
             ;;
         "Abort")
-            print "Installation aborted" "alert" "$log"
+            print "Installation aborted" -t "error" -l "$LOG"
             exit 1
             ;;
     esac
@@ -31,15 +31,15 @@ check_previous_installation() {
         folder_empty=$?
 
         if [ $folder_empty -eq 1 ]; then
-            print "Previous installation detected in $install_path." "alert" "$log"
+            print "Previous installation detected in $install_path." -t "warn" -l "$LOG"
             prompt_existing_installation
             return $?
         else
-            print "Installation folder exists but is empty." "debug" "$log"
+            print "Installation folder exists but is empty." -t "debug" -l "$LOG"
             return 0
         fi
     else
-        print "No previous installation found." "debug" "$log"
+        print "No previous installation found." -t "debug" -l "$LOG"
         return 0
     fi
 }
@@ -48,10 +48,10 @@ detect_previous_install(){
     local dotfiles_install_path=$1
     # Remove previous installation
     if [ -d $dotfiles_install_path ]; then
-        print "Previous installation detected at $dotfiles_install_path" "alert" 
+        print "Previous installation detected at $dotfiles_install_path" -t "warn" -l "$LOG"
         prompt_existing_installation
         return $?
     fi
-    print "No previous installation detected at $dotfies_install_path" debug
+    print "No previous installation detected at $dotfies_install_path" -t debug -l "$LOG"
     return 0
 }

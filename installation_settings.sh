@@ -16,10 +16,10 @@ export INSTALL_TYPE="clean"
 export DOTFILES_NAME=devel
 
 # Directory to copy the dotfiles 
-export INSTALL_DIR=/home/$USER/dotfiles/$DOTFILES_NAME
+export DOTFILES_INSTALL_DIR=/home/$USER/dotfiles/$DOTFILES_NAME
 
 # Path to logging dir
-export LOG_DIR=$INSTALL_DIR/.logs
+export LOG_DIR=$DOTFILES_INSTALL_DIR/.logs
 
 # Path to log
 export LOG=$LOG_DIR/log

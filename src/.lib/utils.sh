@@ -15,20 +15,17 @@ show_pretty_message() {
 
 prompt_install(){
     while true; do
-        read -p ":: Do you want to start the installation now? (Yy/Nn): " yn
+        print "Do you want to start the installation now? (Yy/Nn):" -t "info" -l "$LOG"
+        read -p "" yn
         case $yn in
-            [Yy]* )
-                echo -e "${GREEN}"
-                echo ":: Installation started."
-                echo -e "${NONE}"
+            [Yy]|[Yes]|[yes]* )
+                print "Installation started." -t "info" -l "$LOG"
             break;;
-            [Nn]* ) 
-                echo -e "${RED}"
-                echo ":: Installation canceled."
-                echo -e "${NONE}"
+            [Nn]|[No]|[no]* ) 
+                print "Installation canceled." -t "error" -l "$LOG"
                 exit;
             break;;
-            * ) echo ":: Please answer yes or no.";;
+            * ) print "Please answer yes or no." -t "warn";;
         esac
     done
 }
@@ -88,16 +85,16 @@ create_log() {
         if [ -d "$LOG_DIR" ]; then
             # Directory exists
             if [ -f "$LOG" ]; then
-                print "Log file exists, cleaning it." "debug" ""
+                print "Log file exists, cleaning it." -t "debug"
                 # Log file exists, clean it
                 : > "$LOG"
             else
-                print "Log file doesn't exist, creating it." "debug" ""
+                print "Log file doesn't exist, creating it." -t "debug"
                 # Log file doesn't exist, create it
                 touch "$LOG"
             fi
         else
-            print "Log file doesn't exist, creating it." "debug" ""
+            print "Log file doesn't exist, creating it." -t "debug"
             # Directory doesn't exist, create it and then the log file
             mkdir -p "$LOG_DIR"
             touch "$LOG"
@@ -131,10 +128,8 @@ is_dir_empty() {
     fi
 }
 
-# Function to display help information
-show_help() {
-
-    echo -e "${GREEN}"
+pretty_print_installer_msg(){
+    echo -e "${RED}"
     cat <<"EOF"
         ____           __        ____         
        /  _/___  _____/ /_____ _/ / /__  _____
@@ -143,6 +138,12 @@ show_help() {
     /___/_/ /_/____/\__/\__,_/_/_/\___/_/     
 EOF
     echo -e "${NONE}"
+}
+
+# Function to display help information
+show_help() {
+
+    pretty_print_installer_msg
     echo -e "${RED}"
     echo "Usage: $0 [--debug|-d] [--log|-l]"
     echo -e "\nOptions:"
@@ -153,3 +154,6 @@ EOF
     echo -e "${NONE}"
 }
 
+show_install_type(){
+    print "Performing: $INSTALL_TYPE installation" -t "info" -l "$LOG"
+}
