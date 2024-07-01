@@ -1,12 +1,8 @@
 #!/bin/bash
 
-###################################### Define directories for each component of the setup/installation ########################################
-# Path to this script/dir
-export RESOURCES_DIR=$(pwd)
 
 # Path to lib dir
-export LIB_DIR=$RESOURCES_DIR/src/.lib
-
+export LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Path to auth script
 export AUTH_SCRIPT=$LIB_DIR/auth.sh
 # Path to check distro 
@@ -39,6 +35,7 @@ source $PREVIOUS_INSTALLATION_SCRIPT
 source $PROCESSES_AND_SERVICES_SCRIPT
 source $UTILS_SCRIPT
 source $COLORS
+
 
 
 

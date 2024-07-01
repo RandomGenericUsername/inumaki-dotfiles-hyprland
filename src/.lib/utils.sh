@@ -85,16 +85,16 @@ create_log() {
         if [ -d "$LOG_DIR" ]; then
             # Directory exists
             if [ -f "$LOG" ]; then
-                print "Log file exists, cleaning it." -t "debug"
+                print "Log file exists, cleaning it. Check $LOG" -t "debug"
                 # Log file exists, clean it
                 : > "$LOG"
             else
-                print "Log file doesn't exist, creating it." -t "debug"
+                print "Log file doesn't exist, creating it at $LOG" -t "debug"
                 # Log file doesn't exist, create it
                 touch "$LOG"
             fi
         else
-            print "Log file doesn't exist, creating it." -t "debug"
+            print "Log file doesn't exist, creating it at $LOG" -t "debug"
             # Directory doesn't exist, create it and then the log file
             mkdir -p "$LOG_DIR"
             touch "$LOG"

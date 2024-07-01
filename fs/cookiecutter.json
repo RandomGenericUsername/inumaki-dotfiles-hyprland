@@ -2,8 +2,11 @@
     "DOTFILES_NAME" : "{{ cookiecutter.DOTFILES_NAME }}",
     "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
     "DOTFILES_INSTALL_DIR": "{{ cookiecutter.DOTFILES_INSTALL_DIR }}",
-    "hyprpaper_wallpaper_cache": "{{ cookiecutter.hyprpaper_wallpaper_cache }}",
-    "hyprpaper_wallpaper_splash": "{{ cookiecutter.hyprpaper_wallpaper_splash }}",
+
+    "hyprpaper_cached_used_wallpaper": "{{ cookiecutter.hyprpaper_cached_used_wallpaper }}",
+    "hyprpaper_cached_current_wallpaper": "{{ cookiecutter.hyprpaper_cached_current_wallpaper }}",
+    "hyprpaper_default_splash": "{{ cookiecutter.hyprpaper_default_splash }}",
+
     "_copy_without_render": [
         ".settings/*",
         "wal/*",

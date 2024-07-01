@@ -35,11 +35,19 @@ parse_options() {
 ###################################### Source relevant variables/constants and functions ########################################
 
 clear
-source "$(pwd)/lib.sh"
-source "$(pwd)/setup_resources.sh"
-source "$(pwd)/installation_resources.sh"
-install_settings="$(pwd)/installation_settings.sh"
-source $install_settings
+
+this_dir="$(pwd)"
+
+setup_scripts=$this_dir/src/setup/export.sh
+lib_scripts=$this_dir/src/.lib/export.sh
+install_scripts=$this_dir/src/install/export.sh
+installation_settings=$this_dir/installation_settings.sh
+
+source $setup_scripts
+source $lib_scripts
+source $install_scripts
+source $installation_settings
+
 
 ############################################## Validate command line arguments ##############################################
 
@@ -87,6 +95,7 @@ install_yay_packages $YAY_PKGS
 
 ############################################ Dotfiles ################################################
 
+exit 0
 create_cookiecutter_project $install_settings
 
 ############################################ Print installation is finished ################################################
