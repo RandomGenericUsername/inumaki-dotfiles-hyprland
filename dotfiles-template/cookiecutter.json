@@ -1,6 +1,6 @@
 {
-    "dotfiles_target" : "Path to install dotfiles",
-    "wallpaper_cache_dir": "Path to wallpaper cache directory",
-    "log" : "Path to log file",
-    "LOG" : "is logging enabled"
+    "DOTFILES_NAME" : "Name of the directory where to put the dotfiles",
+    "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
+    "hyprpaper-wallpaper-cache": "Path to wallpaper cache directory",
+    "hyprpaper-wallpaper-splash": "hyprpaper splash config"
 }

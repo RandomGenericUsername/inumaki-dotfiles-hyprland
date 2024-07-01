@@ -35,10 +35,11 @@ parse_options() {
 ###################################### Source relevant variables/constants and functions ########################################
 
 clear
-source "$(pwd)/installation_settings.sh"
 source "$(pwd)/lib.sh"
 source "$(pwd)/setup_resources.sh"
 source "$(pwd)/installation_resources.sh"
+install_settings="$(pwd)/installation_settings.sh"
+source $install_settings
 
 ############################################## Validate command line arguments ##############################################
 
@@ -86,6 +87,9 @@ install_yay_packages $YAY_PKGS
 
 ############################################ Dotfiles ################################################
 
+generate_cookiecutter_context -t $COOKIECUTTER_TEMPLATE -o $COOKIECUTTER_CONTEXT -e $install_settings
+cookiecutter $DOTFILES_TEMPLATE_DIR --no-input --config-file=$COOKIECUTTER_CONTEXT --output-dir=$DOTFILES_INSTALL_DIR
+
 
 ############################################ Print installation is finished ################################################
 
@@ -93,6 +97,8 @@ print "Installation finished!" -t "info" -l "$LOG"
 if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
     print "Installation log generated at $LOG" -t "debug" -l "$LOG"
 fi
+
+exit 0
 
 ############################################ Install each corresponding component ################################################
 

@@ -1,0 +1,6 @@
+{
+  "DOTFILES_NAME": "devel",
+  "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
+  "hyprpaper-wallpaper-cache": "Path to wallpaper cache directory",
+  "hyprpaper-wallpaper-splash": "hyprpaper splash config"
+}

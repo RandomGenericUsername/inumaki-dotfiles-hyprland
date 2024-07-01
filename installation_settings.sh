@@ -23,3 +23,8 @@ export LOG_DIR=$DOTFILES_INSTALL_DIR/.logs
 
 # Path to log
 export LOG=$LOG_DIR/log
+
+
+# cookiecutter variables
+export hyprpaper-wallpaper-cache="/home/$USER/.cache/hyprpaper/used-wallpaper"
+export hyprpaper-wallpaper-splash="false"

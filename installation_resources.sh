@@ -19,4 +19,7 @@ export PYWAL_INSTALLER=$INSTALL_DIR/wal.sh
 # Path to wallpaper installer script
 export WALLPAPER_INSTALLER=$INSTALL_DIR/wallpaper.sh
 
+export DOTFILES_TEMPLATE_DIR=$RESOURCES_DIR/dotfiles-template
+export COOKIECUTTER_TEMPLATE=$DOTFILES_TEMPLATE_DIR/cookiecutter.json
+export COOKIECUTTER_CONTEXT=$DOTFILES_TEMPLATE_DIR/cookiecutter-context.json
 
