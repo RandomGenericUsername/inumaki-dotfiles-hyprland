@@ -2,5 +2,6 @@
   "DOTFILES_NAME": "devel",
   "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
   "hyprpaper_wallpaper_cache": "/home/inumaki/.cache/hyprpaper/used-wallpaper",
-  "hyprpaper_wallpaper_splash": "false"
+  "hyprpaper_wallpaper_splash": "false",
+  "_copy_without_render": []
 }

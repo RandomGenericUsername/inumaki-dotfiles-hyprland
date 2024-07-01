@@ -1,6 +1,8 @@
 {
-    "DOTFILES_NAME" : "temp-dotfiles",
+    "DOTFILES_NAME" : "{{ cookiecutter.DOTFILES_NAME }}",
     "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
-    "hyprpaper_wallpaper_cache": "Path to wallpaper cache directory",
-    "hyprpaper_wallpaper_splash": "hyprpaper splash config"
+    "hyprpaper_wallpaper_cache": "{{ cookiecutter.hyprpaper_wallpaper_cache }}",
+    "hyprpaper_wallpaper_splash": "{{ cookiecutter.hyprpaper_wallpaper_splash }}",
+    "_copy_without_render": [
+    ]
 }
