@@ -30,7 +30,6 @@ generate_cookiecutter_context() {
         return 1
     fi
 
-    echo "Sourcing $ENV_FILE"
     # Source the vars.sh file to get environment variables
     source "$ENV_FILE"
 
@@ -59,7 +58,6 @@ generate_cookiecutter_context() {
     # Write the context content to the output file
     touch "$OUTPUT_PATH"
     echo "$CONTEXT_CONTENT" > "$OUTPUT_PATH"
-    echo "context.json has been generated at $OUTPUT_PATH"
 }
 
 #!/bin/bash
@@ -114,4 +112,22 @@ parse_cookiecutter_context_to_string() {
 
     # Trim trailing space and echo the result
     echo "${result% }"
+}
+
+get_cookiecutter_context(){
+    local env_file=$1
+    local context="/tmp/cookiecutter-context.json"
+    local ignore_keys=("project_slug" "_copy_without_render")
+    generate_cookiecutter_context -t $COOKIECUTTER_TEMPLATE -o $context  -e $env_file
+    str="$(parse_cookiecutter_context_to_string $context -i ${ignore_keys[@]})"
+    rm $context
+    echo $str
+}
+
+create_cookiecutter_project(){
+    local env_file=$1
+    local cookiecutter_context="$(get_cookiecutter_context $env_file)"
+    cookiecutter $DOTFILES_TEMPLATE_DIR --no-input --output-dir=/tmp/ -f  $cookiecutter_context
+    cp -r /tmp/$DOTFILES_NAME/. $DOTFILES_INSTALL_DIR 
+    rm -rf /tmp/$DOTFILES_NAME/
 }

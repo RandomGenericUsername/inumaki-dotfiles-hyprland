@@ -12,7 +12,7 @@ export AUTH_SCRIPT=$LIB_DIR/auth.sh
 # Path to check distro 
 export CHECK_DISTRO_SCRIPT=$LIB_DIR/check_distro.sh
 # Path to create cookiecutter context
-export CREATE_COOKIECUTTER_CONTEXT_SCRIPT=$LIB_DIR/create_cookiecutter_context.sh
+export CREATE_COOKIECUTTER_SCRIPT=$LIB_DIR/create_cookiecutter.sh
 # Path to debug script
 export DEBUG_SCRIPT=$LIB_DIR/debug.sh
 # Path to install yay script
@@ -31,7 +31,7 @@ export COLORS=$LIB_DIR/colors.sh
 
 source $AUTH_SCRIPT
 source $CHECK_DISTRO_SCRIPT
-source $CREATE_COOKIECUTTER_CONTEXT_SCRIPT
+source $CREATE_COOKIECUTTER_SCRIPT
 source $DEBUG_SCRIPT
 source $INSTALL_YAY_SCRIPT
 source $PKG_INSTALLER_SCRIPT

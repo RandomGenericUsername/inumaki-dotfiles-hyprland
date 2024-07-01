@@ -26,5 +26,5 @@ export LOG=$LOG_DIR/log
 
 
 # cookiecutter variables
-export hyprpaper_wallpaper_cache="/home/$USER/.cache/hyprpaper/used-wallpaper"
-export hyprpaper_wallpaper_splash="false"
+export hyprpaper_wallpaper_cache='/home/$USER/.cache/hyprpaper/used-wallpaper'
+export hyprpaper_wallpaper_splash='false'

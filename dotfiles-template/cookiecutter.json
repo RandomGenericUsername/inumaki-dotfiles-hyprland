@@ -1,8 +1,12 @@
 {
     "DOTFILES_NAME" : "{{ cookiecutter.DOTFILES_NAME }}",
     "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
+    "DOTFILES_INSTALL_DIR": "{{ cookiecutter.DOTFILES_INSTALL_DIR }}",
     "hyprpaper_wallpaper_cache": "{{ cookiecutter.hyprpaper_wallpaper_cache }}",
     "hyprpaper_wallpaper_splash": "{{ cookiecutter.hyprpaper_wallpaper_splash }}",
     "_copy_without_render": [
+        ".settings/*",
+        "wal/*",
+        "wallpapers/*"
     ]
 }
