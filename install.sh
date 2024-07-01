@@ -88,8 +88,10 @@ install_yay_packages $YAY_PKGS
 ############################################ Dotfiles ################################################
 
 generate_cookiecutter_context -t $COOKIECUTTER_TEMPLATE -o $COOKIECUTTER_CONTEXT -e $install_settings
-cookiecutter $DOTFILES_TEMPLATE_DIR --no-input --config-file=$COOKIECUTTER_CONTEXT --output-dir=$DOTFILES_INSTALL_DIR
-
+cookiecutter $DOTFILES_TEMPLATE_DIR --no-input --config-file=$COOKIECUTTER_CONTEXT --output-dir=/tmp/ -f --verbose
+#mv /tmp/temp-dotfiles/ /tmp/$DOTFILES_NAME/
+#cp -r /tmp/$DOTFILES_NAME/. $DOTFILES_INSTALL_DIR 
+#rm -rf /tmp/$DOTFILES_NAME/
 
 ############################################ Print installation is finished ################################################
 

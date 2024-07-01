@@ -1,6 +1,6 @@
 {
-    "DOTFILES_NAME" : "Name of the directory where to put the dotfiles",
+    "DOTFILES_NAME" : "temp-dotfiles",
     "project_slug": "{{ cookiecutter.DOTFILES_NAME.lower().replace(' ', '_') }}",
-    "hyprpaper-wallpaper-cache": "Path to wallpaper cache directory",
-    "hyprpaper-wallpaper-splash": "hyprpaper splash config"
+    "hyprpaper_wallpaper_cache": "Path to wallpaper cache directory",
+    "hyprpaper_wallpaper_splash": "hyprpaper splash config"
 }
