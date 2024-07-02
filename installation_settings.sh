@@ -1,18 +1,39 @@
 #!/bin/bash
 
-source ./filesystem_settings.sh
-
+# Path to this script/dir
+export RESOURCES_DIR=$(pwd)
 # Variable for enabling installation with debug printing 
 export ENABLE_DEBUG="false"
 # Variable for enabling installation with log creation
 export ENABLE_LOG="false"
 # Installation type: clean | update
-export INSTALL_TYPE="clean"
-
+export INSTALL_TYPE="update"
 # Path to logging dir
-export LOG_DIR=$ENV_INSTALL_PATH/.logs
+export LOG_DIR=$ENV_DIR/.logs
 # Path to log
 export LOG=$LOG_DIR/install.log
+# Path to filesystem settings
+export FS_SETTINGS=$RESOURCES_DIR/filesystem_settings.sh
+
+export FS=$RESOURCES_DIR/fs
+export COOKIECUTTER_JSON=$FS/cookiecutter.json
+export COOKIECUTTER_CONTEXT=$FS_SETTINGS
+
+
+source $FS_SETTINGS
+
+
+
+
+
+
+
+# Path to filesystem src files
+#export FS=$RESOURCES_DIR/fs
+
+#export DOTFILES_TEMPLATE_DIR=$RESOURCES_DIR/dotfiles-template
+#export COOKIECUTTER_TEMPLATE=$DOTFILES_TEMPLATE_DIR/cookiecutter.json
+#export COOKIECUTTER_CONTEXT=$DOTFILES_TEMPLATE_DIR/cookiecutter-context.json
 
 
 ###################################### Define global variables for the setup and installation ########################################

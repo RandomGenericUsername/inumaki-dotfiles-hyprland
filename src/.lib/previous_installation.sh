@@ -7,10 +7,10 @@ prompt_existing_installation(){
     choice=$(gum choose "${gum_options[@]}" --header="$msg")
     case "$choice" in
         "Update")
-            INSTALLATION_TYPE="update"
+            export INSTALL_TYPE="update"
             ;;
         "Overwrite (clean install)")
-            INSTALLATION_TYPE="clean"
+            export INSTALL_TYPE="clean"
             ;;
         "Abort")
             print "Installation aborted" -t "error" -l "$LOG"
