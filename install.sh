@@ -79,7 +79,7 @@ gum spin --spinner dot --title "Starting the installation now..." -- sleep 1
 
 ################################################ Check for previous installation ################################################
 
-check_previous_installation $DOTFILES_INSTALL_DIR || exit $?
+check_previous_installation $ENV_DIR || exit $?
 
 ################################################ Print installation type ################################################
 
@@ -95,7 +95,6 @@ install_yay_packages $YAY_PKGS
 
 ############################################ Dotfiles ################################################
 
-exit 0
 get_env_vars $COOKIECUTTER_CONTEXT $COOKIECUTTER_JSON
 #create_cookiecutter_project $install_settings
 
