@@ -15,6 +15,10 @@ export WALLPAPER_DIR="$ENV_DIR/wallpapers"
 
 ###################################### YYY ########################################
 
+export HOST_WALLPAPER_DIR="$HOME/wallpapers"
+export HOST_CACHE_DIR="$HOME/.cache"
+
+
 
 
 ###################################### YYY ########################################

@@ -97,6 +97,12 @@ install_yay_packages $YAY_PKGS
 
 create_cookiecutter_project -e $COOKIECUTTER_CONTEXT -t $FS -i $ENV_INSTALL_PATH
 
+############################################ Create required symlink ################################################
+
+create_ln $CACHE_DIR --source $HOST_CACHE_DIR --target $ENV_DIR
+create_ln $WALLPAPER_DIR --source $HOST_WALLPAPER_DIR --target $ENV_DIR
+create_ln $HOME/.config/wal --source $CONFIG_DIR/wal --target $HOME/.config
+
 ############################################ Print installation is finished ################################################
 
 print "Installation finished!" -t "info" -l "$LOG"
