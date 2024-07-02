@@ -4,7 +4,8 @@
 ###################################### Define global variables for the setup and installation ########################################
 
 export ENV_NAME=".inumaki-dotfiles-env"
-export ENV_DIR="$HOME/$ENV_NAME"
+export ENV_INSTALL_PATH="$HOME"
+export ENV_DIR="$ENV_INSTALL_PATH/$ENV_NAME"
 export CACHE_DIR="$ENV_DIR/.cache"
 export CONFIG_DIR="$ENV_DIR/.config"
 export SETTINGS_DIR="$ENV_DIR/.settings"
@@ -20,6 +21,9 @@ export HYPRLAND_SCRIPTS_DIR="$HYPRLAND_DIR/scripts"
 
 ###################################### YYY ########################################
 export HYPRPAPER_CACHE_DIR="$CACHE_DIR/hyprpaper"
+export HYPRPAPER_CACHED_USED_WALLPAPER="$HYPRPAPER_CACHE_DIR/used-wallpaper"
+export HYPRPAPER_CACHED_CURRENT_WALLPAPER="$HYPRPAPER_CACHE_DIR/current-wallpaper"
+export HYPRPAPER_DEFAULT_SPLASH='false'
 
 
 

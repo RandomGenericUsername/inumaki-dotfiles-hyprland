@@ -95,8 +95,7 @@ install_yay_packages $YAY_PKGS
 
 ############################################ Dotfiles ################################################
 
-get_env_vars $COOKIECUTTER_CONTEXT $COOKIECUTTER_JSON
-#create_cookiecutter_project $install_settings
+create_cookiecutter_project -e $COOKIECUTTER_CONTEXT -t $FS -i $ENV_INSTALL_PATH
 
 ############################################ Print installation is finished ################################################
 
