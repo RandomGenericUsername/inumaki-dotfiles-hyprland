@@ -24,7 +24,7 @@ firefox
 zsh
 alacritty
 kitty
-
+fish
 
 
 # lock
@@ -37,6 +37,7 @@ dunst
 
 # Wallpaper 
 hyprpaper
+waypaper
 
 # Utils 
 tree

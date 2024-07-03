@@ -47,30 +47,26 @@
         },
         "separate-outputs": true
     },
-	 // Empty
-    "custom/empty": {
-        "format": ""
-    },
 
     // Waybar Themes
     "custom/waybarthemes": {
         "format": "",
-        "on-click": "~/dotfiles/inumaki/waybar/scripts/themeswitcher.sh",
+        "on-click": "{{cookiecutter.HYPR_SCRIPTS_DIR}}/themeswitcher.sh",
         "tooltip-format": "Select a waybar theme"
     },
 	// Cliphist
     "custom/cliphist": {
         "format": "",
-        "on-click": "sleep 0.1 && ~/dotfiles/inumaki/scripts/cliphist.sh",
-        "on-click-right": "sleep 0.1 && ~/dotfiles/inumaki/scripts/cliphist.sh d",
-        "on-click-middle": "sleep 0.1 && ~/dotfiles/inumaki/scripts/cliphist.sh w",
+        "on-click": "sleep 0.1 && {{cookiecutter.HYPR_SCRIPTS_DIR}}/cliphist.sh",
+        "on-click-right": "sleep 0.1 && {{cookiecutter.HYPR_SCRIPTS_DIR}}/cliphist.sh d",
+        "on-click-middle": "sleep 0.1 && {{cookiecutter.HYPR_SCRIPTS_DIR}}/cliphist.sh w",
         "tooltip-format": "Clipboard Manager"
     },
 	// Wallpaper
     "custom/wallpaper": {
         "format": "",
-        "on-click": "~/dotfiles/inumaki/hypr/scripts/wallpaper.sh select",
-        "on-click-right": "~/dotfiles/inumaki/hypr/scripts/wallpaper-effects.sh",
+        "on-click": "{{cookiecutter.HYPR_SCRIPTS_DIR}}/wallpaper.sh select",
+        "on-click-right": "{{cookiecutter.HYPR_SCRIPTS_DIR}}/wallpaper-effects.sh",
         "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
     }
 }
