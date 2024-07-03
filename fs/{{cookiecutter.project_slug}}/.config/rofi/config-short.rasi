@@ -28,16 +28,17 @@ configuration {
 }
 
 /* ---- Load font ---- */
-@import "{{cookiecutter.SETTINGS_DIR}}/rofi-font.rasi"
+@import "{{cookiecutter.ROFI_FONT_RASI}}"
 
 /* ---- Load pywal colors (custom wal template) ---- */
-@import "{{cookiecutter.CACHE_DIR}}/wal/colors-rofi-pywal"
+@import "{{cookiecutter.COLORS_ROFI_PYWAL}}"
 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.CACHE_DIR}}/current_wallpaper.rasi"
+@import "{{cookiecutter.CURRENT_WALLPAPER_RASI}}"
 
 /* ---- Load border width ---- */
-@import "{{cookiecutter.SETTINGS_DIR}}/rofi-border.rasi"
+@import "{{cookiecutter.ROFI_BORDER_RASI}}"
+
 
 /* ---- Window ---- */
 window {

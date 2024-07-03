@@ -13,13 +13,33 @@ export SETTINGS_DIR="$ENV_DIR/.settings"
 export WALLPAPER_DIR="$ENV_DIR/wallpapers"
 
 
+#secondary level
+export HYPR_DIR="$CONFIG_DIR/hypr"
+export ROFI_DIR="$CONFIG_DIR/rofi"
+export WAYBAR_DIR="$CONFIG_DIR/waybar"
+
 ###################################### YYY ########################################
 
 export HOST_WALLPAPER_DIR="$HOME/wallpapers"
 export HOST_CACHE_DIR="$HOME/.cache"
 
 
+# wallpaper tool variables
+export WALLPAPER_SETTINGS_DIR="$SETTINGS_DIR/wallpaper"
+export WALLPAPER_EFFECT="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
+export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_DIR/effects/wallpaper"
+export HYPR_SCRIPTS_DIR="$HYPR_DIR/scripts"
+export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
+export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/config-wallpaper.rasi"
 
+export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
+export WAYBAR_THEMES_SCRIPT_DIR="$WAYBAR_THEMES_DIR/scripts"
+
+export ROFI_FONT_RASI="$WALLPAPER_SETTINGS_DIR/rofi-font.rasi"
+export WAL_CACHE_DIR="$CACHE_DIR/wal"
+export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal"
+export CURRENT_WALLPAPER_RASI="$CACHE_DIR/current_wallpaper.rasi"
+export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
 
 ###################################### YYY ########################################
 #export HYPRPAPER_CACHE_DIR="$CACHE_DIR/hyprpaper"

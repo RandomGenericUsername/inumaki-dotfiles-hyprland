@@ -9,81 +9,100 @@
 # by Stephan Raabe (2024) 
 # ----------------------------------------------------- 
 
-# Cache file for holding the current wallpaper
-wallpaper_folder="$(readlink -f {{cookiecutter.WALLPAPER_DIR}})"
-echo "[Wallpaper dir: $wallpaper_folder]"
+# Function to initialize the wallpaper
+init_wallpaper() {
+    sleep 1
+    if [ -f "$cache_file" ]; then
+        wal -q -i "$current_wallpaper"
+    else
+        wal -q -i "$wallpaper_folder/"
+    fi
+}
 
-# Load the wallpaper directory path from settings
-#if [ -f ~/dotfiles/inumaki/.settings/wallpaper-folder.sh ] ;then
-#	echo "Sourcing wallpaper settings from ~/dotfiles/inumaki/.settings/wallpaper-folder.sh"
-#    source ~/dotfiles/inumaki/.settings/wallpaper-folder.sh
-#fi
+# Function to select wallpaper using rofi
+select_wallpaper() {
+    sleep 0.2
+    selected=$(find -L "$wallpaper_folder" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read -r rfile
+    do
+        echo -en "$rfile\x00icon\x1f$wallpaper_folder/${rfile}\n"
+    done | rofi -dmenu -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}})
 
-used_wallpaper="{{cookiecutter.CACHE_DIR}}/used_wallpaper"
-cache_file="{{cookiecutter.CACHE_DIR}}/current_wallpaper"
-blurred="{{cookiecutter.CACHE_DIR}}/blurred_wallpaper.png"
-square="{{cookiecutter.CACHE_DIR}}/square_wallpaper.png"
-rasi_file="{{cookiecutter.CACHE_DIR}}/current_wallpaper.rasi"
-blur_file="{{cookiecutter.SETTINGS_DIR}}/blur.sh"
+    echo "Selected: $selected"
+    if [ -z "$selected" ]; then
+        echo "No wallpaper selected"
+        exit 1
+    fi
 
-blur="50x30"
-blur=$(cat $blur_file)
+    echo "Generating wal out of $wallpaper_folder/$selected"
+    wal -q -i "$wallpaper_folder/$selected"
+}
 
-# Create cache file if not exists
-if [ ! -f $cache_file ] ;then
-    touch $cache_file
-    echo "$wallpaper_folder/default.png" > "$cache_file"
-fi
+# Function to select a random wallpaper
+random_wallpaper() {
+    echo "Generating wall from wallpaper dir randomly"
+    wal -q -i "$wallpaper_folder/"
+}
 
-# Create rasi file if not exists
-if [ ! -f $rasi_file ] ;then
-    touch $rasi_file
-    echo "* { current-image: url(\"$wallpaper_folder/default.png\", height); }" > "$rasi_file"
-fi
+load_wallpaper_effect(){
+    # Load Wallpaper Effect
+    if [ -f $wallpaper_effect_f ] ;then
+        effect=$(cat $wallpaper_effect_f)
+        if [ ! "$effect" == "off" ] ;then
+            if [ "$1" == "init" ] ;then
+                echo ":: Init"
+            else
+                dunstify "Using wallpaper effect $effect..." "with image $newwall" -h int:value:10 -h string:x-dunst-stack-tag:wallpaper
+            fi
+            source {{cookiecutter.HYPR_WALLPAPER_EFFECTS_DIR}}/$effect
+        fi
+    fi
+}
+
+# Source required scripts
+utils_dir={{cookiecutter.HYPR_SCRIPTS_DIR}}/utils.sh
+source $utils_dir
+# Settings file
+settings={{cookiecutter.WALLPAPER_SETTINGS_DIR}}
+wallpaper_effect_f=$settings/wallpaper-effect.sh
+wallpaper_engine_f=$settings/wallpaper-engine.sh
+
+cache={{cookiecutter.CACHE_DIR}}
+used_wallpaper=$cache/used_wallpaper
+cache_file="$cache/current_wallpaper"
+blurred="$cache/blurred_wallpaper.png"
+square="$cache/square_wallpaper.png"
+rasi_file="$cache/current_wallpaper.rasi"
+
+wal_colors="$cache/wal/colors.sh"
+
+# Get blur from settings
+blur=$(_or "$(safe_cat $settings/blur.sh )" '50x30')
+wallpaper_folder=$(_or "$(safe_cat $settings/wallpaper-dir.sh )" "$(authentic_path  {{cookiecutter.WALLPAPER_DIR}})")
+
+if_not_exists_create_file $cache_file "$wallpaper_folder/default.png"
+if_not_exists_create_file $rasi_file "* { current-image: url(\"$wallpaper_folder/default.png\", height); }"
 
 current_wallpaper=$(cat "$cache_file")
 
+# Main script execution
 case $1 in
-    # Load wallpaper from .cache of last session 
     "init")
-        sleep 1
-        if [ -f $cache_file ]; then
-            wal -q -i "$current_wallpaper"
-        else
-            wal -q -i "$wallpaper_folder/"
-        fi
-    ;;
-
-    # Select wallpaper with rofi
+        init_wallpaper
+        ;;
     "select")
-        sleep 0.2
-        selected=$( find "$wallpaper_folder" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read rfile
-        do
-            echo -en "$rfile\x00icon\x1f$wallpaper_folder/${rfile}\n"
-        done | rofi -dmenu -i -replace -config {{cookiecutter.CONFIG_DIR}}/rofi/config-wallpaper.rasi)
-
-		echo "Selected: $selected"
-        if [ ! "$selected" ]; then
-            echo "No wallpaper selected"
-            exit
-        fi
-
-		echo "Generating wal out of $wallpaper_folder/$selected"
-        wal -q -i "$wallpaper_folder/$selected"
-    ;;
-
-    # Randomly select wallpaper 
+        select_wallpaper
+        ;;
     *)
-		echo "Generating wall from wallpaper dir randomly"
-        wal -q -i $wallpaper_folder/
-    ;;
-
+        random_wallpaper
+        ;;
 esac
+
+echo "DONE!"
 
 # ----------------------------------------------------- 
 # Load current pywal color scheme
 # ----------------------------------------------------- 
-source "{{cookiecutter.CACHE_DIR}}/wal/colors.sh"
+source $wal_colors
 
 # ----------------------------------------------------- 
 # get wallpaper image name
@@ -94,7 +113,7 @@ echo "New wallpaper image name is: $newwall"
 # ----------------------------------------------------- 
 # Reload waybar with new colors
 # -----------------------------------------------------
-#{{cookiecutter.CONFIG_DIR}}/waybar/themes/scripts/launch.sh
+#{{cookiecutter.WAYBAR_THEMES_SCRIPT_DIR}}/launch.sh
 
 # ----------------------------------------------------- 
 # Set the new wallpaper
@@ -103,26 +122,15 @@ transition_type="wipe"
 # transition_type="outer"
 # transition_type="random"
 
-cp "$wallpaper" "{{cookiecutter.CACHE_DIR}}/"
-echo "Copying $wallpaper into {{cookiecutter.CACHE_DIR}}/"
-mv "{{cookiecutter.CACHE_DIR}}/$newwall" $used_wallpaper
-echo "Moving {{cookiecutter.CACHE_DIR}}/$newwall into $used_wallpaper"
+cp "$wallpaper" "$cache/"
+echo "Copying $wallpaper into $cache/"
+mv "$cache/$newwall" $used_wallpaper
+echo "Moving $cache/$newwall into $used_wallpaper"
 
-# Load Wallpaper Effect
-if [ -f {{cookiecutter.SETTINGS_DIR}}/wallpaper-effect.sh ] ;then
-    effect=$(cat {{cookiecutter.SETTINGS_DIR}}/wallpaper-effect.sh)
-    if [ ! "$effect" == "off" ] ;then
-        if [ "$1" == "init" ] ;then
-            echo ":: Init"
-        else
-            dunstify "Using wallpaper effect $effect..." "with image $newwall" -h int:value:10 -h string:x-dunst-stack-tag:wallpaper
-        fi
-        source {{cookiecutter.CONFIG_DIR}}/hypr/effects/wallpaper/$effect
-    fi
-fi
+load_wallpaper_effect
 
+wallpaper_engine=$(cat $wallpaper_engine_f)
 
-wallpaper_engine=$(cat {{cookiecutter.SETTINGS_DIR}}/wallpaper-engine.sh)
 if [ "$wallpaper_engine" == "swww" ] ;then
     # swww
     echo ":: Using swww"
@@ -137,10 +145,10 @@ elif [ "$wallpaper_engine" == "hyprpaper" ] ;then
     # hyprpaper
     echo ":: Using hyprpaper"
     killall hyprpaper
-    wal_tpl="$(cat {{cookiecutter.SETTINGS_DIR}}/hyprpaper.tpl)"
+    wal_tpl="$(cat {{cookiecutter.WALLPAPER_SETTINGS_DIR}}/hyprpaper.tpl)"
     output="${wal_tpl//WALLPAPER/$used_wallpaper}"
-    echo "$output" > {{cookiecutter.CONFIG_DIR}}/hypr/hyprpaper.conf
-    hyprpaper --config {{cookiecutter.CONFIG_DIR}}/hypr/hyprpaper.conf &
+    echo "$output" > {{cookiecutter.HYPR_DIR}}/hyprpaper.conf
+    hyprpaper --config {{cookiecutter.HYPR_DIR}}/hyprpaper.conf &
 else
     echo ":: Wallpaper Engine disabled"
 fi
@@ -156,7 +164,7 @@ else
     # Reload Hyprctl.sh
     # -----------------------------------------------------
 	echo "Reloading hyper..."
-    #{{cookiecutter.CONFIG_DIR}}/hypr/scripts/reload.sh 
+    #{{cookiecutter.HYPR_SCRIPTS_DIR}}/reload.sh 
 fi
 
 # ----------------------------------------------------- 
@@ -203,4 +211,6 @@ else
 fi
 
 echo "DONE!"
+
+
 
