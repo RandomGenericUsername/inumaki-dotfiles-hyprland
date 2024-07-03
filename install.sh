@@ -34,6 +34,8 @@ parse_options() {
 
 ###################################### Source relevant variables/constants and functions ########################################
 
+export DEFAULT_BROWSER="google-chrome"
+
 clear
 
 this_dir="$(pwd)"
@@ -103,6 +105,11 @@ create_ln $CACHE_DIR --source $HOST_CACHE_DIR --target $ENV_DIR
 create_ln $WALLPAPER_DIR --source $HOST_WALLPAPER_DIR --target $ENV_DIR
 create_ln $HOME/.config/wal --source $CONFIG_DIR/wal --target $HOME/.config
 
+############################################ Set default browser ################################################
+
+#xdg-mime default "$DEFAULT_BROWSER.desktop" x-scheme-handler/http
+#xdg-mime default "$DEFAULT_BROWSER.desktop" x-scheme-handler/https
+
 ############################################ Print installation is finished ################################################
 
 print "Installation finished!" -t "info" -l "$LOG"
@@ -112,9 +119,6 @@ fi
 
 exit 0
 
-############################################ Install each corresponding component ################################################
-
-install_wal
 
 #####################################################################################################################################
 

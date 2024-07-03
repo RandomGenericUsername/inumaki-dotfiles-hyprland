@@ -113,7 +113,7 @@ echo "New wallpaper image name is: $newwall"
 # ----------------------------------------------------- 
 # Reload waybar with new colors
 # -----------------------------------------------------
-#{{cookiecutter.WAYBAR_THEMES_SCRIPT_DIR}}/launch.sh
+{{cookiecutter.HYPR_SCRIPTS_DIR}}/apply_waybar_theme.sh
 
 # ----------------------------------------------------- 
 # Set the new wallpaper

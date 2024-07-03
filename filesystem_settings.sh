@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export HOST_WALLPAPER_DIR="$HOME/wallpapers"
+export HOST_CACHE_DIR="$HOME/.cache"
 
 ###################################### Define global variables for the setup and installation ########################################
 
@@ -20,8 +22,6 @@ export WAYBAR_DIR="$CONFIG_DIR/waybar"
 
 ###################################### YYY ########################################
 
-export HOST_WALLPAPER_DIR="$HOME/wallpapers"
-export HOST_CACHE_DIR="$HOME/.cache"
 
 
 # wallpaper tool variables
@@ -33,7 +33,6 @@ export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
 export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/config-wallpaper.rasi"
 
 export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
-export WAYBAR_THEMES_SCRIPT_DIR="$WAYBAR_THEMES_DIR/scripts"
 
 export ROFI_FONT_RASI="$WALLPAPER_SETTINGS_DIR/rofi-font.rasi"
 export WAL_CACHE_DIR="$CACHE_DIR/wal"

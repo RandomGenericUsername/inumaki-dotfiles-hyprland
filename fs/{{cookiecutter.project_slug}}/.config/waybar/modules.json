@@ -1,0 +1,76 @@
+{
+    // Workspaces
+    "hyprland/workspaces" : {
+        "on-scroll-up": "hyprctl dispatch workspace r-1",
+        "on-scroll-down": "hyprctl dispatch workspace r+1",        
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{}",
+        "format-icons": {
+			"urgent": "",
+			"active": "",
+			"default": ""
+        },
+        "persistent-workspaces": {
+            "*": 5
+        }       
+    },
+
+	// Taskbar
+    "hyprland/taskbar": {
+        "format": "{icon}",
+        "icon-size": 18,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": [
+           "Alacritty"
+        ],
+        "app_ids-mapping": {
+            "firefoxdeveloperedition": "firefox-developer-edition"
+        },
+        "rewrite": {
+            "Firefox Web Browser": "Firefox",
+            "Foot Server": "Terminal"
+        }
+    },
+
+    // Hyprland Window
+    "hyprland/window": {
+        "rewrite": {
+            "(.*) - Brave": "$1",
+            "(.*) - Chromium": "$1",
+            "(.*) - Brave Search": "$1",
+            "(.*) - Outlook": "$1",
+            "(.*) Microsoft Teams": "$1"
+        },
+        "separate-outputs": true
+    },
+	 // Empty
+    "custom/empty": {
+        "format": ""
+    },
+
+    // Waybar Themes
+    "custom/waybarthemes": {
+        "format": "",
+        "on-click": "~/dotfiles/inumaki/waybar/scripts/themeswitcher.sh",
+        "tooltip-format": "Select a waybar theme"
+    },
+	// Cliphist
+    "custom/cliphist": {
+        "format": "",
+        "on-click": "sleep 0.1 && ~/dotfiles/inumaki/scripts/cliphist.sh",
+        "on-click-right": "sleep 0.1 && ~/dotfiles/inumaki/scripts/cliphist.sh d",
+        "on-click-middle": "sleep 0.1 && ~/dotfiles/inumaki/scripts/cliphist.sh w",
+        "tooltip-format": "Clipboard Manager"
+    },
+	// Wallpaper
+    "custom/wallpaper": {
+        "format": "",
+        "on-click": "~/dotfiles/inumaki/hypr/scripts/wallpaper.sh select",
+        "on-click-right": "~/dotfiles/inumaki/hypr/scripts/wallpaper-effects.sh",
+        "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
+    }
+}
