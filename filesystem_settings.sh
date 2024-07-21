@@ -20,6 +20,9 @@ export HYPR_DIR="$CONFIG_DIR/hypr"
 export ROFI_DIR="$CONFIG_DIR/rofi"
 export WAYBAR_DIR="$CONFIG_DIR/waybar"
 
+# Third
+export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_DIR/effects/wallpaper"
+
 ###################################### YYY ########################################
 
 
@@ -39,6 +42,7 @@ export WAL_CACHE_DIR="$CACHE_DIR/wal"
 export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal"
 export CURRENT_WALLPAPER_RASI="$CACHE_DIR/current_wallpaper.rasi"
 export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
+export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="wallpaper-selector"
 
 ###################################### YYY ########################################
 #export HYPRPAPER_CACHE_DIR="$CACHE_DIR/hyprpaper"

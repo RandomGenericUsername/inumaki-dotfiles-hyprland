@@ -21,11 +21,12 @@ init_wallpaper() {
 
 # Function to select wallpaper using rofi
 select_wallpaper() {
-    sleep 0.2
+
+    # Get selected wallpaper from rofi
     selected=$(find -L "$wallpaper_folder" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read -r rfile
     do
         echo -en "$rfile\x00icon\x1f$wallpaper_folder/${rfile}\n"
-    done | rofi -dmenu -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}})
+    done | rofi -dmenu -window-title {{cookiecutter.ROFI_WALLPAPER_SELECTOR_WINDOW_NAME}} -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}})
 
     echo "Selected: $selected"
     if [ -z "$selected" ]; then
@@ -37,7 +38,8 @@ select_wallpaper() {
     wal -q -i "$wallpaper_folder/$selected"
 }
 
-# Function to select a random wallpaper
+
+
 random_wallpaper() {
     echo "Generating wall from wallpaper dir randomly"
     wal -q -i "$wallpaper_folder/"
@@ -129,29 +131,11 @@ echo "Moving $cache/$newwall into $used_wallpaper"
 
 load_wallpaper_effect
 
-wallpaper_engine=$(cat $wallpaper_engine_f)
-
-if [ "$wallpaper_engine" == "swww" ] ;then
-    # swww
-    echo ":: Using swww"
-    swww img $used_wallpaper \
-        --transition-bezier .43,1.19,1,.4 \
-        --transition-fps=60 \
-        --transition-type=$transition_type \
-        --transition-duration=0.7 \
-        --transition-pos "$( hyprctl cursorpos )"
-
-elif [ "$wallpaper_engine" == "hyprpaper" ] ;then
-    # hyprpaper
-    echo ":: Using hyprpaper"
-    killall hyprpaper
-    wal_tpl="$(cat {{cookiecutter.WALLPAPER_SETTINGS_DIR}}/hyprpaper.tpl)"
-    output="${wal_tpl//WALLPAPER/$used_wallpaper}"
-    echo "$output" > {{cookiecutter.HYPR_DIR}}/hyprpaper.conf
-    hyprpaper --config {{cookiecutter.HYPR_DIR}}/hyprpaper.conf &
-else
-    echo ":: Wallpaper Engine disabled"
-fi
+killall hyprpaper
+wal_tpl="$(cat {{cookiecutter.WALLPAPER_SETTINGS_DIR}}/hyprpaper.tpl)"
+output="${wal_tpl//WALLPAPER/$used_wallpaper}"
+echo "$output" > {{cookiecutter.HYPR_DIR}}/hyprpaper.conf
+hyprpaper --config {{cookiecutter.HYPR_DIR}}/hyprpaper.conf &
 
 
 if [ "$1" == "init" ] ;then
@@ -163,7 +147,7 @@ else
     # ----------------------------------------------------- 
     # Reload Hyprctl.sh
     # -----------------------------------------------------
-	echo "Reloading hyper..."
+	echo "Reloading hypr..."
     #{{cookiecutter.HYPR_SCRIPTS_DIR}}/reload.sh 
 fi
 
