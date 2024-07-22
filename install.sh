@@ -36,10 +36,7 @@ parse_options() {
 
 export DEFAULT_BROWSER="google-chrome"
 
-clear
-
 this_dir="$(pwd)"
-
 setup_scripts=$this_dir/src/setup/export.sh
 lib_scripts=$this_dir/src/.lib/export.sh
 install_scripts=$this_dir/src/install/export.sh
@@ -50,6 +47,10 @@ source $lib_scripts
 source $install_scripts
 source $installation_settings
 
+
+############################################## Clear ##############################################
+
+clear
 
 ############################################## Validate command line arguments ##############################################
 

@@ -1,27 +1,41 @@
 #!/bin/bash
 
+
+# Set the environment name prefix properly to be hidden or not.
+# Need to export the variable 'ENV_HIDDEN' before sourcing this file.
+env_name_prefix="$([ "$ENV_HIDDEN" = true ] && echo "." || echo "")"
+
+###################################### Host symlink ########################################
+
+#These directories will be symlinked from Host to the $ENV_DIR
 export HOST_WALLPAPER_DIR="$HOME/wallpapers"
 export HOST_CACHE_DIR="$HOME/.cache"
 
 ###################################### Define global variables for the setup and installation ########################################
 
+# Installation path variables
 export ENV_NAME_RAW="inumaki-dotfiles-env"
-export ENV_NAME=".$ENV_NAME_RAW"
+export ENV_NAME="${env_name_prefix}${ENV_NAME_RAW}"
 export ENV_INSTALL_PATH="$HOME"
 export ENV_DIR="$ENV_INSTALL_PATH/$ENV_NAME"
+
+# Installation main directories
 export CACHE_DIR="$ENV_DIR/.cache"
 export CONFIG_DIR="$ENV_DIR/.config"
 export SETTINGS_DIR="$ENV_DIR/.settings"
 export WALLPAPER_DIR="$ENV_DIR/wallpapers"
+export SCRIPTS_DIR="$ENV_DIR/.scripts"
 
-
-#secondary level
+# Secondary level directories
 export HYPR_DIR="$CONFIG_DIR/hypr"
 export ROFI_DIR="$CONFIG_DIR/rofi"
 export WAYBAR_DIR="$CONFIG_DIR/waybar"
 
 # Third
-export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_DIR/effects/wallpaper"
+export HYPR_EFFECTS_DIR="$HYPR_DIR/effects"
+
+#
+export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_EFFECTS_DIR/wallpaper"
 
 ###################################### YYY ########################################
 
@@ -33,7 +47,7 @@ export WALLPAPER_EFFECT="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
 export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_DIR/effects/wallpaper"
 export HYPR_SCRIPTS_DIR="$HYPR_DIR/scripts"
 export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
-export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/config-wallpaper.rasi"
+export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/wallpapers_and_effects_mode.rasi"
 
 export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
 

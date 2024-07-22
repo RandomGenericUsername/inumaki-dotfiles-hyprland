@@ -1,14 +1,10 @@
 configuration {
-    // Common settings
     sidebar-mode: true;
     click-to-exit: false;
-    drun-display-format: "{name}";
-    window-format: "{w} · {c} · {t}";
-    scroll-method: 1;
-    modi: "Wallpaper:${{HYPR_SCRIPTS_DIR}}/print_wallpapers.sh,Effects:${{HYPR_SCRIPTS_DIR}}/print_effects.sh";
-    show-icons: true;
+    modi: "Wallpaper:{{cookiecutter.ROFI_DIR}}/scripts/show_wallpapers.sh --path {{cookiecutter.WALLPAPER_DIR}},Effects:{{cookiecutter.ROFI_DIR}}/scripts/show_effects.sh --path {{cookiecutter.HYPR_WALLPAPER_EFFECTS_DIR}}";
+    show-icons: true; 
+    scroll-method: 0;
 }
-
 
 /* ---- Load font ---- */
 @import "{{cookiecutter.ROFI_FONT_RASI}}"
@@ -43,22 +39,16 @@ window {
     background-color:             transparent;
 }
 
+
 /* ---- Mainbox ---- */
 mainbox {
     enabled:                      true;
-    orientation:                  horizontal;
+    orientation:                  vertical;
     spacing:                      0px;
     margin:                       0px;
     background-color:             @background;
-    children:                     ["listbox"];
-}
-
-/* ---- Imagebox ---- */
-imagebox {
-    padding:                      18px;
-    background-color:             transparent;
-    orientation:                  vertical;
-    children:                     [ "inputbar", "dummy", "mode-switcher" ];
+    background-image:             @current-image;
+    children:                     ["listbox", "mode-switcher"];
 }
 
 /* ---- Listbox ---- */
@@ -66,12 +56,30 @@ listbox {
     spacing:                     20px;
     background-color:            transparent;
     orientation:                 vertical;
-    children:                    [ "inputbar", "message", "listview" ];
+    children:                    ["inputbar", "message", "listview"];
 }
 
-/* ---- Dummy ---- */
-dummy {
-    background-color:            transparent;
+/* ---- Mode Switcher ---- */
+mode-switcher{
+    border-radius:                10px;
+    padding:                      10px;
+    enabled:                      true;
+    spacing:                      25px;
+    background-color:             transparent;
+    text-color:                   @foreground;
+}
+
+button {
+    border-radius:                10px;
+    //background-color:             @background;
+    text-color:                   @color11;
+    cursor:                       pointer;
+    border:                       0px;
+}
+
+button selected {
+    background-color:             transparent;
+    text-color:                   inherit;
 }
 
 /* ---- Inputbar ---- */
@@ -104,26 +112,31 @@ entry {
     placeholder-color:            inherit;
 }
 
-/* ---- Mode Switcher ---- */
-mode-switcher{
-    enabled:                      true;
-    spacing:                      20px;
-    background-color:             transparent;
-    text-color:                   @foreground;
+/*****----- Message -----*****/
+message {
+    background-color:            transparent;
+    border:0px;
+    margin:20px 0px 0px 0px;
+    padding:0px;
+    spacing:0px;
+    border-radius: 10px;
 }
 
-button {
-    padding:                      10px;
-    border-radius:                10px;
-    background-color:             @background;
-    text-color:                   inherit;
-    cursor:                       pointer;
-    border:                       0px;
+textbox {
+    padding:                     15px;
+    margin:                      0px;
+    border-radius:               0px;
+    background-color:            @background;
+    text-color:                  @foreground;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
 }
 
-button selected {
-    background-color:             @color11;
-    text-color:                   @foreground;
+error-message {
+    padding:                     15px;
+    border-radius:               20px;
+    background-color:            @background;
+    text-color:                  @foreground;
 }
 
 /* ---- Listview ---- */
@@ -144,6 +157,19 @@ listview {
     background-color:             @background;
     border:                       0px;
     flow:                         horizontal;      
+    children:                     ["element"];
+}
+
+/* ---- Element ---- */
+element {
+    enabled:                      true;
+    padding:                      0px;
+    margin:                       5px;
+    cursor:                       pointer;
+    background-color:             @background;
+    border-radius:                10px;
+    border:                       @border-width;
+    orientation:                  vertical;
 }
 
 /* ---- Element ---- */
@@ -229,30 +255,8 @@ element-text {
     enabled: false;
 }
 
-/*****----- Message -----*****/
-message {
-    background-color:            transparent;
-    border:0px;
-    margin:20px 0px 0px 0px;
-    padding:0px;
-    spacing:0px;
-    border-radius: 10px;
+/* ---- Scrollbar ---- */
+scrollbar {
+    border-radius: 5px;
+    background-color: @background;
 }
-
-textbox {
-    padding:                     15px;
-    margin:                      0px;
-    border-radius:               0px;
-    background-color:            @background;
-    text-color:                  @foreground;
-    vertical-align:              0.5;
-    horizontal-align:            0.0;
-}
-
-error-message {
-    padding:                     15px;
-    border-radius:               20px;
-    background-color:            @background;
-    text-color:                  @foreground;
-}
-

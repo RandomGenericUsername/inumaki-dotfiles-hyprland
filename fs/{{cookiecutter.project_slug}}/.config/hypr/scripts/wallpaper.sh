@@ -21,21 +21,7 @@ init_wallpaper() {
 
 # Function to select wallpaper using rofi
 select_wallpaper() {
-
-    # Get selected wallpaper from rofi
-    selected=$(find -L "$wallpaper_folder" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read -r rfile
-    do
-        echo -en "$rfile\x00icon\x1f$wallpaper_folder/${rfile}\n"
-    done | rofi -dmenu -window-title {{cookiecutter.ROFI_WALLPAPER_SELECTOR_WINDOW_NAME}} -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}})
-
-    echo "Selected: $selected"
-    if [ -z "$selected" ]; then
-        echo "No wallpaper selected"
-        exit 1
-    fi
-
-    echo "Generating wal out of $wallpaper_folder/$selected"
-    wal -q -i "$wallpaper_folder/$selected"
+    rofi -show Wallpaper  -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}} -theme-str '#wrapper { }'
 }
 
 
@@ -100,6 +86,7 @@ case $1 in
 esac
 
 echo "DONE!"
+exit 0
 
 # ----------------------------------------------------- 
 # Load current pywal color scheme

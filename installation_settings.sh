@@ -1,17 +1,20 @@
 #!/bin/bash
 
-# Path to this script/dir
-export RESOURCES_DIR=$(pwd)
-# Path to filesystem settings
-export FS_SETTINGS=$RESOURCES_DIR/filesystem_settings.sh
-# Required to be sourced for paths below
-source $FS_SETTINGS
+# Set to true if the environment directory should be hidden, false otherwise
+export ENV_HIDDEN=true
 # Variable for enabling installation with debug printing 
 export ENABLE_DEBUG="false"
 # Variable for enabling installation with log creation
 export ENABLE_LOG="false"
 # Installation type: clean | update
 export INSTALL_TYPE="update"
+
+# Path to this script/dir
+export RESOURCES_DIR=$(pwd)
+# Path to filesystem settings
+export FS_SETTINGS=$RESOURCES_DIR/filesystem_settings.sh
+# Required to be sourced for paths below
+source $FS_SETTINGS
 # Path to logging dir
 export LOG_DIR=$ENV_DIR/.logs
 # Path to log
