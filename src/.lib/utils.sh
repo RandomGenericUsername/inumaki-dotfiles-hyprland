@@ -46,25 +46,27 @@ delete_directory() {
 
     # Check if the directory path is provided
     if [[ -z "$dir_path" ]]; then
-        print "No directory path provided." error
+        print "No directory path provided." -t error -l "$LOG"
         return 1  # Exit the function with an error status
     fi
 
     # Check if the directory exists
     if [[ ! -d "$dir_path" ]]; then
-        print "Directory does not exist at path: $dir_path" debug 
+        print "Directory does not exist at path: $dir_path" -t debug -l "$LOG"
         return 0 
     fi
 
     if [[ "$skip_confirmation" = false ]]; then
-        print "Are you sure you want to delete the directory at '$dir_path'? [y/N]: " "alert"
-        read -p "" confirmation
-        case "$confirmation" in
-            [yY][eE][sS]|[yY])
+        local gum_options=("Yes" "No")
+        local msg="Do you want to delete the directory at $dir_path?"
+        choice=$(gum choose "${gum_options[@]}" --header="$msg")
+        case "$choice" in
+            "Yes")
+                print "Deleting directory at $dir_path" -t debug -l "$LOG"  
                 ;;
-            *)
-                print "Deletion aborted by user." "alert"
-                return 4  # User aborted
+            "No")
+                print "Deletion aborted." -t info -l "$LOG"
+                return 2  # Aborted
                 ;;
         esac
     fi
@@ -72,10 +74,10 @@ delete_directory() {
     # Proceed with deleting the directory
     rm -rf "$dir_path"
     if [[ $? -eq 0 ]]; then
-        print "Directory deleted successfully." "debug"
+        print "Directory deleted successfully." -t "debug" -l "$LOG"
         return 0  # Success
     else
-        print "Failed to delete directory." "error"
+        print "Failed to delete directory." -t "error" -l "$LOG"
         return 3  # Failure in deletion
     fi
 }
@@ -155,5 +157,5 @@ show_help() {
 }
 
 show_install_type(){
-    print "Performing: $INSTALL_TYPE installation" -t "info" -l "$LOG"
+    print "Performing $INSTALL_TYPE installation" -t "info" -l "$LOG"
 }

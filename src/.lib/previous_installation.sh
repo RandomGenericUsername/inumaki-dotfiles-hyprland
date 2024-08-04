@@ -1,9 +1,13 @@
 #!/bin/bash
 
 prompt_existing_installation(){
-
+    
+    install_path="$1"
     local gum_options=("Update" "Overwrite (clean install)" "Abort")
     local msg="Please select how would you like to keep going with the installation:"
+
+    delete_directory "$install_path"
+
     choice=$(gum choose "${gum_options[@]}" --header="$msg")
     case "$choice" in
         "Update")
@@ -32,7 +36,7 @@ check_previous_installation() {
 
         if [ $folder_empty -eq 1 ]; then
             print "Previous installation detected in $install_path." -t "warn" -l "$LOG"
-            prompt_existing_installation
+            prompt_existing_installation $install_path
             return $?
         else
             print "Installation folder exists but is empty." -t "debug" -l "$LOG"
@@ -42,16 +46,4 @@ check_previous_installation() {
         print "No previous installation found." -t "debug" -l "$LOG"
         return 0
     fi
-}
-
-detect_previous_install(){
-    local dotfiles_install_path=$1
-    # Remove previous installation
-    if [ -d $dotfiles_install_path ]; then
-        print "Previous installation detected at $dotfiles_install_path" -t "warn" -l "$LOG"
-        prompt_existing_installation
-        return $?
-    fi
-    print "No previous installation detected at $dotfies_install_path" -t debug -l "$LOG"
-    return 0
 }

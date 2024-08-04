@@ -1,7 +1,7 @@
 configuration {
     sidebar-mode: true;
     click-to-exit: false;
-    modi: "Wallpaper:{{cookiecutter.ROFI_DIR}}/scripts/show_wallpapers.sh --path {{cookiecutter.WALLPAPER_DIR}},Effects:{{cookiecutter.ROFI_DIR}}/scripts/show_effects.sh --path {{cookiecutter.HYPR_WALLPAPER_EFFECTS_DIR}}";
+    modi: "Wallpaper:{{cookiecutter.ROFI_DIR}}/scripts/show_wallpapers.sh,Effects:{{cookiecutter.ROFI_DIR}}/scripts/show_effects.sh";
     show-icons: true; 
     scroll-method: 0;
 }
@@ -13,7 +13,7 @@ configuration {
 @import "{{cookiecutter.COLORS_ROFI_PYWAL}}"
 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.CURRENT_WALLPAPER_RASI}}"
+@import "{{cookiecutter.ROFI_CURRENT_WALLPAPER_RASI}}"
 
 /* ---- Load border width ---- */
 @import "{{cookiecutter.ROFI_BORDER_RASI}}"

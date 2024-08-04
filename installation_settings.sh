@@ -1,14 +1,19 @@
 #!/bin/bash
 
+
+export DEFAULT_BROWSER="google-chrome"
+
 # Set to true if the environment directory should be hidden, false otherwise
 export ENV_HIDDEN=true
 # Variable for enabling installation with debug printing 
 export ENABLE_DEBUG="false"
 # Variable for enabling installation with log creation
 export ENABLE_LOG="false"
+# ================================================================================#
+                        # DO NOT MODIFY BELOW THIS LINE #
+# ================================================================================#
 # Installation type: clean | update
 export INSTALL_TYPE="update"
-
 # Path to this script/dir
 export RESOURCES_DIR=$(pwd)
 # Path to filesystem settings
@@ -19,7 +24,6 @@ source $FS_SETTINGS
 export LOG_DIR=$ENV_DIR/.logs
 # Path to log
 export LOG=$LOG_DIR/install.log
-
 export FS=$RESOURCES_DIR/fs
 export COOKIECUTTER_JSON=$FS/cookiecutter.json
 export COOKIECUTTER_CONTEXT=$FS_SETTINGS

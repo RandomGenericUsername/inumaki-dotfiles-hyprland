@@ -1,0 +1,2 @@
+magick $selected_wallpaper_path -blur $blur $used_wallpaper_path
+magick $used_wallpaper_path -brightness-contrast -20% $used_wallpaper_path

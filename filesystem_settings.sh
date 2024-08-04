@@ -28,35 +28,49 @@ export SCRIPTS_DIR="$ENV_DIR/.scripts"
 
 # Secondary level directories
 export HYPR_DIR="$CONFIG_DIR/hypr"
+export WALLPAPER_SETTINGS_DIR="$SETTINGS_DIR/wallpaper"
 export ROFI_DIR="$CONFIG_DIR/rofi"
-export WAYBAR_DIR="$CONFIG_DIR/waybar"
+#export WAYBAR_DIR="$CONFIG_DIR/waybar"
 
 # Third
+export HYPR_SCRIPTS_DIR="$HYPR_DIR/scripts"
 export HYPR_EFFECTS_DIR="$HYPR_DIR/effects"
-
-#
 export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_EFFECTS_DIR/wallpaper"
+#export HYPR_EFFECTS_DIR="$HYPR_DIR/effects"
+#export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_EFFECTS_DIR/wallpaper"
 
+
+# Wallpaper selector variables
+export SETTINGS_BLUR_FILE="$WALLPAPER_SETTINGS_DIR/blur.sh"
+export SELECTED_WALLPAPER_FILE="$CACHE_DIR/selected-wallpaper"
+export CURRENT_WALLPAPER_FILE="$CACHE_DIR/current-wallpaper"
+export SELECTED_WALLPAPER_EFFECT_FILE="$CACHE_DIR/selected-wallpaper-effect"
+export CURRENT_WALLPAPER_EFFECT_FILE="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
+export WAL_CACHE_DIR="$CACHE_DIR/wal"
+export WAL_COLORS_FILE="$WAL_CACHE_DIR/colors.sh"
+export CUSTOM_WALLPAPER_DIR_FILE="$WALLPAPER_SETTINGS_DIR/wallpaper-dir.sh"
+#export WALLPAPER_EFFECT_SETTINGS_FILE="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
+export GENERATED_WALLPAPER_DIR="$CACHE_DIR/generated_wallpaper"
+
+# Rofi configurations/variables
+export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/wallpapers-and-effects-mode.rasi"
+export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
+export ROFI_FONT_RASI="$WALLPAPER_SETTINGS_DIR/rofi-font.rasi"
+export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal"
+export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
+export ROFI_CURRENT_WALLPAPER_RASI="$CACHE_DIR/current-wallpaper.rasi"
+
+
+export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="wallpaper-selector"
 ###################################### YYY ########################################
 
 
 
 # wallpaper tool variables
-export WALLPAPER_SETTINGS_DIR="$SETTINGS_DIR/wallpaper"
-export WALLPAPER_EFFECT="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
-export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_DIR/effects/wallpaper"
-export HYPR_SCRIPTS_DIR="$HYPR_DIR/scripts"
-export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
-export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/wallpapers_and_effects_mode.rasi"
-
-export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
-
-export ROFI_FONT_RASI="$WALLPAPER_SETTINGS_DIR/rofi-font.rasi"
-export WAL_CACHE_DIR="$CACHE_DIR/wal"
-export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal"
-export CURRENT_WALLPAPER_RASI="$CACHE_DIR/current_wallpaper.rasi"
-export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
-export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="wallpaper-selector"
+#
+#export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
+#
+#export WAL_CACHE_DIR="$CACHE_DIR/wal"
 
 ###################################### YYY ########################################
 #export HYPRPAPER_CACHE_DIR="$CACHE_DIR/hyprpaper"
@@ -80,6 +94,13 @@ export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="wallpaper-selector"
 export project_slug="$ENV_NAME"
 export _copy_without_render=(
     ".settings/*"
-    ".config/wal/templates/*" # wal templates 
     ".cache/*"
+    ".zshrc"
+    ".bashrc"
+    ".config/hypr/conf/*"
+    ".config/hypr/effects/*"
+    ".config/wal/templates/*" # wal templates 
+    ".config/waybar"
+    ".config/waypaper"
+
 )

@@ -21,7 +21,7 @@ init_wallpaper() {
 
 # Function to select wallpaper using rofi
 select_wallpaper() {
-    rofi -show Wallpaper  -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}} -theme-str '#wrapper { }'
+    rofi -show Wallpaper  -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}}
 }
 
 
@@ -46,31 +46,46 @@ load_wallpaper_effect(){
     fi
 }
 
-# Source required scripts
+# Source required/util scripts
 utils_dir={{cookiecutter.HYPR_SCRIPTS_DIR}}/utils.sh
 source $utils_dir
+
 # Settings file
 settings={{cookiecutter.WALLPAPER_SETTINGS_DIR}}
 wallpaper_effect_f=$settings/wallpaper-effect.sh
 wallpaper_engine_f=$settings/wallpaper-engine.sh
 
+# Cache directory
 cache={{cookiecutter.CACHE_DIR}}
 used_wallpaper=$cache/used_wallpaper
 cache_file="$cache/current_wallpaper"
 blurred="$cache/blurred_wallpaper.png"
 square="$cache/square_wallpaper.png"
 rasi_file="$cache/current_wallpaper.rasi"
-
 wal_colors="$cache/wal/colors.sh"
 
 # Get blur from settings
 blur=$(_or "$(safe_cat $settings/blur.sh )" '50x30')
 wallpaper_folder=$(_or "$(safe_cat $settings/wallpaper-dir.sh )" "$(authentic_path  {{cookiecutter.WALLPAPER_DIR}})")
 
+# Write the cache file with the default wallpaper
 if_not_exists_create_file $cache_file "$wallpaper_folder/default.png"
 if_not_exists_create_file $rasi_file "* { current-image: url(\"$wallpaper_folder/default.png\", height); }"
 
+# Load the current wallpaper from cache.
 current_wallpaper=$(cat "$cache_file")
+
+# Select wallpaper
+rofi -show Wallpaper  -i -replace -config {{cookiecutter.ROFI_CONFIG_WALLPAPER}}
+
+# Load the selected wallpaper.
+selected_wallpaper=$(cat "$used_wallpaper")
+# Generate the color scheme with pywal using the selected wallpaper
+wal -q -i 
+
+source $wal_colors
+newwall=$(echo $wallpaper | sed "s|$wallpaper_folder/||g")
+echo "New wallpaper image name is: $newwall"
 
 # Main script execution
 case $1 in
@@ -85,19 +100,13 @@ case $1 in
         ;;
 esac
 
-echo "DONE!"
-exit 0
-
 # ----------------------------------------------------- 
 # Load current pywal color scheme
 # ----------------------------------------------------- 
-source $wal_colors
 
 # ----------------------------------------------------- 
 # get wallpaper image name
 # ----------------------------------------------------- 
-newwall=$(echo $wallpaper | sed "s|$wallpaper_folder/||g")
-echo "New wallpaper image name is: $newwall"
 
 # ----------------------------------------------------- 
 # Reload waybar with new colors
@@ -124,6 +133,8 @@ output="${wal_tpl//WALLPAPER/$used_wallpaper}"
 echo "$output" > {{cookiecutter.HYPR_DIR}}/hyprpaper.conf
 hyprpaper --config {{cookiecutter.HYPR_DIR}}/hyprpaper.conf &
 
+
+exit 0
 
 if [ "$1" == "init" ] ;then
     echo ":: Init"

@@ -1,3 +1,4 @@
+#!/bin/bash
 : '
      __ __     ____           __        ____               __ __
   __/ // /_   /  _/___  _____/ /_____ _/ / /__  _____   __/ // /_
@@ -8,7 +9,6 @@
 '
 #######################################################################################################################
 
-#!/bin/bash
 
 #######################################################################################################################
 
@@ -32,79 +32,61 @@ parse_options() {
     done
 }
 
-###################################### Source relevant variables/constants and functions ########################################
-
-export DEFAULT_BROWSER="google-chrome"
-
+# ================================================================================#
+                # Source relevant variables/constants and functions #
+# ================================================================================#
 this_dir="$(pwd)"
 setup_scripts=$this_dir/src/setup/export.sh
 lib_scripts=$this_dir/src/.lib/export.sh
 install_scripts=$this_dir/src/install/export.sh
 installation_settings=$this_dir/installation_settings.sh
-
 source $setup_scripts
 source $lib_scripts
 source $install_scripts
 source $installation_settings
+# ================================================================================#
 
-
-############################################## Clear ##############################################
-
+# ================================================================================#
+                # Initialize the installation process #
+# ================================================================================#
 clear
-
-############################################## Validate command line arguments ##############################################
-
 parse_options "$@" || exit $?
-
-################################################ Pretty print installer message ################################################
-
 pretty_print_installer_msg
-
-################################################### Create log files ################################################
-
 create_log
-
-################################################ Prompt for installation ################################################
-
 prompt_install 
-
-############################################# Validate if the distro is suppored ############################################
-
 check_distro_support $SUPPORTED_DISTRO || exit $?
-
-################################################ Execute the setup for pre-installing ################################################
-
 setup
-
-################################################ Pretty print installer message ################################################
-
 gum spin --spinner dot --title "Starting the installation now..." -- sleep 1
-
-################################################ Check for previous installation ################################################
-
 check_previous_installation $ENV_DIR || exit $?
-
-################################################ Print installation type ################################################
-
 show_install_type
+auth "Please provide root privileges to install packages"
+# ================================================================================#
 
-################################################ install required packages ################################################
-
-#auth "Please provide root privileges to install packages"
+# ================================================================================#
+                # Install the required packages #
+# ================================================================================#
 install_pacman_packages $PACMAN_PKGS
 install_yay 
 drop_root_privileges
 install_yay_packages $YAY_PKGS 
+# ================================================================================#
 
-############################################ Dotfiles ################################################
-
+# ================================================================================#
+                        # Install the filesystem #
+# ================================================================================#
+create_dirs $HOST_WALLPAPER_DIR $HOST_CACHE_DIR 
 create_cookiecutter_project -e $COOKIECUTTER_CONTEXT -t $FS -i $ENV_INSTALL_PATH
-
-############################################ Create required symlink ################################################
-
 create_ln $CACHE_DIR --source $HOST_CACHE_DIR --target $ENV_DIR
 create_ln $WALLPAPER_DIR --source $HOST_WALLPAPER_DIR --target $ENV_DIR
 create_ln $HOME/.config/wal --source $CONFIG_DIR/wal --target $HOME/.config
+# ================================================================================#
+
+# ================================================================================#
+                        # Install the components #
+# ================================================================================#
+install_wallpaper_selector 
+# ================================================================================#
+
 
 ############################################ Set default browser ################################################
 

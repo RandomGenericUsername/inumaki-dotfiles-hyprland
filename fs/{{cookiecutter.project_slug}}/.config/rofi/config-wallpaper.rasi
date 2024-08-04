@@ -29,7 +29,7 @@ configuration {
 @import "{{cookiecutter.COLORS_ROFI_PYWAL}}"
 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.CURRENT_WALLPAPER_RASI}}"
+@import "{{cookiecutter.ROFI_CURRENT_WALLPAPER_RASI}}"
 
 /* ---- Load border width ---- */
 @import "{{cookiecutter.ROFI_BORDER_RASI}}"
