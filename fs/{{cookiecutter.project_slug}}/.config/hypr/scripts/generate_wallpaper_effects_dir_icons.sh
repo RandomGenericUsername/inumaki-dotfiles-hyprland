@@ -53,6 +53,7 @@ generate_icons() {
     cp "$selected_wallpaper_path" "$off_dir/icon"
 
     echo "All effects have been processed and icons generated."
+    dunstify "All effects have been processed and icons generated."
 }
 
 # Example of how to source and invoke this function from another script:

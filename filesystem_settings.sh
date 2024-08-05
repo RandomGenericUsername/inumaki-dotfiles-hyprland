@@ -30,7 +30,7 @@ export SCRIPTS_DIR="$ENV_DIR/.scripts"
 export HYPR_DIR="$CONFIG_DIR/hypr"
 export WALLPAPER_SETTINGS_DIR="$SETTINGS_DIR/wallpaper"
 export ROFI_DIR="$CONFIG_DIR/rofi"
-#export WAYBAR_DIR="$CONFIG_DIR/waybar"
+export WAYBAR_DIR="$CONFIG_DIR/waybar"
 
 # Third
 export HYPR_SCRIPTS_DIR="$HYPR_DIR/scripts"
@@ -60,17 +60,13 @@ export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal"
 export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
 export ROFI_CURRENT_WALLPAPER_RASI="$CACHE_DIR/current-wallpaper.rasi"
 
-
-export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="wallpaper-selector"
+export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="Wallpaper"
 ###################################### YYY ########################################
 
 
 
 # wallpaper tool variables
-#
-#export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
-#
-#export WAL_CACHE_DIR="$CACHE_DIR/wal"
+export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
 
 ###################################### YYY ########################################
 #export HYPRPAPER_CACHE_DIR="$CACHE_DIR/hyprpaper"
@@ -93,14 +89,14 @@ export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="wallpaper-selector"
 # This are the directories that will be copied to the $ENV_INSTALL_PATH
 export project_slug="$ENV_NAME"
 export _copy_without_render=(
-    ".settings/*"
-    ".cache/*"
-    ".zshrc"
-    ".bashrc"
-    ".config/hypr/conf/*"
-    ".config/hypr/effects/*"
+    #".settings/*"
+    #".cache/*"
+    #".zshrc"
+    #".bashrc"
+    #".config/hypr/conf/*"
+    #".config/hypr/effects/*"
     ".config/wal/templates/*" # wal templates 
-    ".config/waybar"
-    ".config/waypaper"
+    #".config/waybar"
+    #".config/waypaper"
 
 )
