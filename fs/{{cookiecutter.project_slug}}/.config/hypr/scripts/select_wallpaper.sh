@@ -1,5 +1,35 @@
 #!/bin/bash
 
+
+check_wallpaper_path_arg() {
+    local wallpaper_path=""
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -w|--wallpaper-path)
+                wallpaper_path="$2"
+                shift # past argument
+                shift # past value
+                ;;
+            *)
+                shift # past unrecognized argument
+                ;;
+        esac
+    done
+
+    if [ -z "$wallpaper_path" ]; then
+        echo ""
+        return 0
+    else
+        if [ -e "$wallpaper_path" ]; then
+            echo "$wallpaper_path"
+            return 1
+        else
+            echo ""
+            return 1
+        fi
+    fi
+}
+
 function get_extension() {
     local filepath="$1"
     local filename; filename=$(basename -- "$filepath")
@@ -80,14 +110,14 @@ function on_selected_wallpaper() {
     current_wallpaper_path=$(safe_cat "$current_wallpaper_file")
     selected_wallpaper_name="$(extract_name "$selected_wallpaper_path")"
     current_wallpaper_name="$(extract_name "$current_wallpaper_path")"
-    echo "[SELECTED WALLPAPER EVENT]"
-    echo "Selected wallpaper: $selected_wallpaper_path"
-    echo "Current wallpaper: $current_wallpaper_path"
+    #echo "[SELECTED WALLPAPER EVENT]"
+    #echo "Selected wallpaper: $selected_wallpaper_path"
+    #echo "Current wallpaper: $current_wallpaper_path"
     if [ "$selected_wallpaper_path" != "$current_wallpaper_path" ] && [ "$selected_wallpaper_name" != "$current_wallpaper_name" ]; then
+        #echo "Selected wallpaper is new"
         echo "$selected_wallpaper_path" > "$current_wallpaper_file"
         echo "$selected_wallpaper_path" > "$cache_dir/selected-wallpaper-original-path"
         generate_icons_required="true"
-    # generate_icons /path/to/source/image.png /path/to/off/image.png --blur /path/to/blur_file
     fi
 }
 
@@ -96,15 +126,15 @@ function on_selected_wallpaper_effect() {
     selected_wallpaper_path=$(safe_cat "$cache_dir/selected-wallpaper-original-path")
     current_wallpaper_name=$(basename "$selected_wallpaper_path")
     used_wallpaper_path="$generated_wallpaper_dir/$(modify_path "$current_wallpaper_name" "$selected_wallpaper_effect" -n)"
-    echo "[SELECTED WALLPAPER EFFECT EVENT]"
-    echo "Selected wallpaper effect: $selected_wallpaper_effect"
-    echo "Applying effect to current wallpaper: $selected_wallpaper_path"
-    echo "Checking that wallpaper with effect is new: $selected_wallpaper_path || $used_wallpaper_path"    
+    #echo "[SELECTED WALLPAPER EFFECT EVENT]"
+    #echo "Selected wallpaper effect: $selected_wallpaper_effect"
+    #echo "Applying effect to current wallpaper: $selected_wallpaper_path"
+    #echo "Checking that wallpaper with effect is new: $selected_wallpaper_path || $used_wallpaper_path"    
     if [ "$selected_wallpaper_effect" == "off" ]; then
-        echo "Turning off effect"
+        #echo "Turning off effect"
         used_wallpaper_path="$selected_wallpaper_path"
     elif [ "$selected_wallpaper_path" != "$used_wallpaper_path" ] && [ ! -e "$used_wallpaper_path" ]; then
-        echo "Generating wallpaper at: $used_wallpaper_path out of $selected_wallpaper_path"
+        #echo "Generating wallpaper at: $used_wallpaper_path out of $selected_wallpaper_path"
         export selected_wallpaper_effect
         export used_wallpaper_path
         # shellcheck disable=SC1090  
@@ -116,7 +146,7 @@ function on_selected_wallpaper_effect() {
 
 function generate_blurred_version() {
     local blurred_wallpaper="$1"
-    echo "Generating blurred version"
+    #echo "Generating blurred version"
     # Generate the blurred version
     magick "$selected_wallpaper_path" -resize 75% "$blurred_wallpaper"
     if [ ! "$blur" == "0x0" ]; then
@@ -125,13 +155,11 @@ function generate_blurred_version() {
         cp "$blurred_wallpaper" "$blur_generated"
     fi
     cp "$blur_generated" "$blurred_wallpaper"
-    # Create the rasi file
-    echo "* { current-image: url(\"$blurred_wallpaper\", height); }" > "{{cookiecutter.ROFI_CURRENT_WALLPAPER_RASI}}"
 }
 
 function generate_square_version() {
     local square_wallpaper="$1"
-    echo "Generating square version"
+    #echo "Generating square version"
     # Generate square wallpaper
     magick "$selected_wallpaper_path" -gravity Center -extent 1:1 "$square_wallpaper"
     cp "$square_wallpaper" "$generated_wallpaper_dir/__SQUARE__$selected_wallpaper_name_with_effect"
@@ -166,15 +194,29 @@ blur_file="{{cookiecutter.SETTINGS_BLUR_FILE}}"
 export blur; blur="$(safe_cat $blur_file)"
 
 current_wallpaper_path_prev="$(safe_cat "$current_wallpaper_file")"
-# Select wallpaper
-rofi -show Wallpaper -i -replace -config "{{cookiecutter.ROFI_CONFIG_WALLPAPER}}"
+
+# Check if the wallpaper path is provided as an argument
+wallpaper_path_provided=$(check_wallpaper_path_arg "$@")
+is_wallpaper_path_provided=$?
+
+if [ $is_wallpaper_path_provided -eq 0 ]; then
+    #echo "Selecting wallpaper..."
+    rofi -show Wallpaper -i -replace -config "{{cookiecutter.ROFI_CONFIG_WALLPAPER}}"
+elif [ -n "$wallpaper_path_provided" ]; then
+    #echo "Wallpaper path provided: $wallpaper_path_provided"
+    echo "$wallpaper_path_provided" > "$selected_wallpaper_file"
+else
+    #echo "The path does not exist."
+    exit 0
+fi
+
 
 if [[ -n "$(safe_cat "$selected_wallpaper_file")" ]]; then
     on_selected_wallpaper
     elif [[ -n "$(safe_cat "$selected_wallpaper_effect_file")" ]]; then
         on_selected_wallpaper_effect
     else
-        echo "No wallpaper or wallpaper effect selected. Exiting..."
+        #echo "No wallpaper or wallpaper effect selected. Exiting..."
         exit 0
 fi
 
@@ -189,19 +231,21 @@ blurred_wallpaper="$cache_dir/__BLURRED__$selected_wallpaper_name_with_effect"
 square_wallpaper="$cache_dir/__SQUARE__$selected_wallpaper_name_with_effect"
 
 if [[ ! -e "$wal_cached_colors" ]]; then
-    echo "Generating color scheme for wallpaper $selected_wallpaper_path"
+    #echo "Generating color scheme for wallpaper $selected_wallpaper_path"
     selected_wallpaper_original_path=$(safe_cat "$cache_dir/selected-wallpaper-original-path")
     wal_status=$(wal -i "$selected_wallpaper_path" -s -t -q; echo $?)
     if [ "$wal_status" -ne 0 ]; then
-        echo "Failed to generate color scheme for wallpaper $selected_wallpaper_path"
-        echo "Using wallpaper without effect: $selected_wallpaper_original_path"
+        #echo "Failed to generate color scheme for wallpaper $selected_wallpaper_path"
+        #echo "Using wallpaper without effect: $selected_wallpaper_original_path"
         wal -i "$selected_wallpaper_original_path" -s -t -q
     fi
-    echo "[MOVING $wal_colors_file $wal_cached_colors]"
+    #echo "[MOVING $wal_colors_file $wal_cached_colors]"
     mv "$wal_colors_file" "$wal_cached_colors"
 fi
 
 if [[ "$selected_wallpaper_path" != "$current_wallpaper_path_prev" ]]; then
+    #echo "Selected wallpaper changed. Applying changes..."
+    #echo "Selected wallpaper: $selected_wallpaper_path"
     # shellcheck disable=SC1090  
     source "$wal_cached_colors"
     killall -e hyprpaper > /dev/null 2>&1 &
@@ -209,18 +253,22 @@ if [[ "$selected_wallpaper_path" != "$current_wallpaper_path_prev" ]]; then
     wal_tpl=$(cat "{{cookiecutter.WALLPAPER_SETTINGS_DIR}}/hyprpaper.tpl")
     output="${wal_tpl//WALLPAPER/$selected_wallpaper_path}"
     echo "$output" > "{{cookiecutter.HYPR_DIR}}/hyprpaper.conf"
+    #echo "Config file is: $(cat "{{cookiecutter.HYPR_DIR}}/hyprpaper.conf")"
     hyprpaper --config "{{cookiecutter.HYPR_DIR}}/hyprpaper.conf" > /dev/null 2>&1 &
 
     if [[ ! -e "$blurred_wallpaper" ]];then
         generate_blurred_version "$blurred_wallpaper"
     fi
+    # Create the rasi file
+    echo "* { current-image: url(\"$blurred_wallpaper\", height); }" > "{{cookiecutter.ROFI_CURRENT_WALLPAPER_RASI}}"
+
     if [[ ! -e "$square_wallpaper" ]];then
         generate_square_version "$square_wallpaper"
     fi
+
     if [[ $generate_icons_required == "true" ]]; then
         generate_icons "$selected_wallpaper_path" --blur "$blur_file"
     fi
-
 fi
 
 # Reload waybar

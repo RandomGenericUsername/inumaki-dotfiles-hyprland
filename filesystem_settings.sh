@@ -20,6 +20,8 @@ export ENV_INSTALL_PATH="$HOME"
 export ENV_DIR="$ENV_INSTALL_PATH/$ENV_NAME"
 
 # Installation main directories
+#export VCPKG_INSTALL_DIR="$ENV_DIR/.vcpkg"
+export VCPKG_INSTALL_DIR="$HOME/.vcpkg"
 export CACHE_DIR="$ENV_DIR/.cache"
 export CONFIG_DIR="$ENV_DIR/.config"
 export SETTINGS_DIR="$ENV_DIR/.settings"
@@ -48,25 +50,27 @@ export SELECTED_WALLPAPER_EFFECT_FILE="$CACHE_DIR/selected-wallpaper-effect"
 export CURRENT_WALLPAPER_EFFECT_FILE="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
 export WAL_CACHE_DIR="$CACHE_DIR/wal"
 export WAL_COLORS_FILE="$WAL_CACHE_DIR/colors.sh"
+export WAL_COLORS_WAYBAR_FILE="$WAL_CACHE_DIR/colors-waybar.css"
 export CUSTOM_WALLPAPER_DIR_FILE="$WALLPAPER_SETTINGS_DIR/wallpaper-dir.sh"
 #export WALLPAPER_EFFECT_SETTINGS_FILE="$WALLPAPER_SETTINGS_DIR/wallpaper-effect.sh"
 export GENERATED_WALLPAPER_DIR="$CACHE_DIR/generated_wallpaper"
 
 # Rofi configurations/variables
 export ROFI_CONFIG_WALLPAPER="$ROFI_DIR/wallpapers-and-effects-mode.rasi"
-export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
-export ROFI_FONT_RASI="$WALLPAPER_SETTINGS_DIR/rofi-font.rasi"
-export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal"
-export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
 export ROFI_CURRENT_WALLPAPER_RASI="$CACHE_DIR/current-wallpaper.rasi"
-
+export COLORS_ROFI_PYWAL="$WAL_CACHE_DIR/colors-rofi-pywal.rasi"
+export ROFI_BORDER_RASI="$WALLPAPER_SETTINGS_DIR/rofi-border.rasi"
+export ROFI_FONT_RASI="$WALLPAPER_SETTINGS_DIR/rofi-font.rasi"
 export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="Wallpaper"
+
+###################################### YYY ########################################
+export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
+
+
 ###################################### YYY ########################################
 
+#export ROFI_CONFIG_THEMES="$ROFI_DIR/config-themes.rasi"
 
-
-# wallpaper tool variables
-export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
 
 ###################################### YYY ########################################
 #export HYPRPAPER_CACHE_DIR="$CACHE_DIR/hyprpaper"

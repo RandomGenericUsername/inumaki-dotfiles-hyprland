@@ -1,7 +1,11 @@
 python-pywal
 wlogout
-nwg-look
+nwg-shell
 eww
 hyprshade
-waypaper
+
+# fonts
+ttf-font-awesome
+ttf-material-design-icons
+ttf-ms-fonts 
 

@@ -14,6 +14,14 @@ xdg-desktop-portal
 xdg-desktop-portal-wlr
 xdg-desktop-portal-gtk
 
+
+# Other
+make
+gcc
+cmake
+curl
+
+
 # web browsers
 google-chrome
 chromium
@@ -25,6 +33,19 @@ zsh
 alacritty
 kitty
 fish
+
+# Fonts
+ttf-ubuntu-font-family 
+ttf-roboto 
+ttf-oxygen 
+cantarell-fonts 
+ttf-opensans 
+ttf-liberation
+noto-fonts
+otf-font-awesome
+ttf-fira-sans
+ttf-fira-code
+ttf-firacode-nerd
 
 
 # lock
@@ -47,14 +68,8 @@ cowsay
 jp2a
 
 # Other deps
-
 vim
 thunar
 nautilus
 mousepad
-noto-fonts
-otf-font-awesome
-ttf-fira-sans
-ttf-fira-code
-ttf-firacode-nerd
 

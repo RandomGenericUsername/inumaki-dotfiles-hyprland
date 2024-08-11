@@ -21,3 +21,10 @@ source $WALLPAPER_SELECTOR_INSTALLER
 # Path to create_required_dirs script
 export CREATE_REQUIRED_DIRS=$INSTALL_DIR/create_required_dirs.sh
 source $CREATE_REQUIRED_DIRS
+
+export INSTALL_NVM_NODE="$INSTALL_DIR/install_nvm_node.sh"
+source "$INSTALL_NVM_NODE"
+
+export INSTALL_DATE_H=$INSTALL_DIR/install_date_h.sh
+source "$INSTALL_DATE_H"
+

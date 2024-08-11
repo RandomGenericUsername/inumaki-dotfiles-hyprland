@@ -54,10 +54,10 @@ parse_options "$@" || exit $?
 pretty_print_installer_msg
 create_log
 prompt_install 
-check_distro_support $SUPPORTED_DISTRO || exit $?
+check_distro_support "$SUPPORTED_DISTRO" || exit $?
 setup
 gum spin --spinner dot --title "Starting the installation now..." -- sleep 1
-check_previous_installation $ENV_DIR || exit $?
+check_previous_installation "$ENV_DIR" || exit $?
 show_install_type
 auth "Please provide root privileges to install packages"
 # ================================================================================#
@@ -65,26 +65,29 @@ auth "Please provide root privileges to install packages"
 # ================================================================================#
                 # Install the required packages #
 # ================================================================================#
-install_pacman_packages $PACMAN_PKGS
+install_pacman_packages "$PACMAN_PKGS"
 install_yay 
 drop_root_privileges
-install_yay_packages $YAY_PKGS 
+install_yay_packages "$YAY_PKGS"
+install_date_h
+install_node
 # ================================================================================#
 
 # ================================================================================#
                         # Install the filesystem #
 # ================================================================================#
-create_dirs $HOST_WALLPAPER_DIR $HOST_CACHE_DIR 
-create_cookiecutter_project -e $COOKIECUTTER_CONTEXT -t $FS -i $ENV_INSTALL_PATH
-create_ln $CACHE_DIR --source $HOST_CACHE_DIR --target $ENV_DIR
-create_ln $WALLPAPER_DIR --source $HOST_WALLPAPER_DIR --target $ENV_DIR
-create_ln $HOME/.config/wal --source $CONFIG_DIR/wal --target $HOME/.config
+create_dirs "$HOST_WALLPAPER_DIR" "$HOST_CACHE_DIR" 
+create_cookiecutter_project -e "$COOKIECUTTER_CONTEXT" -t "$FS" -i "$ENV_INSTALL_PATH"
+create_ln "$CACHE_DIR" --source "$HOST_CACHE_DIR" --target "$ENV_DIR"
+create_ln "$WALLPAPER_DIR" --source "$HOST_WALLPAPER_DIR" --target "$ENV_DIR"
+create_ln "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
 # ================================================================================#
 
 # ================================================================================#
                         # Install the components #
 # ================================================================================#
 install_wallpaper_selector 
+eval "$HYPR_SCRIPTS_DIR/waybar_themeswitcher.sh -d"
 # ================================================================================#
 
 
@@ -93,6 +96,7 @@ install_wallpaper_selector
 #xdg-mime default "$DEFAULT_BROWSER.desktop" x-scheme-handler/http
 #xdg-mime default "$DEFAULT_BROWSER.desktop" x-scheme-handler/https
 
+############################################ Print installation is finished ################################################
 ############################################ Print installation is finished ################################################
 
 print "Installation finished!" -t "info" -l "$LOG"
