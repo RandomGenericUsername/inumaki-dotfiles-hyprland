@@ -6,6 +6,6 @@
 	"include" : ["{{cookiecutter.WAYBAR_DIR}}/modules.json"],
 	//"modules-left": ["hyprland/window"],
     //"modules-center": ["clock"],
-	"modules-right": ["custom/waybar-themes", "clock"]
+	"modules-center": ["custom/waybar-themes", "clock"]
 }
 

@@ -63,6 +63,17 @@ auth "Please provide root privileges to install packages"
 # ================================================================================#
 
 # ================================================================================#
+                        # Install the filesystem #
+# ================================================================================#
+create_dirs "$HOST_WALLPAPER_DIR" "$HOST_CACHE_DIR" 
+create_cookiecutter_project -e "$COOKIECUTTER_CONTEXT" -t "$FS" -i "$ENV_INSTALL_PATH"
+create_ln "$CACHE_DIR" --source "$HOST_CACHE_DIR" --target "$ENV_DIR"
+create_ln "$WALLPAPER_DIR" --source "$HOST_WALLPAPER_DIR" --target "$ENV_DIR"
+create_ln "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
+create_ln "$HOME/.zshrc" --source "$ENV_DIR/.zshrc" --target "$HOME"
+# ================================================================================#
+
+# ================================================================================#
                 # Install the required packages #
 # ================================================================================#
 install_pacman_packages "$PACMAN_PKGS"
@@ -71,23 +82,13 @@ drop_root_privileges
 install_yay_packages "$YAY_PKGS"
 install_date_h
 install_node
-# ================================================================================#
-
-# ================================================================================#
-                        # Install the filesystem #
-# ================================================================================#
-create_dirs "$HOST_WALLPAPER_DIR" "$HOST_CACHE_DIR" 
-create_cookiecutter_project -e "$COOKIECUTTER_CONTEXT" -t "$FS" -i "$ENV_INSTALL_PATH"
-create_ln "$CACHE_DIR" --source "$HOST_CACHE_DIR" --target "$ENV_DIR"
-create_ln "$WALLPAPER_DIR" --source "$HOST_WALLPAPER_DIR" --target "$ENV_DIR"
-create_ln "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
+install_oh_my_zsh
 # ================================================================================#
 
 # ================================================================================#
                         # Install the components #
 # ================================================================================#
 install_wallpaper_selector 
-eval "$HYPR_SCRIPTS_DIR/waybar_themeswitcher.sh -d"
 # ================================================================================#
 
 

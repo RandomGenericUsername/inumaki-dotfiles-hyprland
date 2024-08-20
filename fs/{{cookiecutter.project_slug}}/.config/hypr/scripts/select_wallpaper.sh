@@ -185,6 +185,7 @@ current_wallpaper_file="{{cookiecutter.CURRENT_WALLPAPER_FILE}}"
 selected_wallpaper_effect_file="{{cookiecutter.SELECTED_WALLPAPER_EFFECT_FILE}}"
 current_wallpaper_effect_file="{{cookiecutter.CURRENT_WALLPAPER_EFFECT_FILE}}"
 wal_colors_file="{{cookiecutter.WAL_COLORS_FILE}}"
+wal_colors_waybar_file="{{cookiecutter.WAL_COLORS_WAYBAR_FILE}}"
 generated_wallpaper_dir="{{cookiecutter.GENERATED_WALLPAPER_DIR}}"
 
 custom_wallpaper_dir_file="{{cookiecutter.CUSTOM_WALLPAPER_DIR_FILE}}"
@@ -227,27 +228,31 @@ extension="$(get_extension "$selected_wallpaper_path")"
 selected_wallpaper_filename="$(basename "$selected_wallpaper_path")"
 selected_wallpaper_name_with_effect="${selected_wallpaper_filename%.*}"
 wal_cached_colors="{{cookiecutter.WAL_CACHE_DIR}}/${selected_wallpaper_name_with_effect}__colors.sh"
+wal_waybar_cached_colors="{{cookiecutter.WAL_CACHE_DIR}}/${selected_wallpaper_name_with_effect}__waybar_colors.sh"
 blurred_wallpaper="$cache_dir/__BLURRED__$selected_wallpaper_name_with_effect"
 square_wallpaper="$cache_dir/__SQUARE__$selected_wallpaper_name_with_effect"
 
 if [[ ! -e "$wal_cached_colors" ]]; then
-    #echo "Generating color scheme for wallpaper $selected_wallpaper_path"
+    echo "Generating color scheme for wallpaper $selected_wallpaper_path"
     selected_wallpaper_original_path=$(safe_cat "$cache_dir/selected-wallpaper-original-path")
-    wal_status=$(wal -i "$selected_wallpaper_path" -s -t -q; echo $?)
+    wal_status=$(wal --backend Haishoku -i "$selected_wallpaper_path" -s -t -q; echo $?)
     if [ "$wal_status" -ne 0 ]; then
-        #echo "Failed to generate color scheme for wallpaper $selected_wallpaper_path"
-        #echo "Using wallpaper without effect: $selected_wallpaper_original_path"
-        wal -i "$selected_wallpaper_original_path" -s -t -q
+        echo "Failed to generate color scheme for wallpaper $selected_wallpaper_path"
+        echo "Using wallpaper without effect: $selected_wallpaper_original_path"
+        wal --backend Haishoku -i "$selected_wallpaper_original_path" -s -t -q
     fi
-    #echo "[MOVING $wal_colors_file $wal_cached_colors]"
+    echo "[MOVING $wal_colors_file to $wal_cached_colors]"
     mv "$wal_colors_file" "$wal_cached_colors"
+    echo "[MOVING $wal_colors_waybar_file to $wal_waybar_cached_colors]"
+    mv "$wal_colors_waybar_file" "$wal_waybar_cached_colors"
 fi
 
 if [[ "$selected_wallpaper_path" != "$current_wallpaper_path_prev" ]]; then
-    #echo "Selected wallpaper changed. Applying changes..."
-    #echo "Selected wallpaper: $selected_wallpaper_path"
+    echo "Selected wallpaper changed. Applying changes..."
+    echo "Selected wallpaper: $selected_wallpaper_path"
     # shellcheck disable=SC1090  
     source "$wal_cached_colors"
+    echo "Sourcing wal cached colors: $wal_cached_colors"
     killall -e hyprpaper > /dev/null 2>&1 &
     sleep 1;
     wal_tpl=$(cat "{{cookiecutter.WALLPAPER_SETTINGS_DIR}}/hyprpaper.tpl")
@@ -255,6 +260,9 @@ if [[ "$selected_wallpaper_path" != "$current_wallpaper_path_prev" ]]; then
     echo "$output" > "{{cookiecutter.HYPR_DIR}}/hyprpaper.conf"
     #echo "Config file is: $(cat "{{cookiecutter.HYPR_DIR}}/hyprpaper.conf")"
     hyprpaper --config "{{cookiecutter.HYPR_DIR}}/hyprpaper.conf" > /dev/null 2>&1 &
+
+    echo "$(cat "$wal_waybar_cached_colors")" > "$wal_colors_waybar_file"
+    eval "{{cookiecutter.HYPR_SCRIPTS_DIR}}/waybar_themeswitcher.sh -r"
 
     if [[ ! -e "$blurred_wallpaper" ]];then
         generate_blurred_version "$blurred_wallpaper"
@@ -265,10 +273,9 @@ if [[ "$selected_wallpaper_path" != "$current_wallpaper_path_prev" ]]; then
     if [[ ! -e "$square_wallpaper" ]];then
         generate_square_version "$square_wallpaper"
     fi
-
     if [[ $generate_icons_required == "true" ]]; then
         generate_icons "$selected_wallpaper_path" --blur "$blur_file"
     fi
 fi
 
-# Reload waybar
+

@@ -28,3 +28,5 @@ source "$INSTALL_NVM_NODE"
 export INSTALL_DATE_H=$INSTALL_DIR/install_date_h.sh
 source "$INSTALL_DATE_H"
 
+export INSTALL_OH_MY_ZSH=$INSTALL_DIR/install_oh_my_zsh.sh
+source "$INSTALL_OH_MY_ZSH"

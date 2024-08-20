@@ -15,6 +15,24 @@ xdg-desktop-portal-wlr
 xdg-desktop-portal-gtk
 
 
+########################## Terminal related stuff ##########################
+# Shell 
+zsh
+# Eza (replacement for ls)
+eza
+# fzf (list search on terminal)
+fzf
+# Starship (cute shell)
+starship
+#alacritty
+#kitty
+#fish
+
+# Zsh plugins
+zsh-syntax-highlighting
+zsh-autosuggestions
+zsh-history-substring-search
+
 # Other
 make
 gcc
@@ -28,11 +46,6 @@ chromium
 brave
 firefox
 
-# Terminal
-zsh
-alacritty
-kitty
-fish
 
 # Fonts
 ttf-ubuntu-font-family 

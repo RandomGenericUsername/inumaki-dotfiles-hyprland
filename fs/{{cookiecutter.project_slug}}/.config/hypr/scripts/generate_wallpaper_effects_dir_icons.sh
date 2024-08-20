@@ -41,7 +41,6 @@ generate_icons() {
         if [[ -f "$effect_script" ]]; then
             used_wallpaper_path="$subdir/icon"
             export used_wallpaper_path
-
             # Source the effect script
             source "$effect_script"
         fi

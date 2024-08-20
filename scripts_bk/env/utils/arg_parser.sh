@@ -2,6 +2,7 @@
 
 declare -A ARG_VALUES
 declare -A ARG_MULTI_VALUES
+declare -A ARG_FLAGS
 DEBUG=false
 
 # Function to print debug messages
@@ -20,7 +21,6 @@ parse_args() {
 
         debug "Parsing options for array: $array_name, Variable: $var_name"
 
-        # Use indirect reference to access the array
         eval "local -a options=(\"\${${array_name}[@]}\")"
 
         for opt in "${options[@]}"; do
@@ -51,8 +51,25 @@ enable_multi_value() {
     done
 }
 
+# Function to enable flags (options without values)
+enable_flag() {
+    while [[ "$#" -gt 0 ]]; do
+        local option="$1"
+        shift
+
+        if [[ -n "${ARG_VALUES[$option]}" ]]; then
+            ARG_FLAGS["$option"]=true
+        else
+            echo "Error: $option is not a recognized option"
+            exit 1
+        fi
+    done
+}
+
+
 # Function to parse the command line arguments
 parse_command_line() {
+    local positional_args=()
     debug "Parsing command line arguments..."
     while [[ "$#" -gt 0 ]]; do
         if [[ "$1" == "-d" || "$1" == "--debug" ]]; then
@@ -60,13 +77,16 @@ parse_command_line() {
             shift
             continue
         fi
-        debug "Current argument: $1"
         if [[ -n "${ARG_VALUES[$1]}" ]]; then
             local var_name="${ARG_VALUES[$1]}"
             local multi_value="${ARG_MULTI_VALUES[$1]}"
+            local is_flag="${ARG_FLAGS[$1]}"
             debug "Matched option $1 to variable $var_name"
             shift
-            if [[ "$multi_value" == true ]]; then
+            if [[ "$is_flag" == true ]]; then
+                eval "$var_name=true"
+                debug "Set flag $var_name to true"
+            elif [[ "$multi_value" == true ]]; then
                 eval "$var_name=()"
                 while [[ -n "$1" && "$1" != -* ]]; do
                     eval "$var_name+=(\"$1\")"
@@ -84,11 +104,16 @@ parse_command_line() {
                 fi
             fi
         else
-            debug "Skipping unknown argument $1"
+            debug "Adding $1 to positional arguments"
+            positional_args+=("$1")
             shift
         fi
     done
+
+    # Export positional arguments for further processing
+    export POSITIONAL_ARGS=("${positional_args[@]}")
 }
+
 
 # Function to get the value of a parsed argument
 get_arg_value() {

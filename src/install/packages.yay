@@ -1,11 +1,27 @@
-python-pywal
-wlogout
-nwg-shell
-eww
-hyprshade
-
 # fonts
 ttf-font-awesome
 ttf-material-design-icons
 ttf-ms-fonts 
 
+# 1Password
+1password
+
+# Slack
+slack
+
+# Pywal
+python-pywal
+
+# Pywal backends
+python-colorthief
+python-haishoku
+
+# Evolution email
+evolution
+evolution-on
+evolution-spamassassin
+
+wlogout
+nwg-shell
+eww
+hyprshade
