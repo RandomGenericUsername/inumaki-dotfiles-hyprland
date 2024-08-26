@@ -28,6 +28,10 @@ export SETTINGS_DIR="$ENV_DIR/.settings"
 export WALLPAPER_DIR="$ENV_DIR/wallpapers"
 export SCRIPTS_DIR="$ENV_DIR/.scripts"
 
+export VENV_DIR="$ENV_DIR/.virtual-env"
+export VENV_SRC_DIR="$VENV_DIR/.src"
+export VENV_MANAGER="$VENV_SRC_DIR/venv"
+
 # Secondary level directories
 export HYPR_DIR="$CONFIG_DIR/hypr"
 export WALLPAPER_SETTINGS_DIR="$SETTINGS_DIR/wallpaper"

@@ -80,9 +80,11 @@ install_pacman_packages "$PACMAN_PKGS"
 install_yay 
 drop_root_privileges
 install_yay_packages "$YAY_PKGS"
+install_venv
 install_date_h
 install_node
 install_oh_my_zsh
+exit 0
 # ================================================================================#
 
 # ================================================================================#
