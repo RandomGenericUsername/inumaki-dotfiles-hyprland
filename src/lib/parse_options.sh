@@ -1,5 +1,5 @@
 pretty_print_installer_msg(){
-    echo -e "${RED}"
+    echo -e "${COLOR_RED}"
     cat <<"EOF"
         ____           __        ____         
        /  _/___  _____/ /_____ _/ / /__  _____
@@ -7,7 +7,7 @@ pretty_print_installer_msg(){
      _/ // / / (__  ) /_/ /_/ / / /  __/ /    
     /___/_/ /_/____/\__/\__,_/_/_/\___/_/     
 EOF
-    echo -e "${NONE}"
+    echo -e "${COLOR_NONE}"
 }
 
 # Function to display help information

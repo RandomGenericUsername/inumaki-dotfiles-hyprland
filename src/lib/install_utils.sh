@@ -16,7 +16,16 @@ download_utils() {
     fi
 
     [[ "$ENABLE_DEBUG" == "true" ]] && echo -e "${COLOR_BLUE}[DEBUG]: [ Installing utils at $UTILS_INSTALL_DIR ]${COLOR_NONE}"
-    git clone "$UTILS_REPO_URL" "$UTILS_INSTALL_DIR"
+
+    if [[ "$ENABLE_DEBUG" == "true" ]];then
+        echo -e "${COLOR_BLUE}"
+        git clone "$UTILS_REPO_URL" "$UTILS_INSTALL_DIR"
+        echo -e "${COLOR_NONE}"
+    else
+        git clone "$UTILS_REPO_URL" "$UTILS_INSTALL_DIR" > /dev/null 2>&1
+    fi
+
+
 }
 
 install_utils(){

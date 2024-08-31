@@ -42,14 +42,14 @@ install_packages_in_venv() {
         exit 1
     fi
 
-    python -m ensurepip --upgrade
-    # Install the required packages
-    pip install --upgrade pip
-    pip install -r "$requirements_path"
-    if [ $? -ne 0 ]; then
-        echo "Error: Failed to install packages from $requirements_path"
-        deactivate
-        exit 1
+    python -m ensurepip --upgrade > /dev/null 2>&1
+    pip install --upgrade pip > /dev/null 2>&1
+    if [ "$ENABLE_DEBUG" == "true" ]; then
+        echo -e "${COLOR_BLUE}"
+        pip install -r "$requirements_path"
+        echo -e "${COLOR_NONE}"
+    else
+        pip install -r "$requirements_path" > /dev/null 2>&1
     fi
 
     # Deactivate the virtual environment

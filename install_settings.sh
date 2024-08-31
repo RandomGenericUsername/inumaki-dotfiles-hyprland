@@ -17,10 +17,14 @@ export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python_venv"
 
 export LOG="$DOTFILES_INSTALL_PATH/logs/install.log"
 
+
+export VCPKG_REPO="https://github.com/microsoft/vcpkg.git"
+
 # Directory to download utilities like debug-print, arg parser, etc.
 # Check https://github.com/RandomGenericUsername/bash-utils
 export UTILS_REPO_URL="https://github.com/RandomGenericUsername/bash-utils"
 export UTILS_INSTALL_DIR="$DOTFILES_INSTALL_PATH/utils"
+# Used to check if the utils exists
 export PRINT_DEBUG_UTILITY="$UTILS_INSTALL_DIR/Print debug/print-debug"
 export ARGUMENT_PARSER_UTILITY="$UTILS_INSTALL_DIR/Argument parser/argument-parser"
 export VENV_CLI_UTILITY="$UTILS_INSTALL_DIR/Virtual environment CLI/venv"

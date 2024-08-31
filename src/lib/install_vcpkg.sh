@@ -8,10 +8,27 @@ install_vcpkg(){
         rm -rf "$VCPKG_INSTALL_DIR"
     fi
     print_debug "Cloning vcpkg repository... on $VCPKG_INSTALL_DIR" -t "debug"
-    git clone https://github.com/microsoft/vcpkg.git "$VCPKG_INSTALL_DIR"
+
+    if [[ "$ENABLE_DEBUG" == "true" ]];then
+        echo -e "${COLOR_BLUE}"
+        git clone "$VCPKG_REPO" "$VCPKG_INSTALL_DIR"
+        echo -e "${COLOR_NONE}"
+    else
+        git clone "$VCPKG_REPO" "$VCPKG_INSTALL_DIR" > /dev/null 2>&1
+    fi
+
+
         
     print_debug "Bootstrapping vcpkg..." -t "debug"
     cd "$VCPKG_INSTALL_DIR" || exit 1
-    ./bootstrap-vcpkg.sh -disableMetrics
+
+    if [[ "$ENABLE_DEBUG" == "true" ]];then
+        echo -e "${COLOR_BLUE}"
+        ./bootstrap-vcpkg.sh -disableMetrics
+        echo -e "${COLOR_NONE}"
+    else
+        ./bootstrap-vcpkg.sh -disableMetrics > /dev/null 2>&1
+    fi
+
     print_debug "Finished installing vcpkg..." -t "debug"
 }

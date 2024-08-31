@@ -1,6 +1,8 @@
 
 setup(){
 
+    prompt_install
+
     if [[ "$ENABLE_DEBUG" == "true" ]];then
         echo -e "${COLOR_BLUE}[DEBUG]: [ Running setup script ]${COLOR_NONE}"
     fi
@@ -24,6 +26,6 @@ setup(){
     install_packages_in_venv "$PYTHON_PIP_DEPS" "$PYTHON_VENV"
 
     print_debug "Finished setup successfuly"
-    
+
     return 0
 }
