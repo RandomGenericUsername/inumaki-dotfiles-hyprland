@@ -3,13 +3,7 @@ setup(){
 
     # Prompt for starting the installation
     prompt_install
-
-    if [[ "$ENABLE_DEBUG" == "true" ]];then
-        echo -e "${COLOR_BLUE}[DEBUG]: [ Running setup script ]${COLOR_NONE}"
-    else 
-        echo "Setup is running in the background. You can continue using the shell."
-    fi
-
+ 
     # Download utilities: venv, argument parser, print debug, etc.
     # See https://github.com/RandomGenericUsername/bash-utils
     install_utils 
@@ -18,6 +12,15 @@ setup(){
 
     # If logging is enable, create the file for it
     create_log
+
+    # Check for previous installation
+    check_previous_installation "$DOTFILES_INSTALL_PATH" || exit $?
+    
+    if [[ "$ENABLE_DEBUG" == "true" ]];then
+        echo -e "${COLOR_BLUE}[DEBUG]: [ Running setup script ]${COLOR_NONE}"
+    else 
+        echo "Setup is running in the background. You can continue using the shell."
+    fi
 
     # Install vcpkg -> required for installing date.h 
     install_vcpkg

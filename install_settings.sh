@@ -6,6 +6,8 @@
 
 HIDDEN_INSTALL="true"
 NODE_VERSION="20.17.0"
+INSTALL_SETTINGS="$(pwd)/install_settings.sh"
+DOTFILES_VENV_TEMPLATE_DIR="$(pwd)/dotfiles-venv-template"
 
 # Set the environment name prefix properly to be hidden or not.
 # Need to export the variable 'ENV_HIDDEN' before sourcing this file.
@@ -38,6 +40,7 @@ export ARGUMENT_PARSER_UTILITY="$UTILS_INSTALL_DIR/Argument parser/argument-pars
 export VENV_CLI_UTILITY="$UTILS_INSTALL_DIR/Virtual environment CLI/venv"
 
 
+export project_slug="$DOTFILES_NAME"
 export _copy_without_render=(
     ".settings/*"
     #".cache/*"

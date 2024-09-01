@@ -4,9 +4,6 @@ install(){
 
     gum spin --spinner dot --title "Starting $DOTFILES_NAME_RAW dotfiles installation now..." -- sleep 1
 
-    # Check for previous installation
-    check_previous_installation "$DOTFILES_INSTALL_PATH" || exit $?
-
     # Show the installation type: Update || Clean
     show_install_type
 
@@ -36,14 +33,13 @@ install(){
     install_oh_my_zsh
 
     # Setup the bash venv
-    "$VENV_CLI_UTILITY" install "$BASH_VENV"
+    install_bash_venv
 
     # Create required directories for installation
     create_dirs "$HOST_WALLPAPER_DIR" "$HOST_CACHE_DIR" 
 
     # Generate the json for cookicutter
-    generate_cookiecutter_json "install_settings.sh" "dotfiles-venv-template/cookiecutter.json"
-    create_cookiecutter_project -e install_settings.sh -t dotfiles-venv-template -i /tmp
+    create_cookiecutter_project -e "$INSTALL_SETTINGS" -t "$DOTFILES_VENV_TEMPLATE_DIR" -i /tmp
 
 }
 

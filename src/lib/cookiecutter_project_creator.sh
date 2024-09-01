@@ -24,20 +24,33 @@ create_cookiecutter_project() {
 
     # Ensure required parameters are provided
     if [ -z "$env_file" ] || [ -z "$template_dir" ] || [ -z "$install_dir" ]; then
-        echo "Error: Environment file, template directory, install directory, and dotfiles name are required."
+        print_debug "Error: Environment file, template directory, install directory, and dotfiles name are required." -t "error"
+        return 1
+    fi
+
+    generate_cookiecutter_json "$env_file" "$template_dir/cookiecutter.json" || return $?
+
+    if [[ ! -f "$template_dir/cookiecutter.json" ]];then
+        print_debug "No cookiecutter.json found at $template_dir"
         return 1
     fi
 
     #cookiecutter "$template_dir" --no-input --output-dir=/tmp/ -f $cookiecutter_context
     print_debug "Creating cookiecutter project from $template_dir"
-    #cookiecutter --no-input -f --output-dir=$install_dir $template_dir
-    print_debug "Done copying the filesystem to $install_dir/$ENV_NAME"
+    # Source the python venv to use cookiecutter
+    source "$PYTHON_VENV/bin/activate"
+    cookiecutter --no-input -f --output-dir=$install_dir $template_dir
+    deactivate
+    print_debug "Done copying the filesystem to $install_dir/$DOTFILES_NAME"
+    return 0
 }
 
 generate_cookiecutter_json() {
     local env_file="$1"
     local output_file="$2"
     local json_content="{"
+
+    print_debug "Generating cookiecutter.json file from $env_file"
 
     # Source the environment variables from the given file
     source "$env_file"
@@ -69,7 +82,7 @@ generate_cookiecutter_json() {
                     json_content+="\"$key\": \"$value\", "
                 fi
             else
-                echo "Skipping invalid key: $key"
+                print_debug "Skipping invalid key: $key"
             fi
         fi
     done < "$env_file"
