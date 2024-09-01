@@ -74,10 +74,10 @@ is_dir_empty() {
 create_dirs() {
     for dir in "$@"; do
         if [ ! -d "$dir" ]; then
-            print "Creating directory: $dir" -t "debug" -l "$LOG"
+            print_debug "Creating directory: $dir" 
             mkdir -p "$dir"
             else 
-                print "Directory already exists: $dir" -t "debug" -l "$LOG"
+                print_debug "Directory already exists: $dir"
         fi
     done
 }

@@ -3,7 +3,7 @@
 prompt_existing_installation(){
     
     install_path="$1"
-    local gum_options=("Update" "Overwrite (clean install)" "Abort")
+    local gum_options=("Update" "Clean" "Abort")
     local msg="Please select how would you like to keep going with the installation:"
 
     delete_directory "$install_path"
@@ -13,7 +13,7 @@ prompt_existing_installation(){
         "Update")
             export INSTALL_TYPE="update"
             ;;
-        "Overwrite (clean install)")
+        "Clean")
             export INSTALL_TYPE="clean"
             ;;
         "Abort")
@@ -27,6 +27,7 @@ prompt_existing_installation(){
 # Function to check for previous installations
 check_previous_installation() {
 
+    #TODO improve clean and existing installation handling
     local install_path="$1"
     dir_exists "$install_path"
     folder_exists=$?

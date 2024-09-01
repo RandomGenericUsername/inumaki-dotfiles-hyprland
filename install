@@ -20,6 +20,7 @@ setup_scripts=$this_dir/src/setup/export.sh
 install_scripts=$this_dir/src/install/export.sh
 install_settings=$this_dir/install_settings.sh
 
+
 source $lib_scripts
 source $setup_scripts
 source $install_scripts
@@ -30,6 +31,7 @@ source $install_settings
 # ================================================================================#
                 # setup  #
 # ================================================================================#
+
 clear
 check_distro "$SUPPORTED_DISTROS"
 parse_options "$@" || exit $?
