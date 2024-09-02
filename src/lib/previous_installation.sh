@@ -35,7 +35,7 @@ check_previous_installation() {
         is_dir_empty "$install_path"
         folder_empty=$?
 
-        if [ $folder_empty -eq 1 ]; then
+        if [ $folder_empty -ne 0 ]; then
             print_debug "Previous installation detected in $install_path." -t "warn"
             prompt_existing_installation $install_path
             return $?

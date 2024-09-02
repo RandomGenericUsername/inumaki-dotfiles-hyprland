@@ -1,2 +1,2 @@
 # Ignore the log directory
-fs/cookiecutter.json
+dotfiles-venv-template/cookiecutter.json

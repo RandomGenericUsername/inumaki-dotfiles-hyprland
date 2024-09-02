@@ -1,0 +1,1 @@
+magick "$selected_wallpaper_path" -blur "$blur" "$used_wallpaper_path"

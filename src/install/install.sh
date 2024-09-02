@@ -36,10 +36,16 @@ install(){
     install_bash_venv
 
     # Create required directories for installation
-    create_dirs "$HOST_WALLPAPER_DIR" "$HOST_CACHE_DIR" 
+    create_dirs "$HOST_WALLPAPERS_DIR" "$HOST_CACHE_DIR" 
 
     # Generate the json for cookicutter
-    create_cookiecutter_project -e "$INSTALL_SETTINGS" -t "$DOTFILES_VENV_TEMPLATE_DIR" -i /tmp
+    create_cookiecutter_project -e "$INSTALL_SETTINGS" -t "$DOTFILES_VENV_TEMPLATE_DIR" -i "$HOME" || exit $?
+
+    # Create required symlinks
+    create_symbolic_link "$CACHE_DIR" --source "$HOST_CACHE_DIR" --target "$DOTFILES_INSTALL_PATH"
+    create_symbolic_link "$WALLPAPERS_DIR" --source "$HOST_WALLPAPERS_DIR" --target "$DOTFILES_INSTALL_PATH"
+    create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
+    create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME"
 
 }
 
