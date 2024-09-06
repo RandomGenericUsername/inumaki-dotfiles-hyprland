@@ -5,7 +5,7 @@ utils="{{cookiecutter.HYPR_SCRIPTS_DIR}}/utils.sh"
 source $utils
 
 show_wallpapers() {
-    "{{cookiecutter.VENV_CLI_UTILITY}}" set "{{cookiecutter.ROFI_SELECTED_WALLPAPER_VAR}}" "''" --env "{{cookiecutter.BASH_VENV}}"
+    "{{cookiecutter.VENV_CLI_UTILITY}}" delete "{{cookiecutter.ROFI_SELECTED_WALLPAPER_VAR}}" --env "{{cookiecutter.BASH_VENV}}"
     # shellcheck disable=SC2154
     find -L "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read -r rfile
     do

@@ -110,6 +110,9 @@ export ROFI_CURRENT_WALLPAPER_EFFECT_VAR="current_wallpaper_effect"
 export CUSTOM_WALLPAPER_DIR_VAR="custom_wallpaper_dir"
 export WALLPAPER_BLUR_VAR="wallpaper_blur"
 
+#######################################################################################
+################################## Resources ##################################
+export HYPRPAPER_CONFIG_TEMPLATE="$WALLPAPER_SETTINGS_DIR/hyprpaper.conf.tpl"
 
 #######################################################################################
 ################################## Cookiecutter settings ##################################

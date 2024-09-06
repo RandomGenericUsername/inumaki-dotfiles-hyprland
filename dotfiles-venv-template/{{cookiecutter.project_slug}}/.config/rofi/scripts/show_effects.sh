@@ -2,7 +2,7 @@
 
 
 show_effects() {
-    "{{cookiecutter.VENV_CLI_UTILITY}}" set "{{cookiecutter.ROFI_SELECTED_WALLPAPER_EFFECT_VAR}}" "''" --env "{{cookiecutter.BASH_VENV}}"
+    "{{cookiecutter.VENV_CLI_UTILITY}}" delete "{{cookiecutter.ROFI_SELECTED_WALLPAPER_EFFECT_VAR}}" --env "{{cookiecutter.BASH_VENV}}"
 	# Find all subdirectories in the effects path
     find "{{cookiecutter.HYPR_WALLPAPER_EFFECTS_DIR}}" -mindepth 1 -maxdepth 1 -type d | while read -r subdir
     do
