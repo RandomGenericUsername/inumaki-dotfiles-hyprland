@@ -40,6 +40,11 @@ export SETTINGS_DIR="$DOTFILES_INSTALL_PATH/.settings"
 # Wallpaper dir
 export WALLPAPERS_DIR="$DOTFILES_INSTALL_PATH/wallpapers"
 
+#######################################################################################
+################################## Dotfiles .cache ##################################
+
+# Re-evaluae this
+export GENERATED_WALLPAPERS_WITH_EFFECTS_DIR="$CACHE_DIR/wallpapers_with_effects"
 
 #######################################################################################
 ################################## Dotfiles .config ##################################
@@ -105,14 +110,21 @@ export VCPKG_REPO="https://github.com/microsoft/vcpkg.git"
 
 export ROFI_SELECTED_WALLPAPER_VAR="selected_wallpaper"
 export ROFI_CURRENT_WALLPAPER_VAR="current_wallpaper"
+export ROFI_CURRENT_WALLPAPER_NAME_VAR="current_wallpaper_name"
 export ROFI_SELECTED_WALLPAPER_EFFECT_VAR="selected_wallpaper_effect"
 export ROFI_CURRENT_WALLPAPER_EFFECT_VAR="current_wallpaper_effect"
 export CUSTOM_WALLPAPER_DIR_VAR="custom_wallpaper_dir"
 export WALLPAPER_BLUR_VAR="wallpaper_blur"
+export WALLPAPER_BRIGHTNESS_VAR="wallpaper_brightness"
+export CACHED_WALLPAPER_EFFECTS_VAR="cached_wallpapers"
+
+export WALLPAPER_BLUR_DEFAULT_VALUE="50x30"
+export WALLPAPER_BRIGHTNESS_DEFAULT_VALUE="20%"
 
 #######################################################################################
 ################################## Resources ##################################
 export HYPRPAPER_CONFIG_TEMPLATE="$WALLPAPER_SETTINGS_DIR/hyprpaper.conf.tpl"
+export ROFI_CURRENT_WALLPAPER_RASI="$ROFI_DIR/current-wallpaper.rasi"
 
 #######################################################################################
 ################################## Cookiecutter settings ##################################
@@ -141,3 +153,5 @@ INSTALL_SETTINGS="$(pwd)/install_settings.sh"
 DOTFILES_VENV_TEMPLATE_DIR="$(pwd)/dotfiles-venv-template"
 # Set to change the Node version to install
 NODE_VERSION="20.17.0"
+
+ASSETS="$(pwd)/src/assets"

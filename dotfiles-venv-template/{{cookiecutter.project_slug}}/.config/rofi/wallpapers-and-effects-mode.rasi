@@ -16,7 +16,7 @@ configuration {
 @import "{{cookiecutter.WAL_CACHE_DIR}}/colors-rofi-pywal.rasi"
 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.CACHE_DIR}}/current-wallpaper.rasi"
+@import "{{cookiecutter.ROFI_CURRENT_WALLPAPER_RASI}}"
 
 
 /* ---- Window ---- */

@@ -47,27 +47,7 @@ install(){
     create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
     create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME"
 
+    install_wallpaper_selector
+
 }
 
-
-#install(){
-#    check_previous_installation "$DOTFILES_INSTALL_PATH" || exit $?
-#    show_install_type
-#    (
-#        # Background task execution
-#        install_pacman_packages "$PACMAN_PACKAGES"
-#        install_yay
-#    ) &
-#
-#    # Run the spinner if debugging is not enabled
-#    if [[ "$ENABLE_DEBUG" != "true" ]]; then
-#        echo "Installation is running in the background. You can continue using the shell."
-#        #while kill -0 $! 2>/dev/null; do
-#        #    echo -n "."   # Print a dot to indicate progress
-#        #    sleep 0.001
-#        #done
-#        #echo ""
-#    fi
-#
-#
-#}

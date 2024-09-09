@@ -15,6 +15,8 @@ setup(){
 
     # Check for previous installation
     check_previous_installation "$DOTFILES_INSTALL_PATH" || exit $?
+
+    install_utils 
     
     if [[ "$ENABLE_DEBUG" == "true" ]];then
         echo -e "${COLOR_BLUE}[DEBUG]: [ Running setup script ]${COLOR_NONE}"

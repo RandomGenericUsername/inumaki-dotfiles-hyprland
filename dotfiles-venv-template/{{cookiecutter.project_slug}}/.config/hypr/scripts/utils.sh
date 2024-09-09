@@ -1,5 +1,38 @@
 #!/bin/bash
 
+is_image() {
+    local file_path="$1"
+    if identify "$file_path" > /dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+check_valid_wallpaper_path(){
+    # 0: wallpaper path was provided and is valid
+    # 1: no arguments were passed to the function
+    # 2: invalid or no wallpaper path passed
+    local wallpaper_path="$1"
+    if [ -z "$wallpaper_path" ]; then
+        echo ""
+        return 2
+    else
+        if [ -e "$wallpaper_path" ]; then
+            if is_image "$wallpaper_path"; then
+                echo "$wallpaper_path"
+                return 0
+            else
+                echo ""
+                return 2
+            fi
+        else
+            echo ""
+            return 2
+        fi
+    fi
+}
+
 # Function to check if a path is authentic or a symbolic link and return the resolved path
 authentic_path() {
     local path="$1"
@@ -29,34 +62,6 @@ if_not_exists_create_file(){
     return 0
 }
 
-
-#!/bin/bash
-get_var() {
-    local file_path="$1"
-    local key="$2"
-
-    # Check if the file exists
-    if [ ! -f "$file_path" ]; then
-        echo ""
-        return 1
-    fi
-
-    # Source the file to load variables
-    source "$file_path"
-
-    # Use indirect expansion to get the value of the variable
-    local value="${!key}"
-
-    # Check if the variable is set
-    if [ -z "${value+x}" ]; then
-        echo ""
-        return 1
-    else
-        echo "$value"
-        return 0
-    fi
-}
-
 # Function to safely cat a file
 safe_cat() {
     local file_path="$1"
@@ -69,6 +74,7 @@ safe_cat() {
     fi
 }
 
+###################
 _or() {
     if [ -z "$1" ]; then
         echo "$2"
@@ -77,3 +83,17 @@ _or() {
     fi
 }
 
+get_file_name() {
+    local file_path="$1"
+    
+    # Extract the base name (filename with all extensions)
+    local filename_with_ext
+    filename_with_ext="$(basename "$file_path")"
+    
+    # Remove all extensions (everything after the first dot)
+    local filename
+    filename="${filename_with_ext%%.*}"
+    
+    # Output the result
+    echo "$filename"
+}
