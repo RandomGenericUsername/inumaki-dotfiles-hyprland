@@ -1,0 +1,2 @@
+# Arch distro.
+arch
