@@ -48,16 +48,19 @@ find "$effects_dir" -mindepth 1 -maxdepth 1 -type d | while read -r subdir; do
     
     if [[ -f "$effect_script" ]]; then
         wallpaper_with_effect="$wallpaper_effects_dir/$effect_name"
-        print_debug "Applying $effect_name on $wallpaper_name" -t "info"
-        print_debug "Wallpaper generated at $wallpaper_with_effect" -t "info"
+        print_debug "Applying $effect_name on $wallpaper_name. Wallpaper generated at $wallpaper_with_effect"
         export wallpaper_with_effect 
         # Source the effect script
-        source "$effect_script"
+        if [[ "$ENABLE_DEBUG" == "true" ]];then
+            source "$effect_script"
+        else
+            source "$effect_script" > /dev/null 2>&1
+        fi
     fi
 done
 
 # Handle the "no effect" case
-no_effect_wallpaper="$output_dir/$wallpaper_name/off"
-cp "$wallpaper_path" "$no_effect_wallpaper"
-print_debug "All effects have been processed and icons generated." -t "info"
+#no_effect_wallpaper="$output_dir/$wallpaper_name/off"
+#cp "$wallpaper_path" "$no_effect_wallpaper"
+print_debug "All effects have been processed and icons generated."
 dunstify "All effects have been processed and icons generated."

@@ -97,3 +97,16 @@ get_file_name() {
     # Output the result
     echo "$filename"
 }
+
+is_in_array() {
+    local element="$1"
+    shift
+    local array=("$@")
+    for item in "${array[@]}"; do
+        if [[ "$item" == "$element" ]]; then
+            return 0  # Found, return success
+        fi
+    done
+
+    return 1  # Not found, return failure
+}

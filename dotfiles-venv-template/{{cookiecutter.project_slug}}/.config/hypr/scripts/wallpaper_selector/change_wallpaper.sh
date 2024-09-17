@@ -91,9 +91,6 @@ SET_RANDOM_WALLPAPER="$(get_arg_value "random_wallpaper")"
 SET_DEFAULT_WALLPAPER="$(get_arg_value "default_wallpaper")"
 WALLPAPER_PATH="${POSITIONAL_ARGS[0]}"
 
-print_debug "Setting random wallpaper: $SET_RANDOM_WALLPAPER" -t "info"
-print_debug "Setting default wallpaper: $SET_DEFAULT_WALLPAPER" -t "info"
-
 # Assert that a path to a wallpaper was passed or any of the -r or -d options
 if [[ -z "$WALLPAPER_PATH" ]] && [[ "$SET_DEFAULT_WALLPAPER" == "false" ]] && [[ "$SET_RANDOM_WALLPAPER" == "false" ]]; then
     print_debug "You must either provide a wallpaper path as argument or set any of the -r or -d options" -t "error"
@@ -113,7 +110,7 @@ if [[ -n "$WALLPAPER_PATH" ]] &&  [[ -z "$(check_valid_wallpaper_path "$WALLPAPE
     exit 1
 fi
 
-print_debug "Setting wallpaper: $WALLPAPER_PATH" -t "info"
+print_debug "Setting wallpaper: $WALLPAPER_PATH"
 set_wallpaper "$WALLPAPER_PATH"
 exit 0
 

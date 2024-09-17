@@ -8,12 +8,16 @@ utils_dir="{{cookiecutter.HYPR_SCRIPTS_DIR}}/utils.sh"
 arg_parser_script="{{cookiecutter.ARGUMENT_PARSER_UTILITY}}"
 # Path to print debug script
 print_debug_script="{{cookiecutter.PRINT_DEBUG_UTILITY}}"
-# Path to scripts dir
-hypr_scripts="{{cookiecutter.HYPR_SCRIPTS_DIR}}"
 # Script that will get executed if a wallpaper is selected
-on_selected_wallpaper="$hypr_scripts/on_selected_wallpaper.sh"
+on_selected_wallpaper="{{cookiecutter.WALLPAPER_SELECTOR_SCRIPTS_DIR}}/on_selected_wallpaper.sh"
 # Script that will get executed if a wallpaper effect is selected
-on_selected_wallpaper_effect="$hypr_scripts/on_selected_wallpaper_effect.sh"
+on_selected_wallpaper_effect="{{cookiecutter.WALLPAPER_SELECTOR_SCRIPTS_DIR}}/on_selected_wallpaper_effect.sh"
+# Script that applies the generated color palleted using pywal
+apply_pywal_color_pallete="{{cookiecutter.WALLPAPER_SELECTOR_SCRIPTS_DIR}}/apply_pywal_pallete.sh"
+# Script to reload waybar
+toggle_waybar="{{cookiecutter.HYPR_SCRIPTS_DIR}}/waybar/toggle.sh"
+# Script to cache the generated wallpapers
+cache_wallpapers="{{cookiecutter.WALLPAPER_SELECTOR_SCRIPTS_DIR}}/cache_wallpapers.sh"
 
 # Source required/util scripts
 source $utils_dir
@@ -59,5 +63,15 @@ else
     exit 0
 fi
 
-# Still remains to add the pywal generation
-print_debug "Finished" -t "info"
+# Apply pywal to the current wallpaper
+"$apply_pywal_color_pallete"
+
+# Reload waybar
+"$toggle_waybar"
+"$toggle_waybar"
+
+print_debug "Finished but generating wallpapers" -t "info"
+# Cache the wallpapers
+"$cache_wallpapers"
+print_debug "Finished!!!" -t "info"
+

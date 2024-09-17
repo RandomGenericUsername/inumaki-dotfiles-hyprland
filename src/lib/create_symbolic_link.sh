@@ -71,18 +71,18 @@ create_symbolic_link() {
 
     # Check the symlink_name type (directory, symlink, etc.)
     if [ -L "$symlink_name" ]; then
-        print_debug "Removing existing symbolic link: $symlink_name" -t "warn"
+        print_debug "Removing existing symbolic link: $symlink_name"
         rm "$symlink_name"
     elif [ -d "$symlink_name" ]; then
         if [ -z "$(ls -A "$symlink_name")" ]; then
-            print_debug "Removing empty directory: $symlink_name" -t "warn"
+            print_debug "Removing empty directory: $symlink_name"
             rmdir "$symlink_name"
         else
             prompt_for_removal "$symlink_name"
         fi
     elif [ -f "$symlink_name" ]; then
         if [ ! -s "$symlink_name" ]; then
-            print_debug "Removing empty file: $symlink_name" -t "warn"
+            print_debug "Removing empty file: $symlink_name"
             rm "$symlink_name"
         else
             prompt_for_removal "$symlink_name"

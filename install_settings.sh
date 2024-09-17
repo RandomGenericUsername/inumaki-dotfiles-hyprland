@@ -45,7 +45,6 @@ export WALLPAPERS_DIR="$DOTFILES_INSTALL_PATH/wallpapers"
 
 # Re-evaluae this
 export GENERATED_WALLPAPERS_WITH_EFFECTS_DIR="$CACHE_DIR/wallpapers_with_effects"
-
 #######################################################################################
 ################################## Dotfiles .config ##################################
 
@@ -54,6 +53,9 @@ export HYPR_DIR="$CONFIG_DIR/hypr"
 
 # Rofi dir
 export ROFI_DIR="$CONFIG_DIR/rofi"
+
+# Waybar
+export WAYBAR_DIR="$CONFIG_DIR/waybar"
 
 #######################################################################################
 ################################## Dotfiles wallpaper settings ##################################
@@ -73,6 +75,11 @@ export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_EFFECTS_DIR/wallpapers"
 
 # Cache
 export WAL_CACHE_DIR="$CACHE_DIR/wal"
+
+#######################################################################################
+################################## Waybar ##################################
+
+export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
 
 #######################################################################################
 ################################## Dotfiles tools ##################################
@@ -108,6 +115,8 @@ export VCPKG_REPO="https://github.com/microsoft/vcpkg.git"
 ################################## Bash venv vars ##################################
 
 
+export SELECTED_WAYBAR_THEME_VAR="selected_waybar_theme"
+export CURRENT_WAYBAR_THEME_VAR="current_waybar_theme"
 export ROFI_SELECTED_WALLPAPER_VAR="selected_wallpaper"
 export ROFI_CURRENT_WALLPAPER_VAR="current_wallpaper"
 export ROFI_CURRENT_WALLPAPER_NAME_VAR="current_wallpaper_name"
@@ -117,14 +126,30 @@ export CUSTOM_WALLPAPER_DIR_VAR="custom_wallpaper_dir"
 export WALLPAPER_BLUR_VAR="wallpaper_blur"
 export WALLPAPER_BRIGHTNESS_VAR="wallpaper_brightness"
 export CACHED_WALLPAPER_EFFECTS_VAR="cached_wallpapers"
+export WAYBAR_CURRENT_LAUNCH_COMMAND_VAR="waybar_launch_command"
+export WAYBAR_CURRENT_STATUS_VAR="waybar_current_status"
+
 
 export WALLPAPER_BLUR_DEFAULT_VALUE="50x30"
 export WALLPAPER_BRIGHTNESS_DEFAULT_VALUE="20%"
+export WAYBAR_DEFAULT_THEME="/default;/default"
 
 #######################################################################################
 ################################## Resources ##################################
 export HYPRPAPER_CONFIG_TEMPLATE="$WALLPAPER_SETTINGS_DIR/hyprpaper.conf.tpl"
 export ROFI_CURRENT_WALLPAPER_RASI="$ROFI_DIR/current-wallpaper.rasi"
+
+export DEFAULT_WALLPAPER_PATH="$WALLPAPERS_DIR/default.png"
+export DEFAULT_WALLPAPER_PATH_SRC="$(pwd)/src/assets/default_wallpaper/default.png"
+
+export WAL_COLORS_WAYBAR_FILE="$WAL_CACHE_DIR/colors-waybar.css"
+
+#######################################################################################
+################################## Script Resources ##################################
+
+# wallpaper selector
+export WALLPAPER_SELECTOR_SCRIPTS_DIR="$HYPR_SCRIPTS_DIR/wallpaper_selector"
+
 
 #######################################################################################
 ################################## Cookiecutter settings ##################################

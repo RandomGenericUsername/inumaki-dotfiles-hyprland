@@ -3,39 +3,40 @@
 install_wallpaper_selector(){
 
     print_debug "Installing wallpaper selector" -t "debug"
-
-    local default_wallpaper_path="$WALLPAPERS_DIR/default"
-    local default_wallpaper="$ASSETS/default_wallpaper/default"
-
-    generate_wallpapers="$HYPR_SCRIPTS_DIR/generate_wallpapers_with_effect.sh"
-    change_wallpaper="$HYPR_SCRIPTS_DIR/change_wallpaper.sh"
+    set_current_wallpaper_script="$WALLPAPER_SELECTOR_SCRIPTS_DIR/set_current_wallpaper.sh"
+    generate_wallpapers="$WALLPAPER_SELECTOR_SCRIPTS_DIR/generate_wallpapers_with_effect.sh"
+    change_wallpaper="$WALLPAPER_SELECTOR_SCRIPTS_DIR/change_wallpaper.sh"
     venv="$VENV_CLI_UTILITY"
+    toggle_waybar="$HYPR_SCRIPTS_DIR/waybar/toggle.sh"
+    source "$set_current_wallpaper_script"
 
-    if [ ! -f "$default_wallpaper_path" ]; then
-        print_debug "Copying $default_wallpaper into $default_wallpaper_path" -t "debug"
-        cp "$default_wallpaper" "$HOST_WALLPAPERS_DIR/"
+    if [ ! -f "$DEFAULT_WALLPAPER_PATH" ]; then
+        print_debug "Copying $DEFAULT_WALLPAPER_PATH_SRC into $DEFAULT_WALLPAPER_PATH" -t "debug"
+        cp "$DEFAULT_WALLPAPER_PATH_SRC" "$HOST_WALLPAPERS_DIR/"
     fi
 
-    #create_dirs "$GENERATED_WALLPAPERS_WITH_EFFECTS_DIR"
-
+    create_dirs "$GENERATED_WALLPAPERS_WITH_EFFECTS_DIR" 
     # 0. Change the wallpaper
-    "$change_wallpaper" "$default_wallpaper_path"
+    "$change_wallpaper" "$DEFAULT_WALLPAPER_PATH"
     # 1. Update the current wallpaper path
-    "$venv" set "$ROFI_CURRENT_WALLPAPER_VAR" "$default_wallpaper_path" --env "$BASH_VENV"
+    "$venv" set "$ROFI_CURRENT_WALLPAPER_VAR" "$DEFAULT_WALLPAPER_PATH" --env "$BASH_VENV"
     # 2. Write the current wallpaper to rofi config
-    echo "* { current-image: url(\"$default_wallpaper_path\", height); }" > "$ROFI_CURRENT_WALLPAPER_RASI"
+    echo "* { current-image: url(\"$DEFAULT_WALLPAPER_PATH\", height); }" > "$ROFI_CURRENT_WALLPAPER_RASI"
 
     # Update the current wallpaper name
     "$venv" set "$ROFI_CURRENT_WALLPAPER_NAME_VAR" "default" --env "$BASH_VENV"
     # Add to cache
-    "$venv" update "$CACHED_WALLPAPER_EFFECTS_VAR" "default" --env "{{cookiecutter.BASH_VENV}}" --variable-type array
+    "$venv" update "$CACHED_WALLPAPER_EFFECTS_VAR" "default" --env "$BASH_VENV" --variable-type array
     # Update the current effect
     "$venv" set "$ROFI_CURRENT_WALLPAPER_EFFECT_VAR" "off" --env "$BASH_VENV"
 
     source "$PYTHON_VENV/bin/activate"
-    wal -i "$default_wallpaper_path" -q
+    wal -i "$DEFAULT_WALLPAPER_PATH" -q
     deactivate
 
+    "$toggle_waybar"
+    "$toggle_waybar"
+
     # Generate the wallpapers
-    "$generate_wallpapers" "$default_wallpaper_path"
+    "$generate_wallpapers" "$DEFAULT_WALLPAPER_PATH"
 }
