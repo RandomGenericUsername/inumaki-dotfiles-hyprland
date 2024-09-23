@@ -33,6 +33,9 @@ Deps are not removed to allows future installations unless clean uninstall.
 - every of these scripts can take no options and the default behavior is so install
 - Every script will check previously for previous isntalls. 
 - If the compnent is installed, skip, unless a force flag is passed
+- Add checks for every step.
+- Every single steps that can be categorized such as createing afile, shall be normalized, so that an alert can be generated if the process failed.
+
 
 
 
