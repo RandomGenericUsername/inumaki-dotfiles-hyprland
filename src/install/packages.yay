@@ -1,20 +1,27 @@
-# fonts
+# Fonts
 ttf-font-awesome
 ttf-material-design-icons
-ttf-ms-fonts 
+ttf-ms-fonts
 
-# 1Password
+# 1Password: Password manager
 1password
 
-# Slack
+# Slack: Team communication tool
 slack
 
-# Evolution email
+# Evolution email: GNOME email client
 evolution
 evolution-on
 evolution-spamassassin
 
+# Wlogout: Logout menu for Wayland
 wlogout
+
+# NWG-Shell: GTK-based shell components
 nwg-shell
+
+# Eww: Custom widget system
 eww
+
+# Hyprshade: Window shading tool for Hyprland
 hyprshade

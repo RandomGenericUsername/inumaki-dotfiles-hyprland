@@ -37,3 +37,7 @@ alias l.='exa -ald --color=always --group-directories-first --icons .*' # show o
 
 # Cat
 alias cat='bat --style header --style snip --style changes --style header'
+
+# NVM
+export NVM_DIR; NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

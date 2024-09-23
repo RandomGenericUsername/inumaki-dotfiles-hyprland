@@ -1,10 +1,6 @@
 ########################### Parameters that can be edited ###########################
 
-# Set to true hide the install directory
-HIDDEN_INSTALL="true"
-# Path to installation logs
-LOG="/tmp/logs/install.log"
-
+source "$(pwd)/settings.sh"
 
 #######################################################################################
 ################################## Host directories ##################################
@@ -134,6 +130,8 @@ export WALLPAPER_BLUR_DEFAULT_VALUE="50x30"
 export WALLPAPER_BRIGHTNESS_DEFAULT_VALUE="20%"
 export WAYBAR_DEFAULT_THEME="/default;/default"
 
+export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="Wallpaper"
+
 #######################################################################################
 ################################## Resources ##################################
 export HYPRPAPER_CONFIG_TEMPLATE="$WALLPAPER_SETTINGS_DIR/hyprpaper.conf.tpl"
@@ -173,7 +171,7 @@ export _copy_without_render=(
 )
 
 # A reference to this file is required to let cookiecutter json generator know about it
-INSTALL_SETTINGS="$(pwd)/install_settings.sh"
+INSTALL_SETTINGS="$(pwd)/.install_settings.sh"
 # Path to the directory containing the cookiecutter template
 DOTFILES_VENV_TEMPLATE_DIR="$(pwd)/dotfiles-venv-template"
 # Set to change the Node version to install

@@ -44,10 +44,14 @@ install(){
     # Create required symlinks
     create_symbolic_link "$CACHE_DIR" --source "$HOST_CACHE_DIR" --target "$DOTFILES_INSTALL_PATH"
     create_symbolic_link "$WALLPAPERS_DIR" --source "$HOST_WALLPAPERS_DIR" --target "$DOTFILES_INSTALL_PATH"
-    create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
     create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME"
+    create_symbolic_link "$HOME/.config/nvim" --source "$CONFIG_DIR/nvim" --target "$HOME/.config"
+    create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
 
     install_wallpaper_selector
+
+    #sudo systemctl disable sddm
+    #sudo systemctl enable lightdm
 
 }
 
