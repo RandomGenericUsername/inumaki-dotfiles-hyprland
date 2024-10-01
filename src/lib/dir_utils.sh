@@ -1,4 +1,6 @@
 # Function to safely delete a directory with confirmation
+print_debug="$PRINT_DEBUG_UTILITY"
+
 delete_directory() {
     local dir_path="$1"
     local skip_confirmation=false
@@ -14,13 +16,13 @@ delete_directory() {
 
     # Check if the directory path is provided
     if [[ -z "$dir_path" ]]; then
-        print_debug "No directory path provided." -t "error"
+        $print_debug "No directory path provided." -t "error"
         return 1  # Exit the function with an error status
     fi
 
     # Check if the directory exists
     if [[ ! -d "$dir_path" ]]; then
-        print_debug "Directory does not exist at path: $dir_path"  -t "error"
+        $print_debug "Directory does not exist at path: $dir_path"  -t "error"
         return 0 
     fi
 
@@ -30,10 +32,10 @@ delete_directory() {
         choice=$(gum choose "${gum_options[@]}" --header="$msg")
         case "$choice" in
             "Yes")
-                print_debug "Deleting directory at $dir_path"  -t "info"
+                $print_debug "Deleting directory at $dir_path"  -t "info"
                 ;;
             "No")
-                print_debug "Deletion aborted."  -t "info"
+                $print_debug "Deletion aborted."  -t "info"
                 return 2  # Aborted
                 ;;
         esac
@@ -42,10 +44,10 @@ delete_directory() {
     # Proceed with deleting the directory
     rm -rf "$dir_path"
     if [[ $? -eq 0 ]]; then
-        print_debug "Directory deleted successfully."
+        $print_debug "Directory deleted successfully."
         return 0  # Success
     else
-        print_debug "Failed to delete directory." -t "error"
+        $print_debug "Failed to delete directory." -t "error"
         return 3  # Failure in deletion
     fi
 }
@@ -74,10 +76,10 @@ is_dir_empty() {
 create_dirs() {
     for dir in "$@"; do
         if [ ! -d "$dir" ]; then
-            print_debug "Creating directory: $dir" 
+            $print_debug "Creating directory: $dir" 
             mkdir -p "$dir"
-            else 
-                print_debug "Directory already exists: $dir"
+        else 
+            $print_debug "Directory already exists: $dir"
         fi
     done
 }

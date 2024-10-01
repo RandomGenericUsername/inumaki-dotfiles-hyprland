@@ -8,6 +8,8 @@
 '
 #!/bin/bash
 
+print_debug="$PRINT_DEBUG_UTILITY"
+
 _parsePackagesFromFile() {
     file="$1"
     packages=""
@@ -34,10 +36,10 @@ _isInstalledPacman() {
     
     if [ -n "$check" ]; then
         result=0
-        print_debug "Package $package is already installed." -t "debug" 
+        $print_debug "Package $package is already installed." -t "debug" 
     else
         result=1
-        print_debug "Package $package is not installed." -t "debug" 
+        $print_debug "Package $package is not installed." -t "debug" 
     fi
     
     return $result
@@ -52,10 +54,10 @@ _isInstalledYay() {
     
     if [ -n "$check" ]; then
         result=0
-        print_debug "Package $package is already installed." -t "debug" 
+        $print_debug "Package $package is already installed." -t "debug" 
     else
         result=1
-        print_debug "Package $package is not installed." -t "debug" 
+        $print_debug "Package $package is not installed." -t "debug" 
     fi
     
     return $result
@@ -75,14 +77,14 @@ _installPackagesPacman() {
     done
 
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print_debug "All packages are installed" -t "debug" 
+        $print_debug "All packages are installed" -t "debug" 
         return 0
     fi;
 
     # Join the array elements into a single string
     local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
     joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    print_debug "Installing ${joined_toInstall}" -t "debug" 
+    $print_debug "Installing ${joined_toInstall}" -t "debug" 
     sudo pacman --noconfirm -S "${toInstall[@]}";
 }
 
@@ -93,14 +95,14 @@ _forcePackagesPacman() {
     done;
 
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print_debug "All packages are installed" -t "debug" 
+        $print_debug "All packages are installed" -t "debug" 
         return 0;
     fi;
 
     # printf_debug "Package not installed:\n%s\n" "${toInst
     local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
     joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    print_debug "Installing ${joined_toInstall}" -t "debug" 
+    $print_debug "Installing ${joined_toInstall}" -t "debug" 
     sudo pacman --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 
@@ -113,12 +115,12 @@ _installPackagesYay() {
         toInstall+=("${pkg}");
     done;
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print_debug "All packages are installed" -t "debug" 
+        $print_debug "All packages are installed" -t "debug" 
         return 0;
     fi;
     local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
     joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    print_debug "Installing ${joined_toInstall}" -t "debug" 
+    $print_debug "Installing ${joined_toInstall}" -t "debug" 
     yay --noconfirm -S "${toInstall[@]}";
 }
 
@@ -128,12 +130,12 @@ _forcePackagesYay() {
         toInstall+=("${pkg}");
     done;
     if [[ "${toInstall[@]}" == "" ]] ; then
-        print_debug "All packages are installed" -t "debug" 
+        $print_debug "All packages are installed" -t "debug" 
         return 0;
     fi;
     local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
     joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    print_debug "Installing ${joined_toInstall}" -t "debug" 
+    $print_debug "Installing ${joined_toInstall}" -t "debug" 
     yay --noconfirm -S "${toInstall[@]}" --ask 4;
 }
 

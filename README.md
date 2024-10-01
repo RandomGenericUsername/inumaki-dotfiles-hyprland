@@ -1,6 +1,7 @@
 
 
 # TO-DO
+- Add lxappareance lighssmd manager as session manager.
 - Correct scripts paths in keybindings/default.conf
 - Create a script that retrieves info about the avaiable monitors. See `hyprctl monitors [all]` and currently selected. It will write a variable holding information about the size, the name (edp-1, edp-2) and refresh rate. 
 - Make rofi configuration such as the styles for the wallpaper and effects drawer, responsive -> percentage instead of px values.

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+print_debug="$PRINT_DEBUG_UTILITY"
+
 prompt_existing_installation(){
     
     install_path="$1"
@@ -17,7 +19,7 @@ prompt_existing_installation(){
             export INSTALL_TYPE="clean"
             ;;
         "Abort")
-            print_debug "Installation aborted" -t "error"
+            $print_debug "Installation aborted" -t "error"
             exit 1
             ;;
     esac
@@ -36,19 +38,19 @@ check_previous_installation() {
         folder_empty=$?
 
         if [ $folder_empty -ne 0 ]; then
-            print_debug "Previous installation detected in $install_path." -t "warn"
+            $print_debug "Previous installation detected in $install_path." -t "warn"
             prompt_existing_installation $install_path
             return $?
         else
-            print_debug "Installation folder exists but is empty."
+            $print_debug "Installation folder exists but is empty."
             return 0
         fi
     else
-        print_debug "No previous installation found."
+        $print_debug "No previous installation found"
         return 0
     fi
 }
 
 show_install_type(){
-    print_debug "Performing $INSTALL_TYPE installation" -t "info"
+    $print_debug "Performing $INSTALL_TYPE installation" -t "info"
 }
