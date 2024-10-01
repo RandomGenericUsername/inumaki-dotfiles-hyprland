@@ -1,10 +1,6 @@
 ########################### Parameters that can be edited ###########################
 
-# Set to true hide the install directory
-HIDDEN_INSTALL="true"
-# Path to installation logs
-LOG="/tmp/logs/install.log"
-
+source "$(pwd)/settings.sh"
 
 #######################################################################################
 ################################## Host directories ##################################
@@ -23,7 +19,42 @@ export DOTFILES_NAME_RAW="inumaki-dotfiles"
 # This is to allow creating the directory as hidden
 export DOTFILES_NAME="$([ "$HIDDEN_INSTALL" = true ] && echo "." || echo "")$DOTFILES_NAME_RAW"
 # This is where all will be installed
-export DOTFILES_INSTALL_PATH="$HOME/$DOTFILES_NAME"
+export INSTALL_PATH="$HOME/$DOTFILES_NAME"
+
+#######################################################################################
+################################## First level directories ##################################
+
+export DOTFILES_INSTALL_PATH="$INSTALL_PATH/environment"
+export DEPENDENCIES_INSTALL_PATH="$INSTALL_PATH/.dependencies"
+
+#######################################################################################
+################################## Dependencies first level directories ##################################
+
+# Path to Print debug util
+export PRINT_DEBUG_UTILITY_PATH="$DEPENDENCIES_INSTALL_PATH/Print-debug-CLI"
+export PRINT_DEBUG_UTILITY="$PRINT_DEBUG_UTILITY_PATH/print-debug"
+export PRINT_DEBUG_UTILITY_REPO="https://github.com/RandomGenericUsername/Print-debug-CLI.git"
+# Path to Argument parser util
+export ARGUMENT_PARSER_UTILITY_PATH="$DEPENDENCIES_INSTALL_PATH/Bash-scripting-argument-parser"
+export ARGUMENT_PARSER_UTILITY="$ARGUMENT_PARSER_UTILITY_PATH/argument-parser"
+export ARGUMENT_PARSER_UTILITY_REPO="https://github.com/RandomGenericUsername/Bash-scripting-argument-parser.git"
+
+# Path to bash venv util
+export BASH_VENV_CLI_UTILITY_PATH="$DEPENDENCIES_INSTALL_PATH/Bash-variables-CLI"
+export BASH_VENV_CLI_UTILITY="$BASH_VENV_CLI_UTILITY_PATH/venv"
+export BASH_VENV_CLI_UTILITY_REPO="https://github.com/RandomGenericUsername/Bash-variables-CLI.git"
+
+#######################################################################################
+################################## Dotfiles tools ##################################
+
+# Path to vcpkg installation
+export VCPKG_INSTALL_DIR="$DEPENDENCIES_INSTALL_PATH/vcpkg"
+
+# Path to python venv 
+export PYTHON_VENV="$DEPENDENCIES_INSTALL_PATH/python_venv"
+
+# Path to bash venv
+export BASH_VENV="$DEPENDENCIES_INSTALL_PATH/bash_venv"
 
 #######################################################################################
 ################################## Dotfiles first level directories ##################################
@@ -82,28 +113,6 @@ export WAL_CACHE_DIR="$CACHE_DIR/wal"
 export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
 
 #######################################################################################
-################################## Dotfiles tools ##################################
-
-# Path to vcpkg installation
-export VCPKG_INSTALL_DIR="$DOTFILES_INSTALL_PATH/.vcpkg"
-
-# Path to python venv 
-export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python_venv"
-
-# Path to bash venv
-export BASH_VENV="$DOTFILES_INSTALL_PATH/.bash_venv"
-
-# The following 3 are used to check if the utils exists
-# Path to utils dirs
-export UTILS_INSTALL_DIR="$DOTFILES_INSTALL_PATH/utils"
-# Path to Print debug util
-export PRINT_DEBUG_UTILITY="$UTILS_INSTALL_DIR/Print debug/print-debug"
-# Path to Argument parser util
-export ARGUMENT_PARSER_UTILITY="$UTILS_INSTALL_DIR/Argument parser/argument-parser"
-# Path to bash venv util
-export VENV_CLI_UTILITY="$UTILS_INSTALL_DIR/Virtual environment CLI/venv"
-
-#######################################################################################
 ################################## Tools' repos ##################################
 
 # Directory to download utilities like debug-print, arg parser, etc.
@@ -133,6 +142,8 @@ export WAYBAR_CURRENT_STATUS_VAR="waybar_current_status"
 export WALLPAPER_BLUR_DEFAULT_VALUE="50x30"
 export WALLPAPER_BRIGHTNESS_DEFAULT_VALUE="20%"
 export WAYBAR_DEFAULT_THEME="/default;/default"
+
+export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="Wallpaper"
 
 #######################################################################################
 ################################## Resources ##################################
@@ -173,7 +184,7 @@ export _copy_without_render=(
 )
 
 # A reference to this file is required to let cookiecutter json generator know about it
-INSTALL_SETTINGS="$(pwd)/install_settings.sh"
+INSTALL_SETTINGS="$(pwd)/.install_settings.sh"
 # Path to the directory containing the cookiecutter template
 DOTFILES_VENV_TEMPLATE_DIR="$(pwd)/dotfiles-venv-template"
 # Set to change the Node version to install

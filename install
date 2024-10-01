@@ -18,8 +18,7 @@ this_dir="$(pwd)"
 lib_scripts=$this_dir/src/lib/export.sh
 setup_scripts=$this_dir/src/setup/export.sh
 install_scripts=$this_dir/src/install/export.sh
-install_settings=$this_dir/install_settings.sh
-
+install_settings=$this_dir/.install_settings.sh
 
 source $lib_scripts
 source $setup_scripts
@@ -31,7 +30,6 @@ source $install_settings
 # ================================================================================#
                 # setup  #
 # ================================================================================#
-
 clear
 check_distro "$SUPPORTED_DISTROS"
 parse_options "$@" || exit $?
@@ -39,3 +37,10 @@ pretty_print_installer_msg
 setup
 install
 # ================================================================================#
+
+
+print_debug "Installation finished!" -t "info"
+if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
+   print "Installation log generated at $LOG" -t "debug" 
+fi
+exit 0

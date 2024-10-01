@@ -1,89 +1,204 @@
-# Core 
+# Hyperland: Window tiling
 hyprland
+
+# waybar: Status bar
 waybar
+
+# Rofi: Application launcher
 rofi
+
+# Fastfetch: System info fetcher
 fastfetch
+
+# NetworkManager: Manages network connections
 networkmanager
+
+# NetworkManager Applet: GUI for network management
 network-manager-applet
+
+# Hyprland XDG Portal: Wayland portal integration
 xdg-desktop-portal-hyprland
+
+# Swappy: Screenshot editor for Wayland
 swappy
+
+# Cliphist: Clipboard manager
 cliphist
+
+# Grim: Screenshot tool for Wayland
 grim
-sddm
-xdg-desktop-portal 
+
+# XDG Desktop Portal: D-Bus API for desktop integration
+xdg-desktop-portal
+
+# XDG Desktop Portal WLR: Portal for wlroots-based compositors
 xdg-desktop-portal-wlr
+
+# XDG Desktop Portal GTK: Portal for GTK applications
 xdg-desktop-portal-gtk
 
-
-########################## Terminal related stuff ##########################
-# Shell 
+# Zsh: Shell
 zsh
-# Eza (replacement for ls)
+
+# Eza: Replacement for ls
 eza
-# fzf (list search on terminal)
+
+# Fzf: Fuzzy finder for terminal
 fzf
-# Starship (cute shell)
+
+# Starship: Prompt customization
 starship
-#alacritty
-#kitty
-#fish
+
+# Alacritty: Terminal emulator
+alacritty
+
+# Kitty: GPU-accelerated terminal emulator
+kitty
+
+# Fish: User-friendly shell
+fish
 
 # Zsh plugins
+
+# Zsh Syntax Highlighting: Highlights commands in Zsh
 zsh-syntax-highlighting
+
+# Zsh Autosuggestions: Command suggestions as you type
 zsh-autosuggestions
+
+# Zsh History Substring Search: Search command history in Zsh
 zsh-history-substring-search
 
-# Other
+# Make: Build automation tool
 make
+
+# GCC: GNU compiler for C/C++
 gcc
+
+# CMake: Build system generator
 cmake
+
+# Curl: Tool for data transfer over URLs
 curl
 
 
-# web browsers
+# Web browsers
+
+# Google Chrome: Popular web browser
 google-chrome
+
+# Chromium: Open-source web browser
 chromium
+
+# Brave: Privacy-focused web browser
 brave
+
+# Firefox: Open-source web browser
 firefox
 
+# LightDM: Display manager
+lightdm
 
-# Fonts
-ttf-ubuntu-font-family 
-ttf-roboto 
-ttf-oxygen 
-cantarell-fonts 
-ttf-opensans 
-ttf-liberation
-noto-fonts
-otf-font-awesome
-ttf-fira-sans
-ttf-fira-code
-ttf-firacode-nerd
+# GTK theme manager
+lxappearance
+
+# LightDM GTK Greeter: GTK-based login screen for LightDM
+lightdm-gtk-greeter
+
+# Tmux: Terminal multiplexer
+tmux
+
+# Neovim: Extensible text editor
+neovim
 
 
-# lock
+# Lock
+
+# Hyprlock: Lock screen for Hyprland
 hyprlock
+
+# Hypridle: Idle management for Hyprland
 hypridle
 
+
 # Notification daemon
+
+# Swaync: Notification manager for Wayland
 swaync
+
+# Dunst: Lightweight notification daemon
 dunst
 
-# Wallpaper 
+
+# Wallpaper
+
+# Hyprpaper: Wallpaper setter for Hyprland
 hyprpaper
+
+# Waypaper: Wallpaper utility for Wayland
 waypaper
 
-# Utils 
+
+# Utils
+
+# Tree: Directory listing in a tree format
 tree
+
+# Figlet: ASCII text generator
 figlet
+
+# Lolcat: Colorful text output
 lolcat
+
+# Cowsay: Command-line ASCII cow
 cowsay
+
+# JP2A: JPEG to ASCII art converter
 jp2a
 
-# Other deps
-vim
+# Thunar: Lightweight file manager
 thunar
-nautilus
-mousepad
 
+# ImageMagick: Image manipulation tool
 imagemagick
+
+# Fonts
+
+# Ubuntu Font Family: Ubuntu's default font
+ttf-ubuntu-font-family
+
+# Roboto: Google sans-serif font
+ttf-roboto
+
+# Oxygen: Font used in KDE
+ttf-oxygen
+
+# Cantarell: Default GNOME font
+cantarell-fonts
+
+# OpenSans: Modern sans-serif font
+ttf-opensans
+
+# Liberation Fonts: Replacement for popular proprietary fonts
+ttf-liberation
+
+# Noto Fonts: Google's universal font family
+noto-fonts
+
+# Font Awesome: Icon font
+otf-font-awesome
+
+# Fira Sans: Sans-serif font
+ttf-fira-sans
+
+# Fira Code: Monospaced font with ligatures
+ttf-fira-code
+
+# FiraCode Nerd Font: Patched version of Fira Code with additional glyphs
+ttf-firacode-nerd
+
+# Line-oriented search tool 
+ripgrep 
+
+# Program to find entries in your filesystem
+fd
