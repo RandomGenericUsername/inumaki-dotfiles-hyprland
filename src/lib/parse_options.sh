@@ -1,31 +1,16 @@
-pretty_print_installer_msg(){
-    echo -e "${COLOR_RED}"
-    cat <<"EOF"
-        ____           __        ____         
-       /  _/___  _____/ /_____ _/ / /__  _____
-       / // __ \/ ___/ __/ __ `/ / / _ \/ ___/
-     _/ // / / (__  ) /_/ /_/ / / /  __/ /    
-    /___/_/ /_/____/\__/\__,_/_/_/\___/_/     
-EOF
-    echo -e "${COLOR_NONE}"
-}
-
 # Function to display help information
 show_help() {
 
     pretty_print_installer_msg
-    echo -e "${RED}"
+    echo -e "${ERROR_COLOR}"
     echo "Usage: $0 [--debug|-d] [--log|-l]"
     echo -e "\nOptions:"
     echo "  --debug      Enable debug mode for verbose output."
     echo "  --log        Enable log mode for loggin output."
     echo -e "\nExample:"
     echo "  $0 --debug --log"
-    echo -e "${NONE}"
+    echo -e "${NO_COLOR}"
 }
-
-
-
 
 # Function to parse command-line options
 parse_options() {

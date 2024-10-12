@@ -27,7 +27,6 @@ setup(){
     # Install required packages for begining installation process
     install_pacman_packages "$PREREQUISITES"
 
-    exit 0
     # Setup the python venv
     create_python_venv "$PYTHON_VENV"
 
