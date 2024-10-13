@@ -38,16 +38,19 @@ delete_directory() {
                 $print_debug "Deletion aborted."  -t "info"
                 return 2  # Aborted
                 ;;
+            *)
+                echo "OMFG"
+                exit 1
         esac
     fi
 
     # Proceed with deleting the directory
-    rm -rf "$dir_path"
+    #rm -rf "$dir_path"
     if [[ $? -eq 0 ]]; then
-        $print_debug "Directory deleted successfully."
+        $print_debug "Directory $dir_path deleted successfully."
         return 0  # Success
     else
-        $print_debug "Failed to delete directory." -t "error"
+        $print_debug "Failed to delete $dir_path directory." -t "error"
         return 3  # Failure in deletion
     fi
 }

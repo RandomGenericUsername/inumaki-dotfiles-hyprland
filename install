@@ -31,6 +31,9 @@ parse_options "$@"
 pretty_print_installer_msg
 prompt_install
 check_and_install_utilities PRINT_DEBUG ARGUMENT_PARSER BASH_VENV_CLI
+create_log
+check_previous_installation 
+show_install_type
 
 #setup
 exit 0

@@ -14,12 +14,13 @@ export HOST_CACHE_DIR="$HOME/.cache"
 #######################################################################################
 ################################## Set the name for dotfiles install dir ##################################
 
-# Need to export the variable 'ENV_HIDDEN' before sourcing this file.
+# Need to export the variable 'HIDDEN_INSTALL' before sourcing this file.
 export DOTFILES_NAME_RAW="inumaki-dotfiles"
 # This is to allow creating the directory as hidden
 export DOTFILES_NAME="$([ "$HIDDEN_INSTALL" = true ] && echo "." || echo "")$DOTFILES_NAME_RAW"
 # This is where all will be installed
 export INSTALL_PATH="$HOME/$DOTFILES_NAME"
+export CONFIG_FILE="$INSTALL_PATH/.config"
 
 #######################################################################################
 ################################## First level directories ##################################

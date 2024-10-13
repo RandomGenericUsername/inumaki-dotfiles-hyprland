@@ -15,7 +15,7 @@ create_log() {
                 touch "$LOG"
             fi
         else
-            $print_debug "Log directory doesn't exist, creating it at $LOG_DIR" -t "debug"
+            $print_debug "Log file doesn't exist, creating it at $LOG" -t "debug"
             # Directory doesn't exist, create it and then the log file
             mkdir -p "$LOG_DIR"
             touch "$LOG"
