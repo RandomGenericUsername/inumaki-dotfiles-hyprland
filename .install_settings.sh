@@ -1,49 +1,74 @@
-########################### Parameters that can be edited ###########################
+########################### Parameters that can be edited are in 'settings' file ###########################
 
-source "$(pwd)/settings.sh"
+# Source the settings file
+source "$(pwd)/settings"
 
 #######################################################################################
 ################################## Host directories ##################################
 
-# These directories will be symlinked from Host to the $ENV_DIR
+# This is the user's wallpaper directory. Needed to load wallpapers in the wallpaper selector.
 export HOST_WALLPAPERS_DIR="$HOME/wallpapers"
 
-# 
+# This is the user's cache directory. Needed for pywal and other tools.
 export HOST_CACHE_DIR="$HOME/.cache"
 
 #######################################################################################
 ################################## Set the name for dotfiles install dir ##################################
 
-# Need to export the variable 'HIDDEN_INSTALL' before sourcing this file.
+# Name of the dotfiles, i.e. the name of the directory where it will be installed.
 export DOTFILES_NAME_RAW="inumaki-dotfiles"
-# This is to allow creating the directory as hidden
+# This is to allow creating the directory as hidden. If `HIDDEN_INSTALL` is `true` then the installation directory will be hidden.
 export DOTFILES_NAME="$([ "$HIDDEN_INSTALL" = true ] && echo "." || echo "")$DOTFILES_NAME_RAW"
-# This is where all will be installed
+# This is the path where the dotfiles will be installed. 
 export INSTALL_PATH="$HOME/$DOTFILES_NAME"
+# This is the temporal installation path
+export TEMP_INSTALL_PATH="/tmp/$DOTFILES_NAME"
+# This is the default path where the config file for the dotfiles installation will be looked up.
 export CONFIG_FILE="$INSTALL_PATH/.config"
 
 #######################################################################################
 ################################## First level directories ##################################
 
-export DOTFILES_INSTALL_PATH="$INSTALL_PATH/environment"
+# Dotfiles install dir is structured as:
+#   .
+#   ├── .dependencies -> This directory contains tools, binaries, utilities, scripts, etc required for running functionatilites. 
+#   ├── dotfiles -> This directory contains all the hypr directories.
+
+# Dotfiles installation directory
+export DOTFILES_INSTALL_PATH="$INSTALL_PATH/dotfiles"
+# Dependencies installation directory
 export DEPENDENCIES_INSTALL_PATH="$INSTALL_PATH/.dependencies"
+# Temporal dotfiles installation directory
+export TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH/dotfiles"
+# Temportal dependencies installation directory
+export TEMP_DEPENDENCIES_INSTALL_PATH="$TEMP_INSTALL_PATH/.dependencies"
+
+export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 
 #######################################################################################
 ################################## Dependencies first level directories ##################################
 
-# Path to Print debug util
-export PRINT_DEBUG_UTILITY_PATH="$DEPENDENCIES_INSTALL_PATH/Print-debug-CLI"
-export PRINT_DEBUG_UTILITY="$PRINT_DEBUG_UTILITY_PATH/print-debug"
-export PRINT_DEBUG_UTILITY_REPO="https://github.com/RandomGenericUsername/Print-debug-CLI.git"
-# Path to Argument parser util
-export ARGUMENT_PARSER_UTILITY_PATH="$DEPENDENCIES_INSTALL_PATH/Bash-scripting-argument-parser"
-export ARGUMENT_PARSER_UTILITY="$ARGUMENT_PARSER_UTILITY_PATH/argument-parser"
-export ARGUMENT_PARSER_UTILITY_REPO="https://github.com/RandomGenericUsername/Bash-scripting-argument-parser.git"
+# Print debug utility repo name
+export PRINT_DEBUG_UTILITY_REPO_NAME="Print-debug-CLI"
+# Print debug utility bin name
+export PRINT_DEBUG_UTILITY_BIN_NAME="print-debug"
 
-# Path to bash venv util
-export BASH_VENV_CLI_UTILITY_PATH="$DEPENDENCIES_INSTALL_PATH/Bash-variables-CLI"
-export BASH_VENV_CLI_UTILITY="$BASH_VENV_CLI_UTILITY_PATH/venv"
-export BASH_VENV_CLI_UTILITY_REPO="https://github.com/RandomGenericUsername/Bash-variables-CLI.git"
+# Argument parser utility repo name
+export ARGUMENT_PARSER_UTILITY_REPO_NAME="Bash-scripting-argument-parser"
+# Argument parser utility bin name
+export ARGUMENT_PARSER_UTILITY_BIN_NAME="argument-parser"
+
+# Bash venv cli utility repo name 
+export BASH_VENV_CLI_UTILITY_REPO_NAME="Bash-variables-CLI"
+# Bash venv cli utility bin name 
+export BASH_VENV_CLI_UTILITY_BIN_NAME="venv"
+
+# utilities repositories
+export UTILS_REPOS=(
+    "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
+    "https://github.com/RandomGenericUsername/$ARGUMENT_PARSER_UTILITY_REPO_NAME.git"
+    "https://github.com/RandomGenericUsername/$BASH_VENV_CLI_UTILITY_REPO_NAME.git"
+)
 
 #######################################################################################
 ################################## Dotfiles tools ##################################

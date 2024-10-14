@@ -12,3 +12,6 @@ git
 
 # Python for utilities that require it
 python
+
+# rsync for handling files and stuff
+rsync

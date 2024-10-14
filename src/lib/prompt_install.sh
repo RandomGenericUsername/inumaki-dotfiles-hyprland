@@ -1,14 +1,13 @@
 prompt_install(){
     while true; do
         # Output the prompt message and input in the specified color
-        echo -e "${ERROR_COLOR}Do you want to start the installation now? (Yy/Nn):${NO_COLOR}"
-        
+        printf "%b" "${ERROR_COLOR}" 
+        #echo -e "${ERROR_COLOR}Do you want to start the installation now? (Yy/Nn):${NO_COLOR}"
+        echo -e "Do you want to start the installation now? (Yy/Nn):"
         # Use read -p with the color code, making the input match the prompt color
-        read -p "$(echo -e $ERROR_COLOR)" yn 
+        read -e -p "> " yn
+        printf "%b" "${NO_COLOR}" 
         
-        # Reset color after input is received
-        echo -e "${NO_COLOR}"
-
         case $yn in
             [Yy]|[Yes]|[yes]* )
                 #echo "Installation started."

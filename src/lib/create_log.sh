@@ -1,5 +1,4 @@
 create_log() {
-    print_debug="$PRINT_DEBUG_UTILITY"
     if [ "$ENABLE_LOG" == "true" ]; then
         LOG_DIR=$(dirname "$LOG")
         
