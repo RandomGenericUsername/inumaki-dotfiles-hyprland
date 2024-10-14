@@ -24,6 +24,9 @@ source $setup_scripts
 source $install_scripts
 source $install_settings
 # ================================================================================#
+export print_debug="$TEMP_DEPENDENCIES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
+export IGNORE_FROM_BACKUP
+# ================================================================================#
 
 clear
 check_distro "$SUPPORTED_DISTROS"
@@ -31,10 +34,8 @@ parse_options "$@"
 pretty_print_installer_msg
 prompt_install
 check_and_install_utilities "$TEMP_DEPENDENCIES_INSTALL_PATH" "${UTILS_REPOS[@]}"
-export print_debug="$TEMP_DEPENDENCIES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
 create_log
 check_previous_installation 
-exit 0
 show_install_type
 exit 0
 #setup

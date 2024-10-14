@@ -23,29 +23,34 @@ delete_directory() {
     # Check if the directory exists
     if [[ ! -d "$dir_path" ]]; then
         $print_debug "Directory does not exist at path: $dir_path"  -t "error"
-        return 0 
+        return 1
     fi
 
     if [[ "$skip_confirmation" = false ]]; then
-        local gum_options=("Yes" "No")
-        local msg="Do you want to delete the directory at $dir_path?"
-        choice=$(gum choose "${gum_options[@]}" --header="$msg")
-        case "$choice" in
-            "Yes")
-                $print_debug "Deleting directory at $dir_path"  -t "info"
-                ;;
-            "No")
-                $print_debug "Deletion aborted."  -t "info"
-                return 2  # Aborted
-                ;;
-            *)
-                echo "OMFG"
-                exit 1
-        esac
+        $print_debug "Do you want to delete the directory at $dir_path? (Y/N):" -t "warn"
+        while true; do
+            printf "%b" "${WARN_COLOR}"
+            read -e -p "> " yn
+            printf "%b" "${NO_COLOR}"
+            case "$yn" in
+                [Yy]* )
+                    $print_debug "Deleting directory at $dir_path"
+                    break
+                    ;;
+                [Nn]* )
+                    $print_debug "Deletion aborted." -t "warn"
+                    return 2  # Aborted
+                    ;;
+                * )
+                    $print_debug "Please answer Y or N." -t "error"
+                    ;;
+            esac
+        done
     fi
 
+
     # Proceed with deleting the directory
-    #rm -rf "$dir_path"
+    rm -rf "$dir_path"
     if [[ $? -eq 0 ]]; then
         $print_debug "Directory $dir_path deleted successfully."
         return 0  # Success
