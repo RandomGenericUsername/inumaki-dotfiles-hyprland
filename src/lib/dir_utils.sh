@@ -1,5 +1,3 @@
-# Function to safely delete a directory with confirmation
-print_debug="$PRINT_DEBUG_UTILITY"
 
 delete_directory() {
     local dir_path="$1"
