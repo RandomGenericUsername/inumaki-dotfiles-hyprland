@@ -1,13 +1,19 @@
-########################### Parameters that can be edited are in 'settings' file ###########################
+# [ THESE VARIABLES NEED TO BE EXPORTED IN ORDER TO BE TRANSLATED INTO A CONFIG FILE REQUIRED BY COOKIECUTTER. ]
+# [ THOSE NOT EXPORTED WON'T BE TRANSLATED ]
 
-# Source the settings file
-source "$(pwd)/settings"
+########################### Parameters that can be edited but are required for translating ###########################
+########################### These can be found in 'settings' file ###########################
+
+source "$(pwd)/settings" # Source the settings file
+source "$(pwd)/.dotfiles-environment" # Source the settings file
 
 #######################################################################################
+
 ################################## Host directories ##################################
 
 # This is the user's wallpaper directory. Needed to load wallpapers in the wallpaper selector.
-export HOST_WALLPAPERS_DIR="$HOME/wallpapers"
+#export HOST_WALLPAPERS_DIR="$HOME/wallpapers"
+export HOST_WALLPAPERS_DIR; HOST_WALLPAPERS_DIR="$WALLPAPERS_DIRECTORY"
 
 # This is the user's cache directory. Needed for pywal and other tools.
 export HOST_CACHE_DIR="$HOME/.cache"
@@ -15,16 +21,16 @@ export HOST_CACHE_DIR="$HOME/.cache"
 #######################################################################################
 ################################## Set the name for dotfiles install dir ##################################
 
-# Name of the dotfiles, i.e. the name of the directory where it will be installed.
-export DOTFILES_NAME_RAW="inumaki-dotfiles"
-# This is to allow creating the directory as hidden. If `HIDDEN_INSTALL` is `true` then the installation directory will be hidden.
-export DOTFILES_NAME="$([ "$HIDDEN_INSTALL" = true ] && echo "." || echo "")$DOTFILES_NAME_RAW"
-# This is the path where the dotfiles will be installed. 
-export INSTALL_PATH="$HOME/$DOTFILES_NAME"
-# This is the temporal installation path
-export TEMP_INSTALL_PATH="/tmp/$DOTFILES_NAME"
-# This is the default path where the config file for the dotfiles installation will be looked up.
-export CONFIG_FILE="$INSTALL_PATH/.config"
+## Name of the dotfiles, i.e. the name of the directory where it will be installed.
+#export DOTFILES_NAME_RAW="inumaki-dotfiles"
+## This is to allow creating the directory as hidden. If `HIDDEN_INSTALL` is `true` then the installation directory will be hidden.
+#export DOTFILES_NAME="$([ "$HIDDEN_INSTALL" = true ] && echo "." || echo "")$DOTFILES_NAME_RAW"
+## This is the path where the dotfiles will be installed. 
+#export INSTALL_PATH="$INSTALLATION_DIRECTORY/$DOTFILES_NAME"
+## This is the temporal installation path
+#export TEMP_INSTALL_PATH="/tmp/$DOTFILES_NAME"
+## This is the default path where the config file for the dotfiles installation will be looked up.
+#export CONFIG_FILE="$INSTALL_PATH/.config"
 
 #######################################################################################
 ################################## First level directories ##################################
@@ -35,15 +41,16 @@ export CONFIG_FILE="$INSTALL_PATH/.config"
 #   ├── dotfiles -> This directory contains all the hypr directories.
 
 # Dotfiles installation directory
-export DOTFILES_INSTALL_PATH="$INSTALL_PATH/dotfiles"
-# Dependencies installation directory
-export DEPENDENCIES_INSTALL_PATH="$INSTALL_PATH/.dependencies"
-# Temporal dotfiles installation directory
-export TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH/dotfiles"
-# Temportal dependencies installation directory
-export TEMP_DEPENDENCIES_INSTALL_PATH="$TEMP_INSTALL_PATH/.dependencies"
-
-export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
+#export DOTFILES_INSTALL_PATH="$INSTALL_PATH/dotfiles"
+## Dependencies installation directory
+#export DEPENDENCIES_INSTALL_PATH="$INSTALL_PATH/.dependencies"
+## Temporal dotfiles installation directory
+#export TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH/dotfiles"
+## Temportal dependencies installation directory
+#export TEMP_DEPENDENCIES_INSTALL_PATH="$TEMP_INSTALL_PATH/.dependencies"
+## Ignore these files/folders from being backed up if found in the installation path.
+## Add more if required.
+#export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 
 #######################################################################################
 ################################## Dependencies first level directories ##################################

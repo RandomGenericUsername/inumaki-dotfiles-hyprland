@@ -3,7 +3,7 @@ check_distro() {
 
     # Check if the file exists
     if [[ ! -f "$file_path" ]]; then
-        echo "Error: File not found."
+        echo "Error checking valid linux distro: File not found at: '$file_path'"
         exit 1
     fi
 

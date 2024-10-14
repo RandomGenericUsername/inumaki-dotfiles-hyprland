@@ -9,35 +9,37 @@
 
 '
 
-# ================================================================================#
-                # Source relevant variables/constants and functions #
-# ================================================================================#
+# ------------------ Source relevant variables/constants and functions ------------------ #
 this_dir="$(pwd)"
 
-lib_scripts=$this_dir/src/lib/export.sh
-setup_scripts=$this_dir/src/setup/export.sh
-install_scripts=$this_dir/src/install/export.sh
+lib_scripts=$this_dir/src/.lib/export.sh
+configs=$this_dir/src/.conf/export.sh
 install_settings=$this_dir/.install_settings.sh
 
 source $lib_scripts
-source $setup_scripts
-source $install_scripts
+source $configs
 source $install_settings
-# ================================================================================#
+# --------------------------------------------------------------------------------------- #
+
+# ------------------ Export variables required for installation ------------------ #
+# After installing utils, the print debug utility will be at a temporal path.
 export print_debug="$TEMP_DEPENDENCIES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
 export IGNORE_FROM_BACKUP
-# ================================================================================#
+# --------------------------------------------------------------------------------------- #
 
-clear
-check_distro "$SUPPORTED_DISTROS"
-parse_options "$@"
-pretty_print_installer_msg
-prompt_install
-check_and_install_utilities "$TEMP_DEPENDENCIES_INSTALL_PATH" "${UTILS_REPOS[@]}"
-create_log
-check_previous_installation 
-show_install_type
+# ------------------------------------ Setup ------------------------------------ #
+clear # Clear the terminal for clearer output.
+check_distro "$SUPPORTED_DISTROS" # Check if the current distro is supported.
+parse_options "$@" # Parse the comand line options.
+pretty_print_installer_msg # Pretty print the installer message.
+prompt_install # Promp for proceeding with installation.
+check_and_install_utilities "$TEMP_DEPENDENCIES_INSTALL_PATH" "${UTILS_REPOS[@]}" # Install utilities required for installation.
+echo "Install dir: $INSTALL_PATH"
 exit 0
+create_log # Create file for logging the installation (if enabled)
+check_previous_installation # Check for previous installation
+show_install_type # Show the installation type to be performed
+# --------------------------------------------------------------------------------------- #
 #setup
 #install
 # ================================================================================#

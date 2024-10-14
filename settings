@@ -10,9 +10,10 @@ HIDDEN_INSTALL="true"
 LOG="/tmp/logs/install.log"
 # ||====================================================================|| #
 
-# ||========================== Installation type =======================|| #
-# clean: deletes dependencies and dotfiles environment
-# update: keeps dependencies and sync dotfiles environment
-# default: deletes dependencies and syncs dotfiles
-INSTALL_TYPE="default" 
+# ||===================== Path to existing wallpapers directory =================|| #
+WALLPAPERS_DIRECTORY="$HOME/wallpapers/custom"
+# ||====================================================================|| #
+
+# ||===================== Path to directory to install dotfiles ====================|| #
+INSTALLATION_DIRECTORY="$HOME/custom/path"
 # ||====================================================================|| #
