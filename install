@@ -34,8 +34,6 @@ parse_options "$@" # Parse the comand line options.
 pretty_print_installer_msg # Pretty print the installer message.
 prompt_install # Promp for proceeding with installation.
 check_and_install_utilities "$TEMP_DEPENDENCIES_INSTALL_PATH" "${UTILS_REPOS[@]}" # Install utilities required for installation.
-echo "Install dir: $INSTALL_PATH"
-exit 0
 create_log # Create file for logging the installation (if enabled)
 check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed

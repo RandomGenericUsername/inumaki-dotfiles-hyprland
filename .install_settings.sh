@@ -5,7 +5,8 @@
 ########################### These can be found in 'settings' file ###########################
 
 source "$(pwd)/settings" # Source the settings file
-source "$(pwd)/.dotfiles-environment" # Source the settings file
+source "$(pwd)/.dotfiles-environment-definitions" # Source the settings file
+source "$(pwd)/.dotfiles-dependencies-definitions" # Source the settings file
 
 #######################################################################################
 
@@ -20,6 +21,9 @@ export HOST_CACHE_DIR="$HOME/.cache"
 
 #######################################################################################
 ################################## Set the name for dotfiles install dir ##################################
+
+# Ignore these files/folders from being backed up if found in the installation path. Add more if required.
+export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 
 ## Name of the dotfiles, i.e. the name of the directory where it will be installed.
 #export DOTFILES_NAME_RAW="inumaki-dotfiles"
@@ -52,100 +56,6 @@ export HOST_CACHE_DIR="$HOME/.cache"
 ## Add more if required.
 #export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 
-#######################################################################################
-################################## Dependencies first level directories ##################################
-
-# Print debug utility repo name
-export PRINT_DEBUG_UTILITY_REPO_NAME="Print-debug-CLI"
-# Print debug utility bin name
-export PRINT_DEBUG_UTILITY_BIN_NAME="print-debug"
-
-# Argument parser utility repo name
-export ARGUMENT_PARSER_UTILITY_REPO_NAME="Bash-scripting-argument-parser"
-# Argument parser utility bin name
-export ARGUMENT_PARSER_UTILITY_BIN_NAME="argument-parser"
-
-# Bash venv cli utility repo name 
-export BASH_VENV_CLI_UTILITY_REPO_NAME="Bash-variables-CLI"
-# Bash venv cli utility bin name 
-export BASH_VENV_CLI_UTILITY_BIN_NAME="venv"
-
-# utilities repositories
-export UTILS_REPOS=(
-    "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
-    "https://github.com/RandomGenericUsername/$ARGUMENT_PARSER_UTILITY_REPO_NAME.git"
-    "https://github.com/RandomGenericUsername/$BASH_VENV_CLI_UTILITY_REPO_NAME.git"
-)
-
-#######################################################################################
-################################## Dotfiles tools ##################################
-
-# Path to vcpkg installation
-export VCPKG_INSTALL_DIR="$DEPENDENCIES_INSTALL_PATH/vcpkg"
-
-# Path to python venv 
-export PYTHON_VENV="$DEPENDENCIES_INSTALL_PATH/python_venv"
-
-# Path to bash venv
-export BASH_VENV="$DEPENDENCIES_INSTALL_PATH/bash_venv"
-
-#######################################################################################
-################################## Dotfiles first level directories ##################################
-
-# Path to cache dir
-export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
-
-# Config dir
-export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
-
-# Settings dir
-export SETTINGS_DIR="$DOTFILES_INSTALL_PATH/.settings"
-
-# Wallpaper dir
-export WALLPAPERS_DIR="$DOTFILES_INSTALL_PATH/wallpapers"
-
-#######################################################################################
-################################## Dotfiles .cache ##################################
-
-# Re-evaluae this
-export GENERATED_WALLPAPERS_WITH_EFFECTS_DIR="$CACHE_DIR/wallpapers_with_effects"
-#######################################################################################
-################################## Dotfiles .config ##################################
-
-# Hypr dir
-export HYPR_DIR="$CONFIG_DIR/hypr"
-
-# Rofi dir
-export ROFI_DIR="$CONFIG_DIR/rofi"
-
-# Waybar
-export WAYBAR_DIR="$CONFIG_DIR/waybar"
-
-#######################################################################################
-################################## Dotfiles wallpaper settings ##################################
-
-# Wallpaper settings dir
-export WALLPAPER_SETTINGS_DIR="$SETTINGS_DIR/wallpaper"
-
-#######################################################################################
-################################## Dotfiles hypr ##################################
-
-export HYPR_SCRIPTS_DIR="$HYPR_DIR/scripts"
-export HYPR_EFFECTS_DIR="$HYPR_DIR/effects"
-export HYPR_WALLPAPER_EFFECTS_DIR="$HYPR_EFFECTS_DIR/wallpapers"
-
-#######################################################################################
-################################## Dotfiles wal ##################################
-
-# Cache
-export WAL_CACHE_DIR="$CACHE_DIR/wal"
-
-#######################################################################################
-################################## Waybar ##################################
-
-export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
-
-#######################################################################################
 ################################## Tools' repos ##################################
 
 # Directory to download utilities like debug-print, arg parser, etc.
