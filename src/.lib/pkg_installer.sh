@@ -53,10 +53,10 @@ _isInstalledYay() {
     
     if [ -n "$check" ]; then
         result=0
-        $print_debug "Package $package is already installed." -t "debug" 
+        $print_debug "Package '$package' is already installed." -t "debug" 
     else
         result=1
-        $print_debug "Package $package is not installed." -t "debug" 
+        $print_debug "Package '$package' is not installed." -t "debug" 
     fi
     
     return $result

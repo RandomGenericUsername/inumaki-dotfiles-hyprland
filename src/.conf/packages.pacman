@@ -7,6 +7,18 @@ waybar
 # Rofi: Application launcher
 rofi
 
+# Wlogout: Logout menu for Wayland
+wlogout
+
+# 1Password: Password manager
+1password
+
+# NWG-Shell: GTK-based shell components
+nwg-shell
+
+# Eww: Custom widget system
+eww
+
 # Fastfetch: System info fetcher
 fastfetch
 

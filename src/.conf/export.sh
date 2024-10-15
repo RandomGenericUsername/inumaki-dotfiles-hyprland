@@ -4,7 +4,9 @@
 export CONF_DIR; CONF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export PREREQUISITES="$CONF_DIR/prerequisites.pacman"
-export PIP_PREREQUISITES="$CONF_DIR/prerequisites.pip"
+export PIP_PACKAGES="$CONF_DIR/packages.pip"
+export PACMAN_PACKAGES="$CONF_DIR/packages.pacman"
+export YAY_PACKAGES="$CONF_DIR/packages.yay"
 
 export COLORS="$CONF_DIR/colors.sh"
 export DOTFILES_INSTALLATION_DEFAULTS="$CONF_DIR/defaults.sh"

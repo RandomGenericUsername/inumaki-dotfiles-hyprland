@@ -3,9 +3,6 @@ ttf-font-awesome
 ttf-material-design-icons
 ttf-ms-fonts
 
-# 1Password: Password manager
-1password
-
 # Slack: Team communication tool
 slack
 
@@ -13,15 +10,6 @@ slack
 evolution
 evolution-on
 evolution-spamassassin
-
-# Wlogout: Logout menu for Wayland
-wlogout
-
-# NWG-Shell: GTK-based shell components
-nwg-shell
-
-# Eww: Custom widget system
-eww
 
 # Hyprshade: Window shading tool for Hyprland
 hyprshade
