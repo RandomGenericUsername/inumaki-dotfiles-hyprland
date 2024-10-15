@@ -10,22 +10,18 @@
 '
 
 # ------------------ Source relevant variables/constants and functions ------------------ #
-this_dir="$(pwd)"
+this_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-lib_scripts=$this_dir/src/.lib/export.sh
-configs=$this_dir/src/.conf/export.sh
-install_settings=$this_dir/.install_settings.sh
+lib_scripts="$this_dir/src/.lib/export.sh"
+configs="$this_dir/src/.conf/export.sh"
+settings="$this_dir/settings"
 
-source $lib_scripts
+# Settings needs to be sourced first because it contains definitions required by settings at config directory.
+source $settings
 source $configs
-source $install_settings
+source $lib_scripts
 # --------------------------------------------------------------------------------------- #
 
-# ------------------ Export variables required for installation ------------------ #
-# After installing utils, the print debug utility will be at a temporal path.
-export print_debug="$TEMP_DEPENDENCIES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
-export IGNORE_FROM_BACKUP
-# --------------------------------------------------------------------------------------- #
 
 # ------------------------------------ Setup ------------------------------------ #
 clear # Clear the terminal for clearer output.
@@ -43,6 +39,7 @@ show_install_type # Show the installation type to be performed
 # ================================================================================#
 
 
+exit 0
 print_debug "Installation finished!" -t "info"
 if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
    print "Installation log generated at $LOG" -t "debug" 

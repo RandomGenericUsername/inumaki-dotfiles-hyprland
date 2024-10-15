@@ -1,4 +1,3 @@
-print_debug="$PRINT_DEBUG_UTILITY"
 
 check_vcpkg_installation() {
     # Check if the vcpkg directory exists

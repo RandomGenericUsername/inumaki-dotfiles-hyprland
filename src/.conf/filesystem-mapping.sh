@@ -26,9 +26,18 @@ export DEPENDENCIES_INSTALL_PATH;DEPENDENCIES_INSTALL_PATH="$INSTALL_PATH/.depen
 export TEMP_DOTFILES_INSTALL_PATH;TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH/dotfiles"
 # Temportal dependencies installation directory
 export TEMP_DEPENDENCIES_INSTALL_PATH;TEMP_DEPENDENCIES_INSTALL_PATH="$TEMP_INSTALL_PATH/.dependencies"
-
+# Ignore these files/folders from being backed up if found in the installation path. Add more if required.
+export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 #######################################################################################
 ################################## Dotfiles first level directories ##################################
+# Path to vcpkg installation
+export VCPKG_INSTALL_DIR="$DEPENDENCIES_INSTALL_PATH/vcpkg"
+
+# Path to python venv 
+export PYTHON_VENV="$DEPENDENCIES_INSTALL_PATH/python_venv"
+
+# Path to bash venv
+export BASH_VENV="$DEPENDENCIES_INSTALL_PATH/bash_venv"
 
 # Path to cache dir
 export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
@@ -84,3 +93,14 @@ export WAL_CACHE_DIR="$CACHE_DIR/wal"
 export WAYBAR_THEMES_DIR="$WAYBAR_DIR/themes"
 
 #######################################################################################
+
+export ROFI_CURRENT_WALLPAPER_RASI="$ROFI_DIR/current-wallpaper.rasi"
+export DEFAULT_WALLPAPER_PATH="$WALLPAPERS_DIR/default.png"
+export HYPRPAPER_CONFIG_TEMPLATE="$WALLPAPER_SETTINGS_DIR/hyprpaper.conf.tpl"
+export WAL_COLORS_WAYBAR_FILE="$WAL_CACHE_DIR/colors-waybar.css"
+export WALLPAPER_SELECTOR_SCRIPTS_DIR="$HYPR_SCRIPTS_DIR/wallpaper_selector"
+
+
+# This is the user's cache directory. Needed for pywal and other tools.
+#export HOST_CACHE_DIR="$HOME/.cache"
+#export HOST_WALLPAPERS_DIR; HOST_WALLPAPERS_DIR="$WALLPAPERS_DIRECTORY"

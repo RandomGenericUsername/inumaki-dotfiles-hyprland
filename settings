@@ -15,5 +15,5 @@ WALLPAPERS_DIRECTORY="$HOME/wallpapers/custom"
 # ||====================================================================|| #
 
 # ||===================== Path to directory to install dotfiles ====================|| #
-INSTALLATION_DIRECTORY="$HOME/custom/path"
+INSTALLATION_DIRECTORY="$HOME"
 # ||====================================================================|| #

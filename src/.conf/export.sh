@@ -3,15 +3,17 @@
 # Path to setup dir
 export CONF_DIR; CONF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-export SUPPORTED_DISTROS="$CONF_DIR/supported_distros.sh"
-
 export COLORS="$CONF_DIR/colors.sh"
-source "$COLORS"
-# Path to setup script
-#export INSTALL_SCRIPT="$INSTALL_DIR/install.sh"
-#
-#export PACMAN_PACKAGES="$INSTALL_DIR/packages.pacman"
-#
-#export YAY_PACKAGES="$INSTALL_DIR/packages.yay"
+export DOTFILES_INSTALLATION_DEFAULTS="$CONF_DIR/defaults.sh"
+export DOTFILES_INSTALLATION_DEPENDENCIES="$CONF_DIR/dependencies.sh"
+export DOTFILES_INSTALLATION_ENVIRONMENT_VARIABLES="$CONF_DIR/environment-variables.sh"
+export DOTFILES_INSTALLATION_FILESYSTEM_MAPPING="$CONF_DIR/filesystem-mapping.sh"
+export DOTFILES_INSTALLATION_SETTINGS="$CONF_DIR/install-settings.sh"
+export SUPPORTED_DISTROS="$CONF_DIR/supported-distros.sh"
 
-#source "$INSTALL_SCRIPT"
+source "$COLORS"
+source "$DOTFILES_INSTALLATION_DEFAULTS"
+source "$DOTFILES_INSTALLATION_DEPENDENCIES"
+source "$DOTFILES_INSTALLATION_ENVIRONMENT_VARIABLES"
+source "$DOTFILES_INSTALLATION_FILESYSTEM_MAPPING"
+source "$DOTFILES_INSTALLATION_SETTINGS"

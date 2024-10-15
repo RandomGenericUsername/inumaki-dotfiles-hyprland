@@ -13,7 +13,7 @@ get_repo_name() {
     echo "${repo_url##*/}" | sed 's/\.git$//'
 }
 
-debug_print(){
+print_with_debug(){
     local msg="$@"
     if [[ "$ENABLE_DEBUG" == "true" ]];then
         printf "%b" "${DEBUG_COLOR}" 
@@ -44,19 +44,19 @@ check_and_install_utilities() {
 
         # Check if the utility exists
         if [[ ! -x "$util_bin" ]]; then
-            debug_print "Utility '$util_name' not found at $util_bin. Installing..."
+            print_with_debug "Utility '$util_name' not found at $util_bin. Installing..."
             # Clone the repository to the specified path
             run "git clone $util_repo ${!util_path_var}"
 
             # Check if the utility was successfully installed
             if [[ ! -x "$util_bin" ]]; then
-                debug_print "ERROR: Failed to install '$util_name' from $util_repo. Exiting."
+                print_with_debug "ERROR: Failed to install '$util_name' from $util_repo. Exiting."
                 exit 1
             else
-                debug_print "'$util_name' installed successfully at $util_bin."
+                print_with_debug "'$util_name' installed successfully at $util_bin."
             fi
         else
-            debug_print "Utility '$util_name' is already installed at $util_bin."
+            print_with_debug "Utility '$util_name' is already installed at $util_bin."
         fi
     done
 }

@@ -124,7 +124,7 @@ prompt_existing_installation(){
 # Handle existing installation case
 handle_existing_installation() {
     local install_path="$1"
-    $print_debug "Previous installation detected in $install_path." -t "warn"
+    $print_debug "Previous installation detected in '$install_path'." -t "warn"
     prompt_existing_installation
 }
 

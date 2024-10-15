@@ -8,7 +8,6 @@
 '
 #!/bin/bash
 
-print_debug="$PRINT_DEBUG_UTILITY"
 
 _parsePackagesFromFile() {
     file="$1"

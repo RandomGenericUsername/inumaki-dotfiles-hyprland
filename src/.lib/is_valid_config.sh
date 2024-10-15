@@ -1,5 +1,4 @@
 
-print_debug="$PRINT_DEBUG_UTILITY"
 
 is_valid_config() {
     if [[ -f $CONFIG_FILE ]]; then

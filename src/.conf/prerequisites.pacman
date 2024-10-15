@@ -15,3 +15,6 @@ python
 
 # rsync for handling files and stuff
 rsync
+
+# jq
+jq
