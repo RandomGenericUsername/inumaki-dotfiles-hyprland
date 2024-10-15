@@ -1,3 +1,6 @@
+# jq
+jq
+
 # For cute command line input/output
 gum
 
@@ -15,6 +18,3 @@ python
 
 # rsync for handling files and stuff
 rsync
-
-# jq
-jq

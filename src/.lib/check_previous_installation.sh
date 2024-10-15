@@ -14,7 +14,7 @@ generate_backup_list() {
     for item in "$install_path"/*; do
         # Skip if no files are found (when wildcard does not match anything)
         if [[ ! -e "$item" ]]; then
-            $print_debug "No items found in $install_path" -t "debug"
+            $print_debug "No items found in '$install_path'" -t "debug"
             return 0
         fi
 
@@ -85,12 +85,7 @@ prompt_existing_installation(){
                 "Default: Deletes dependencies and updates the dotfiles.")
                     export INSTALL_TYPE="default"
                     if [[ -d "$DEPENDENCIES_INSTALL_PATH" ]];then
-                        delete_directory "$DEPENDENCIES_INSTALL_PATH" 
-                        was_deleted="$?"
-                        if [[ $was_deleted -ne 0 ]];then
-                            $print_debug "Since dependencies directory wasn't deleted, the installation will be performed as update."
-                            export INSTALL_TYPE="update"
-                        fi
+                        delete_directory "$DEPENDENCIES_INSTALL_PATH"
                     fi
                     break 2
                     ;;
@@ -100,7 +95,7 @@ prompt_existing_installation(){
                     ;;
                 "Clean: Deletes everything and installs again.")
                     export INSTALL_TYPE="clean"
-                    delete_directory "$INSTALL_PATH"
+                    delete_directory "$INSTALL_PATH" 
                     break 2
                     ;;
                 "Abort.")
@@ -132,10 +127,7 @@ handle_existing_installation() {
 handle_directory_deletion() {
     local install_path="$1"
 
-    # Instead of prompting again, just proceed with the deletion
-    $print_debug "Proceeding with the deletion of $install_path." -t "warn"
-
-    delete_directory "$install_path" 
+    delete_directory "$install_path"
     return $?
 }
 
@@ -173,7 +165,7 @@ check_previous_installation() {
 
     # Check if the directory does not exist or is empty
     if [[ ! -d "$install_path" || -z "$(ls -A "$install_path")" ]]; then
-        $print_debug "No valid installation found at $install_path. The directory does not exist or is empty." 
+        $print_debug "No valid installation found at '$install_path'. The directory does not exist or is empty." 
         return;
     fi
 
@@ -199,10 +191,11 @@ check_previous_installation() {
     if is_valid_config; then
         handle_existing_installation "$install_path"
     else
+        $print_debug "Setup will delete everything in '$install_path' and proceed to install '$DOTFILES_NAME_RAW'." -t "warn"
         handle_directory_deletion "$install_path"
         was_deleted="$?"
         if [[ $was_deleted -ne 0 ]]; then
-            $print_debug "Please provide another installation path or delete the contents of $install_path in order to proceed. Exiting..." -t "error"
+            $print_debug "Please provide another installation path or delete the contents of '$install_path' in order to proceed. Exiting..." -t "error"
             exit 1
         fi
     fi

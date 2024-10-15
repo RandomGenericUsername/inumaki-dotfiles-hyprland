@@ -3,6 +3,9 @@
 # Path to setup dir
 export CONF_DIR; CONF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+export PREREQUISITES="$CONF_DIR/prerequisites.pacman"
+export PIP_PREREQUISITES="$CONF_DIR/prerequisites.pip"
+
 export COLORS="$CONF_DIR/colors.sh"
 export DOTFILES_INSTALLATION_DEFAULTS="$CONF_DIR/defaults.sh"
 export DOTFILES_INSTALLATION_DEPENDENCIES="$CONF_DIR/dependencies.sh"

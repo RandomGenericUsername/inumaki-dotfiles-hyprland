@@ -33,10 +33,28 @@ check_and_install_utilities "$TEMP_DEPENDENCIES_INSTALL_PATH" "${UTILS_REPOS[@]}
 create_log # Create file for logging the installation (if enabled)
 check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
+
+# Install dependencies for installation
+install_pacman_packages "$PREREQUISITES"
+install_vcpkg "$TEMP_DEPENDENCIES_INSTALL_PATH/vcpkg"
+create_python_venv "$TEMP_DEPENDENCIES_INSTALL_PATH/python_venv"
+install_packages_in_venv "$PIP_PREREQUISITES" "$TEMP_DEPENDENCIES_INSTALL_PATH/python_venv"
 # --------------------------------------------------------------------------------------- #
-#setup
-#install
-# ================================================================================#
+
+
+# ------------------------------------ Install ------------------------------------ #
+tasks() {
+    sleep 1
+    echo '1'
+    sleep 1
+    echo '2'
+    sleep 1
+    echo '3'
+    sleep 1
+    echo '4'
+}
+gum spin --spinner dot --title "Starting '$DOTFILES_NAME_RAW' dotfiles installation now!!!" -- bash -c "$(declare -f tasks); tasks"
+# --------------------------------------------------------------------------------------- #
 
 
 exit 0

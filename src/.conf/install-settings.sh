@@ -1,5 +1,7 @@
 export print_debug="$TEMP_DEPENDENCIES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
 
+export INSTALL_TYPE="default"
+
 
 #export DEFAULT_WALLPAPER_PATH_SRC="$(pwd)/src/assets/default_wallpaper/default.png"
 # It is required to set a slug ("name"(?)) for cookiecutter

@@ -20,19 +20,19 @@ delete_directory() {
 
     # Check if the directory exists
     if [[ ! -d "$dir_path" ]]; then
-        $print_debug "Directory does not exist at path: $dir_path"  -t "error"
+        $print_debug "Directory does not exist at path: '$dir_path'"  -t "error"
         return 1
     fi
 
     if [[ "$skip_confirmation" = false ]]; then
-        $print_debug "Do you want to delete the directory at $dir_path? (Y/N):" -t "warn"
+        $print_debug "Do you want to delete the directory at '$dir_path'? (Y/N):" -t "warn"
         while true; do
             printf "%b" "${WARN_COLOR}"
             read -e -p "> " yn
             printf "%b" "${NO_COLOR}"
             case "$yn" in
                 [Yy]* )
-                    $print_debug "Deleting directory at $dir_path"
+                    $print_debug "Deleting directory at '$dir_path'"
                     break
                     ;;
                 [Nn]* )
@@ -50,10 +50,10 @@ delete_directory() {
     # Proceed with deleting the directory
     rm -rf "$dir_path"
     if [[ $? -eq 0 ]]; then
-        $print_debug "Directory $dir_path deleted successfully."
+        $print_debug "Directory '$dir_path' deleted successfully."
         return 0  # Success
     else
-        $print_debug "Failed to delete $dir_path directory." -t "error"
+        $print_debug "Failed to delete '$dir_path' directory." -t "error"
         return 3  # Failure in deletion
     fi
 }
@@ -82,10 +82,10 @@ is_dir_empty() {
 create_dirs() {
     for dir in "$@"; do
         if [ ! -d "$dir" ]; then
-            $print_debug "Creating directory: $dir" 
+            $print_debug "Creating directory: '$dir'" 
             mkdir -p "$dir"
         else 
-            $print_debug "Directory already exists: $dir"
+            $print_debug "Directory already exists: '$dir'"
         fi
     done
 }
