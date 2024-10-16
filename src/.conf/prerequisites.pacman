@@ -13,8 +13,8 @@ lolcat
 # ... Well, its git....
 git
 
-# Python for utilities that require it
-python
+# Required for pyenv
+tk
 
 # rsync for handling files and stuff
 rsync

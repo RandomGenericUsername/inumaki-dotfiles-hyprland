@@ -8,18 +8,20 @@
 '
 #!/bin/bash
 
-
 _parsePackagesFromFile() {
     file="$1"
     packages=""
 
-    while IFS= read -r line; do
+    while IFS= read -r line || [[ -n "$line" ]]; do
         # Skip empty lines and comments
         if [[ -n "$line" && "${line:0:1}" != "#" ]]; then
+            # Expand environment variables in the line
+            expanded_line=$(eval echo "$line")
+
             if [[ -z "$packages" ]]; then
-                packages="$line"
+                packages="$expanded_line"
             else
-                packages="$packages $line"
+                packages="$packages $expanded_line"
             fi
         fi
     done < "$file"

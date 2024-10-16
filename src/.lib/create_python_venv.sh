@@ -1,22 +1,29 @@
 create_python_venv() {
-    local venv_dir="$1"
+    local python_executable="$1"
+    local venv_dir="$2"
 
     # Check if the virtual environment directory is provided
     if [ -z "$venv_dir" ]; then
-        $print_debug "Usage: create_python_venv <path_to_venv_directory>" -t "error"
+        $print_debug "Usage: create_python_venv <path_to_python_executable> <path_to_venv_directory>" -t "error"
         exit 1
     fi
 
-    # Create the virtual environment
-    python3 -m venv "$venv_dir"
+    if [ ! -x "$python_executable" ]; then
+        $print_debug "Error: Python executable not found at '$python_executable'. Ensure the Python version is installed." -t "error"
+        exit 1
+    fi
+
+    $print_debug "Creating virtual environment at '$venv_dir' using Python executable at '$python_executable'..."
+    "$python_executable" -m venv "$venv_dir"
     if [ $? -ne 0 ]; then
-        $print_debug "Error: Could not create virtual environment at '$venv_dir'" -t "error"
+        $print_debug "Error: Could not create virtual environment at '$venv_dir' using '$python_executable'" -t "error"
         exit 1
     fi
 
-    $print_debug "Virtual environment created at '$venv_dir'"
+    $print_debug "Virtual environment created at '$venv_dir' using Python executable at '$python_executable'"
     return 0
 }
+
 
 
 install_packages_in_venv() {
@@ -42,7 +49,7 @@ install_packages_in_venv() {
         exit 1
     fi
 
-    run "python -m ensurepip --upgrade "
+    run "python -m ensurepip --upgrade"
     run "pip install --upgrade pip"
     run "pip install -r $requirements_path"
 
@@ -51,3 +58,4 @@ install_packages_in_venv() {
 
     $print_debug "Packages installed successfully in virtual environment at '$venv_dir'"
 }
+
