@@ -1,17 +1,6 @@
 
 
 
-# This is where pyenv will be installed.
-export PYENV_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.pyenv"
-# Path to pyenv bin
-export PYENV="$PYENV_INSTALL_PATH/bin/pyenv"
-
-# This is the path to the installed python version
-export PYTHON="$PYENV_INSTALL_PATH/versions/$PYTHON_VERSION/bin/python"
-
-
-# Ignore these files/folders from being backed up if found in the installation path. Add more if required.
-export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 
 
 #######################################################################################
@@ -35,8 +24,6 @@ export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 # Path to vcpkg installation
 export VCPKG_INSTALL_DIR="$DEPENDENCIES_INSTALL_PATH/vcpkg"
 
-# Path to python venv 
-export PYTHON_VENV="$DEPENDENCIES_INSTALL_PATH/python_venv"
 
 # Path to bash venv
 export BASH_VENV="$DEPENDENCIES_INSTALL_PATH/bash_venv"

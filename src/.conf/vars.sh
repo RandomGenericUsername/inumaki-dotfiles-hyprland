@@ -1,20 +1,45 @@
 # This is to allow creating the directory as hidden. If `HIDDEN_INSTALL` is `true` then the installation directory will be hidden.
 export DOTFILES_NAME;DOTFILES_NAME="$([ "$HIDDEN_INSTALL" = true ] && echo "." || echo "")$DOTFILES_NAME_RAW"
+
 # This is the path where the dotfiles will be installed. 'INSTALLATION_DIRECTORY' comes from settings.
 export INSTALL_PATH;INSTALL_PATH="$INSTALLATION_DIRECTORY/$DOTFILES_NAME"
+
 # This is the temporal installation path
-export TEMP_INSTALL_PATH;TEMP_INSTALL_PATH="/$TEMP_INSTALL_DIR/$DOTFILES_NAME"
+export TEMP_INSTALL_PATH;TEMP_INSTALL_PATH="$TEMP_INSTALL_DIR/$DOTFILES_NAME"
+
 # This is the default path where the config file for the dotfiles installation will be looked up.
 export CONFIG_FILE;CONFIG_FILE="$INSTALL_PATH/.config"
+
 # Dotfiles installation directory
 export DOTFILES_INSTALL_PATH;DOTFILES_INSTALL_PATH="$INSTALL_PATH/$DOTFILES_DIRNAME"
+
 # Dotfiles temporal installation directory
 export TEMP_DOTFILES_INSTALL_PATH;TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH/$DOTFILES_DIRNAME"
+
 # Path where pyenv will be installed temporarily.
 export TEMP_PYENV_INSTALL_PATH="$TEMP_DOTFILES_INSTALL_PATH/.pyenv"
-# This is required so other scripts can use this utility using the temporal installation path.
-export print_debug="$PRINT_DEBUG_UTILITY_TEMP_PATH"
 
+# This is where pyenv will be installed.
+export PYENV_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.pyenv"
+
+# Path to pyenv bin
+export PYENV="$PYENV_INSTALL_PATH/bin/pyenv"
+
+# This is the path to the installed python version
+export PYTHON="$PYENV_INSTALL_PATH/versions/$PYTHON_VERSION/bin/python"
+
+# Path to python venv 
+export PYTHON_VENV="$DOTFILES_INSTALL_PATH/python_venv"
+
+# Temporal nvm install path
+export TEMP_NVM_INSTALL_PATH="$TEMP_DOTFILES_INSTALL_PATH/.nvm"
+
+# Nvm install path
+export NVM_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.nvm"
+
+# Temporal oh my zsh install path
+export TEMP_OH_MY_ZSH_INSTALL_PATH="$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh"
+export OH_MY_ZSH_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.oh-my-zsh"
 
 # Print debug utility repo name
 export PRINT_DEBUG_UTILITY_REPO_NAME="Print-debug-CLI"
@@ -23,10 +48,20 @@ export PRINT_DEBUG_UTILITY_BIN_NAME="print-debug"
 # Temporal path for installing print debug utility
 export PRINT_DEBUG_UTILITY_TEMP_PATH="$TEMP_DOTFILES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
 
+# Oh my zsh repo
+export OH_MY_ZSH_REPO="https://github.com/ohmyzsh/ohmyzsh.git"
+
 # utilities repositories
 export UTILS_REPOS=(
     "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
 )
+
+
+# Ignore these files/folders from being backed up if found in the installation path. Add more if required.
+export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
+
+# This is required so other scripts can use this utility using the temporal installation path.
+export print_debug="$PRINT_DEBUG_UTILITY_TEMP_PATH"
 
 #"https://github.com/RandomGenericUsername/$ARGUMENT_PARSER_UTILITY_REPO_NAME.git"
 #"https://github.com/RandomGenericUsername/$BASH_VENV_CLI_UTILITY_REPO_NAME.git"

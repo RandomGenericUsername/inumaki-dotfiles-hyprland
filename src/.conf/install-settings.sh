@@ -3,6 +3,9 @@ export INSTALL_TYPE="default"
 
 # Python version to install via pyenv. see `pyenv install --list`
 export PYTHON_VERSION="3.10.4"
+ 
+# Node version to install
+export NODEJS_VERSION="20.9.0"
 
 # Name of the dotfiles, i.e. the name of the directory where it will be installed.
 export DOTFILES_NAME_RAW;DOTFILES_NAME_RAW="inumaki-dotfiles"
