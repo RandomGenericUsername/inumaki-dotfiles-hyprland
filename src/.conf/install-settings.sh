@@ -14,6 +14,6 @@ export DOTFILES_NAME_RAW;DOTFILES_NAME_RAW="inumaki-dotfiles"
 export TEMP_INSTALL_DIR; TEMP_INSTALL_DIR="/tmp"
 
 # Name for dotfiles itself
-export DOTFILES_DIRNAME="user"
+export DOTFILES_DIRNAME="dotfiles"
 
 

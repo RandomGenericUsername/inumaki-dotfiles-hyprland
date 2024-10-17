@@ -7,39 +7,15 @@ export INSTALL_PATH;INSTALL_PATH="$INSTALLATION_DIRECTORY/$DOTFILES_NAME"
 # This is the temporal installation path
 export TEMP_INSTALL_PATH;TEMP_INSTALL_PATH="$TEMP_INSTALL_DIR/$DOTFILES_NAME"
 
-# This is the default path where the config file for the dotfiles installation will be looked up.
-export CONFIG_FILE;CONFIG_FILE="$INSTALL_PATH/.config"
-
 # Dotfiles installation directory
 export DOTFILES_INSTALL_PATH;DOTFILES_INSTALL_PATH="$INSTALL_PATH/$DOTFILES_DIRNAME"
 
 # Dotfiles temporal installation directory
 export TEMP_DOTFILES_INSTALL_PATH;TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH/$DOTFILES_DIRNAME"
 
-# Path where pyenv will be installed temporarily.
-export TEMP_PYENV_INSTALL_PATH="$TEMP_DOTFILES_INSTALL_PATH/.pyenv"
+# This is the default path where the config file for the dotfiles installation will be looked up.
+export CONFIG_FILE;CONFIG_FILE="$INSTALL_PATH/.config"
 
-# This is where pyenv will be installed.
-export PYENV_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.pyenv"
-
-# Path to pyenv bin
-export PYENV="$PYENV_INSTALL_PATH/bin/pyenv"
-
-# This is the path to the installed python version
-export PYTHON="$PYENV_INSTALL_PATH/versions/$PYTHON_VERSION/bin/python"
-
-# Path to python venv 
-export PYTHON_VENV="$DOTFILES_INSTALL_PATH/python_venv"
-
-# Temporal nvm install path
-export TEMP_NVM_INSTALL_PATH="$TEMP_DOTFILES_INSTALL_PATH/.nvm"
-
-# Nvm install path
-export NVM_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.nvm"
-
-# Temporal oh my zsh install path
-export TEMP_OH_MY_ZSH_INSTALL_PATH="$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh"
-export OH_MY_ZSH_INSTALL_PATH="$DOTFILES_INSTALL_PATH/.oh-my-zsh"
 
 # Print debug utility repo name
 export PRINT_DEBUG_UTILITY_REPO_NAME="Print-debug-CLI"

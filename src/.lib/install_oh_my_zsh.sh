@@ -1,10 +1,5 @@
 #!/bin/bash
 
-install_oh_my_zsh(){
-    # Download and run the Oh My Zsh installation script
-    $print_debug "Installing Oh My Zsh..."
-    run "sh -c $(curl -fsSL )"
-} 
 
 install_oh_my_zsh() {
     local install_path="$1"

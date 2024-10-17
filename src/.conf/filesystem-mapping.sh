@@ -38,7 +38,7 @@ export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
 export SETTINGS_DIR="$DOTFILES_INSTALL_PATH/.settings"
 
 # Wallpaper dir
-export WALLPAPERS_DIR="$DOTFILES_INSTALL_PATH/wallpapers"
+#export WALLPAPERS_DIR="$DOTFILES_INSTALL_PATH/wallpapers"
 
 #######################################################################################
 ################################## Dotfiles .cache ##################################
