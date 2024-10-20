@@ -1,2 +1,5 @@
 # Ignore the log directory
 dotfiles-venv-template/cookiecutter.json
+
+# Ignore vscode configuration
+.vscode

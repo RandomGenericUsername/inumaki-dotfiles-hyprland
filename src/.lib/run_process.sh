@@ -1,6 +1,8 @@
+#!/bin/bash
+
 # Function to execute a command based on ENABLE_DEBUG
 run() {
-    local command="$@"
+    local command="$*"
     local status;
 
     # Check if ENABLE_DEBUG is set to true

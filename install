@@ -10,16 +10,16 @@
 '
 
 # ------------------ Source relevant variables/constants and functions ------------------ #
-this_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export SCRIPT_INVOCATION_DIR;SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-lib_scripts="$this_dir/src/.lib/export.sh"
-configs="$this_dir/src/.conf/export.sh"
-settings="$this_dir/settings"
+lib_scripts="$SCRIPT_INVOCATION_DIR/src/.lib/export.sh"
+configs="$SCRIPT_INVOCATION_DIR/src/.conf/export.sh"
+settings="$SCRIPT_INVOCATION_DIR/settings"
 
 # Settings needs to be sourced first because it contains definitions required by settings at config directory.
-source $settings
-source $configs
-source $lib_scripts
+source "$settings" 
+source "$configs"
+source "$lib_scripts"
 # --------------------------------------------------------------------------------------- #
 
 
@@ -43,7 +43,7 @@ run_tasks() {
 
    install_yay
 
-   install_pacman_packages "$PACMAN_PACKAGES"
+   #install_pacman_packages "$PACMAN_PACKAGES"
    install_yay_packages "$YAY_PACKAGES"
 
    install_pyenv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv"
@@ -55,8 +55,9 @@ run_tasks() {
    install_node_version "$TEMP_DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" 
    install_oh_my_zsh "$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh"
 
-   create_dirs "$HOME/.cache" # Just in case the current user doens't cache stuff \
-               "$WALLPAPERS_DIRECTORY" # Directory to store the wallpapers.
+   create_dirs "$HOME/.cache" "$WALLPAPERS_DIRECTORY"
+   get_env_vars "$settings" "$INSTALLATION_SETTINGS" "$INSTALLATION_DEFAULTS" "$INSTALLATION_ENVIRONMENT_VARIABLES" "$INSTALLATION_FILESYSTEM_MAPPING" "$TEMP_DOTFILES_INSTALL_PATH/environment_variables.sh" 
+   create_cookiecutter_project -e "$TEMP_DOTFILES_INSTALL_PATH/environment_variables.sh" -t "$COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR" -i "$TEMP_INSTALL_PATH" || exit $?
     
 }
 

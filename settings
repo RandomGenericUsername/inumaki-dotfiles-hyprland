@@ -11,7 +11,7 @@ LOG="/tmp/logs/install.log"
 # ||====================================================================|| #
 
 # ||===================== Path to existing wallpapers directory =================|| #
-WALLPAPERS_DIRECTORY="$HOME/wallpapers/custom"
+WALLPAPERS_DIRECTORY="$HOME/wallpapers"
 # ||====================================================================|| #
 
 # ||===================== Path to directory to install dotfiles ====================|| #
