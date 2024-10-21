@@ -89,3 +89,28 @@ create_dirs() {
         fi
     done
 }
+
+copy_files() {
+    local origin="$1"
+    local destination="$2"
+
+    # Check if the origin directory exists
+    if [[ ! -d "$origin" ]]; then
+        $print_debug "Origin directory $origin does not exist."
+        return 1
+    fi
+
+    # Create destination directory if it doesn't exist
+    mkdir -p "$destination"
+
+    # Enable copying hidden files and directories
+    shopt -s dotglob
+
+    # Copy files from origin to destination
+    cp -r "$origin"/* "$destination"
+
+    # Disable dotglob after use
+    shopt -u dotglob
+
+    $print_debug "All files from $origin copied to $destination."
+}

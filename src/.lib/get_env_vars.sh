@@ -11,22 +11,48 @@ get_env_vars() {
     # Create or clear the output file
     > "$output_file"
 
-    $print_debug "Generating environment variables from input files: $*"
     # Loop through all arguments except the last one (files)
-    for ((i=1; i < num_args; i++)); do
+    for ((i=1; i<num_args; i++)); do
         local file_path=${!i}
 
         # Check if the file exists
         if [[ -f "$file_path" ]]; then
-            # Append the content of each file to the output file if it exports variables
             $print_debug "Extracting environment variables from $file_path"
-            grep -E '^[[:space:]]*export[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*=' "$file_path" >> "$output_file"
+            inside_array=false
+            array_content=""
+
+            # Read file line by line
+            while IFS= read -r line || [[ -n "$line" ]]; do
+                # If inside an array, keep appending lines until the closing parenthesis is found
+                if [[ "$inside_array" == true ]]; then
+                    array_content="${array_content}\n${line}"
+                    if [[ $line =~ \) ]]; then
+                        # Array completed, write it to the output
+                        $print_debug "Multi-line array completed: $array_content"
+                        echo -e "$array_content" >> "$output_file"
+                        inside_array=false
+                        array_content=""
+                    fi
+                    continue
+                fi
+
+                # Detect the start of an array
+                if [[ $line =~ ^[[:space:]]*export[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*=\( ]]; then
+                    array_content="$line"
+                    $print_debug "Multi-line array detected: $line"
+                    inside_array=true
+                    continue
+                fi
+
+                # If not an array, handle regular export statements
+                if [[ $line =~ ^[[:space:]]*export[[:space:]]+[a-zA-Z_][a-zA-Z0-9_]*=.*$ ]]; then
+                    $print_debug "Regular variable detected: $line"
+                    echo "$line" >> "$output_file"
+                fi
+            done < "$file_path"
         else
             $print_debug "$file_path does not exist or is not a file. Skipping..." -t "warn"
         fi
     done
-
-    # Remove duplicate lines in the output file (in case variables overlap across files)
-    sort -u -o "$output_file" "$output_file"
 }
 

@@ -33,40 +33,44 @@ check_and_install_utilities "$TEMP_DOTFILES_INSTALL_PATH" "${UTILS_REPOS[@]}" # 
 create_log # Create file for logging the installation (if enabled)
 check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
+#  Need to install prequisites before running the tasks
 install_pacman_packages "$PREREQUISITES" 
-
 # --------------------------------------------------------------------------------------- #
 
 
 # ------------------------------------ Install ------------------------------------ #
 run_tasks() {
 
-   install_yay
+   install_yay  || exit $?
 
-   #install_pacman_packages "$PACMAN_PACKAGES"
-   install_yay_packages "$YAY_PACKAGES"
+   install_yay_packages "$YAY_PACKAGES"  || exit $?
 
-   install_pyenv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv"
-   install_python_version "$TEMP_DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION"
-   create_python_venv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
-   install_packages_in_venv "$PIP_PACKAGES" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
+   install_pyenv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv"  || exit $?
+   install_python_version "$TEMP_DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION"  || exit $?
+   create_python_venv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"  || exit $?
+   install_packages_in_venv "$PIP_PACKAGES" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"  || exit $?
 
-   install_nvm "$TEMP_DOTFILES_INSTALL_PATH/.nvm"
-   install_node_version "$TEMP_DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" 
-   install_oh_my_zsh "$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh"
+   install_nvm "$TEMP_DOTFILES_INSTALL_PATH/.nvm"  || exit $?
+   install_node_version "$TEMP_DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION"  || exit $?
 
-   create_dirs "$HOME/.cache" "$WALLPAPERS_DIRECTORY"
-   get_env_vars "$settings" "$INSTALLATION_SETTINGS" "$INSTALLATION_DEFAULTS" "$INSTALLATION_ENVIRONMENT_VARIABLES" "$INSTALLATION_FILESYSTEM_MAPPING" "$TEMP_DOTFILES_INSTALL_PATH/environment_variables.sh" 
-   create_cookiecutter_project -e "$TEMP_DOTFILES_INSTALL_PATH/environment_variables.sh" -t "$COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR" -i "$TEMP_INSTALL_PATH" || exit $?
+   create_dirs "$HOME/.cache" "$WALLPAPERS_DIRECTORY" || exit $?
+
+   get_env_vars "$settings" "$INSTALLATION_SETTINGS" "$INSTALLATION_DEFAULTS" "$INSTALLATION_ENVIRONMENT_VARIABLES" "$INSTALLATION_FILESYSTEM_MAPPING" "$VARS" "$TEMP_INSTALL_PATH/environment_variables.sh" || exit $?
+   create_cookiecutter_project -e "$TEMP_INSTALL_PATH/environment_variables.sh" -t "$COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR" -i "$TEMP_INSTALL_PATH" || exit $?
+   install_oh_my_zsh "$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
     
 }
 
 if [ "$ENABLE_DEBUG" = true ]; then
    gum spin --spinner dot --title "Installing all packages and tools..." -- sleep 1 && run_tasks
 else
-   gum spin --spinner dot --title "Installing all packages and tools..." -- bash -c "$(declare -f); run_tasks"
+   if ! gum spin --spinner dot --title "Installing all packages and tools..." -- bash -c "$(declare -f); run_tasks";then
+      printf "%b" "${ERROR_COLOR}" 
+      echo "!!! An error occurred during installation. Try running again the installation in debug mode with the '-d' or '--debug' options. !!!"
+      printf "%b" "${NO_COLOR}" 
+      exit 1
+   fi
 fi
-
 # --------------------------------------------------------------------------------------- #
 
 
@@ -74,4 +78,3 @@ $print_debug "Installation finished!!!" -t "info"
 if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
    print "Installation log generated at '$LOG'."
 fi
-exit 0

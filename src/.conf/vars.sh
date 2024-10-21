@@ -24,11 +24,15 @@ export PRINT_DEBUG_UTILITY_BIN_NAME="print-debug"
 # Temporal path for installing print debug utility
 export PRINT_DEBUG_UTILITY_TEMP_PATH="$TEMP_DOTFILES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
 
+export PRINT_DEBUG_UTILITY="$TEMP_DOTFILES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
+#export PRINT_DEBUG_UTILITY="$INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
+
 # Oh my zsh repo
 export OH_MY_ZSH_REPO="https://github.com/ohmyzsh/ohmyzsh.git"
 
 # utilities repositories
 export UTILS_REPOS=(
+    "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
     "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
 )
 
@@ -41,7 +45,6 @@ export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
 # This is required so other scripts can use this utility using the temporal installation path.
 export print_debug="$PRINT_DEBUG_UTILITY_TEMP_PATH"
 
-
 # It is required to set a slug ("name"(?)) for cookiecutter
 export project_slug="$DOTFILES_NAME"
 
@@ -49,13 +52,15 @@ export project_slug="$DOTFILES_NAME"
 # directories, files, or lines of code containing characters conflicting with the way in which jinja2
 # and that kind of stuff uses to expand the template.
 export _copy_without_render=(
-    #".settings/*"
+    ".settings/*"
+    ".config/*"
+    ".zshrc"
     #".cache/*"
     #".zshrc"
     #".bashrc"
     #".config/hypr/conf/*"
     #".config/hypr/effects/*"
-    ".config/wal/templates/*" # wal templates 
+    #".config/wal/templates/*" # wal templates 
     #".config/waybar"
     #".config/waypaper"
 )

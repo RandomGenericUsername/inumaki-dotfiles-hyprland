@@ -38,10 +38,11 @@ create_cookiecutter_project() {
     #cookiecutter "$template_dir" --no-input --output-dir=/tmp/ -f $cookiecutter_context
     $print_debug "Creating cookiecutter project from $template_dir"
     # Source the python venv to use cookiecutter
-    source "$TEMP_DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python"
+    source "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv/bin/activate"
     cookiecutter --no-input -f --output-dir="$install_dir" "$template_dir"
     deactivate
     $print_debug "Done copying the filesystem to $install_dir/$DOTFILES_NAME"
+    copy_files "$install_dir/$DOTFILES_NAME" "$install_dir/$DOTFILES_DIRNAME"
     return 0
 }
 
@@ -93,4 +94,5 @@ generate_cookiecutter_json() {
 
     # Write JSON content to the output file
     echo "$json_content" > "$output_file"
+    $print_debug "JSON generated at $output_file"
 }
