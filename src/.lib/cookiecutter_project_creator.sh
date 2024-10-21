@@ -28,21 +28,26 @@ create_cookiecutter_project() {
         return 1
     fi
 
-    generate_cookiecutter_json "$env_file" "$template_dir/cookiecutter.json" || return $?
 
     if [[ ! -f "$template_dir/cookiecutter.json" ]];then
         $print_debug "No cookiecutter.json found at $template_dir"
         return 1
     fi
 
-    #cookiecutter "$template_dir" --no-input --output-dir=/tmp/ -f $cookiecutter_context
-    $print_debug "Creating cookiecutter project from $template_dir"
+    local pyenv="$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv/bin/activate"
+    if [[ ! -f "$pyenv" ]]; then
+        $print_debug "Python venv not found at $pyenv" -t "error"
+        exit 1
+    fi
     # Source the python venv to use cookiecutter
-    source "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv/bin/activate"
+    source "$pyenv"
+    $print_debug "Creating cookiecutter project from $template_dir"
+    generate_cookiecutter_json "$env_file" "$template_dir/cookiecutter.json" || return $?
     cookiecutter --no-input -f --output-dir="$install_dir" "$template_dir"
+    rm -r "$template_dir/cookiecutter.json"
     deactivate
     $print_debug "Done copying the filesystem to $install_dir/$DOTFILES_NAME"
-    copy_files "$install_dir/$DOTFILES_NAME" "$install_dir/$DOTFILES_DIRNAME"
+    #copy_files "$install_dir/$DOTFILES_NAME" "$install_dir/$DOTFILES_DIRNAME"
     return 0
 }
 

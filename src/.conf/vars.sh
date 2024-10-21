@@ -16,7 +16,6 @@ export TEMP_DOTFILES_INSTALL_PATH;TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH
 # This is the default path where the config file for the dotfiles installation will be looked up.
 export CONFIG_FILE;CONFIG_FILE="$INSTALL_PATH/.config"
 
-
 # Print debug utility repo name
 export PRINT_DEBUG_UTILITY_REPO_NAME="Print-debug-CLI"
 # Print debug utility bin name
@@ -32,7 +31,6 @@ export OH_MY_ZSH_REPO="https://github.com/ohmyzsh/ohmyzsh.git"
 
 # utilities repositories
 export UTILS_REPOS=(
-    "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
     "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
 )
 
