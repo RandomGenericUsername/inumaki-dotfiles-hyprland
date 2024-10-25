@@ -1,4 +1,8 @@
 
+troubleshooting:
+```bash
+sudo ip link set dev <your-network-interface> mtu 1400
+```
 
 # TO-DO
 - Add lxappareance lighssmd manager as session manager.

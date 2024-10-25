@@ -54,5 +54,6 @@ get_env_vars() {
             $print_debug "$file_path does not exist or is not a file. Skipping..." -t "warn"
         fi
     done
+    $print_debug "Environment variables extracted to $output_file"
 }
 

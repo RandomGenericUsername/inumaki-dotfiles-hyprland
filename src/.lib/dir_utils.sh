@@ -100,9 +100,6 @@ copy_files() {
         return 1
     fi
 
-    # Create destination directory if it doesn't exist
-    mkdir -p "$destination"
-
     # Enable copying hidden files and directories
     shopt -s dotglob
 
