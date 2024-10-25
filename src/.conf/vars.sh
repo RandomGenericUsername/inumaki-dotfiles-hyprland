@@ -38,7 +38,7 @@ export UTILS_REPOS=(
 export COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR="$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template"
 
 # Ignore these files/folders from being backed up if found in the installation path. Add more if required.
-export IGNORE_FROM_BACKUP=(".dependencies" "dotfiles")
+export IGNORE_FROM_BACKUP=("environment_variables.sh" "dotfiles")
 
 # This is required so other scripts can use this utility using the temporal installation path.
 export print_debug="$PRINT_DEBUG_UTILITY_TEMP_PATH"
