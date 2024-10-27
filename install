@@ -39,6 +39,7 @@ check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
 install_pacman_packages "$PREREQUISITES" #  Need to install prequisites before running the tasks
 $print_debug "Prerequisites installed." -t "info"
+exit 0
 # --------------------------------------------------------------------------------------- #
 
 

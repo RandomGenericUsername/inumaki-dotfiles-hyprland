@@ -8,7 +8,7 @@ check_distro() {
     fi
 
     # Get the current distribution
-    current_distro=$(grep '^ID_LIKE=' /etc/os-release | cut -d'=' -f2 | tr -d '"')
+    current_distro=$(grep '^ID=' /etc/os-release | cut -d'=' -f2 | tr -d '"')
 
     # Check if the current distribution is in the file
     if grep -q "^$current_distro$" "$file_path"; then
