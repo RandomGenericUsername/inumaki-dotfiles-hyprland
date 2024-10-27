@@ -10,7 +10,7 @@
 '
 
 # ------------------ Source relevant variables/constants and functions ------------------ #
-export SCRIPT_INVOCATION_DIR;SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 lib_scripts="$SCRIPT_INVOCATION_DIR/src/.lib/export.sh"
 configs="$SCRIPT_INVOCATION_DIR/src/.conf/export.sh"
@@ -22,22 +22,28 @@ source "$configs"
 source "$lib_scripts"
 
 # Required to update the log path variable in the print debug script
-export LOG;
+#export LOG;
+# This is required so other scripts can use this utility using the temporal installation path.
+#export print_debug="$TEMP_DOTFILES_INSTALL_PATH/.print-debug/print-debug"
 # --------------------------------------------------------------------------------------- #
 
-
 # ------------------------------------ Setup ------------------------------------ #
-clear # Clear the terminal for clearer output.
-check_distro "$SUPPORTED_DISTROS" # Check if the current distro is supported.
-exit 0
+
+# Clear the terminal for clearer output.
+clear 
+# Check if the current distro is supported.
+get_package_manager
 parse_options "$@" # Parse the comand line options.
 pretty_print_installer_msg # Pretty print the installer message.
 prompt_install # Promp for proceeding with installation.
 echo "INFO: [Installing prerequisites...]" # Print message to inform the user that dependencies are being installed.
 install_print_debug_util "$TEMP_DOTFILES_INSTALL_PATH/.print-debug" # Install print debug utility
+if_arch_based_distro
+exit 0
 create_log # Create file for logging the installation (if enabled)
 check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
+
 install_pacman_packages "$PREREQUISITES" #  Need to install prequisites before running the tasks
 $print_debug "Prerequisites installed." -t "info"
 # --------------------------------------------------------------------------------------- #
@@ -56,7 +62,6 @@ run_tasks() {
     "$TEMP_INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" || exit $?
 
-   install_yay || exit $?
 
    install_yay_packages "$YAY_PACKAGES" || exit $?
 

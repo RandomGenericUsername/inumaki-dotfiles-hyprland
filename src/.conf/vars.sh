@@ -22,9 +22,6 @@ export COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR="$SCRIPT_INVOCATION_DIR/src/dotfi
 # Ignore these files/folders from being backed up if found in the installation path. Add more if required.
 export IGNORE_FROM_BACKUP=("environment_variables.sh" "$DOTFILES_DIRNAME")
 
-# This is required so other scripts can use this utility using the temporal installation path.
-export print_debug="$PRINT_DEBUG_UTILITY_TEMP_PATH"
-
 # It is required to set a slug ("name"(?)) for cookiecutter
 export project_slug="$DOTFILES_NAME"
 
