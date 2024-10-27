@@ -29,7 +29,7 @@ export VCPKG_INSTALL_DIR="$DEPENDENCIES_INSTALL_PATH/vcpkg"
 export BASH_VENV="$DEPENDENCIES_INSTALL_PATH/bash_venv"
 
 # Path to cache dir
-export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
+#export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
 
 # Config dir
 export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"

@@ -1,4 +1,3 @@
-# Arch distro.
+# Add here the supported distros
 arch
-
-# Add more ...
+fedora

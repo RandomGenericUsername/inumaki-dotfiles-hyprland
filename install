@@ -33,12 +33,11 @@ parse_options "$@" # Parse the comand line options.
 pretty_print_installer_msg # Pretty print the installer message.
 prompt_install # Promp for proceeding with installation.
 echo "INFO: [Installing prerequisites...]" # Print message to inform the user that dependencies are being installed.
-check_and_install_utilities "$TEMP_DOTFILES_INSTALL_PATH" "${UTILS_REPOS[@]}" # Install utilities required for installation.
+install_print_debug_util "$TEMP_DOTFILES_INSTALL_PATH/.print-debug" # Install print debug utility
 create_log # Create file for logging the installation (if enabled)
 check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
-#  Need to install prequisites before running the tasks
-install_pacman_packages "$PREREQUISITES" 
+install_pacman_packages "$PREREQUISITES" #  Need to install prequisites before running the tasks
 $print_debug "Prerequisites installed." -t "info"
 # --------------------------------------------------------------------------------------- #
 
@@ -48,6 +47,13 @@ $print_debug "Prerequisites installed." -t "info"
 
 run_tasks() {
    $print_debug "Running installation..." -t "info"
+
+   #create_dirs "$HOME/.cache" "$INSTALL_PATH" "$TEMP_INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
+   create_dirs \
+    "$HOME/.cache" \
+    "$INSTALL_PATH" \
+    "$TEMP_INSTALL_PATH" \
+    "$WALLPAPERS_DIRECTORY" || exit $?
 
    install_yay || exit $?
 
@@ -66,10 +72,15 @@ run_tasks() {
    get_env_vars "$settings" "$INSTALLATION_SETTINGS" "$INSTALLATION_DEFAULTS" "$INSTALLATION_ENVIRONMENT_VARIABLES" "$INSTALLATION_FILESYSTEM_MAPPING" "$VARS" "$TEMP_INSTALL_PATH/environment_variables.sh" || exit $?
    create_cookiecutter_project -e "$TEMP_INSTALL_PATH/environment_variables.sh" -t "$COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR" -i "$TEMP_INSTALL_PATH" || exit $?
 
-   create_dirs "$HOME/.cache" "$INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
    copy_files "$TEMP_INSTALL_PATH" "$INSTALL_PATH" || exit $?
    copy_files "$INSTALL_PATH/$DOTFILES_DIRNAME/$DOTFILES_NAME" "$INSTALL_PATH/$DOTFILES_DIRNAME"
    rm -rf "${INSTALL_PATH:?}/${DOTFILES_DIRNAME:?}/${DOTFILES_NAME:?}" || exit $?
+
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
+   create_symbolic_link "$WALLPAPERS_DIR" --source "$HOST_WALLPAPERS_DIR" --target "$DOTFILES_INSTALL_PATH"
+   #create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME"
+   #create_symbolic_link "$HOME/.config/nvim" --source "$CONFIG_DIR/nvim" --target "$HOME/.config"
+   #create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
 
    $print_debug "Installation finished!!!" -t "info"
    if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then

@@ -16,29 +16,11 @@ export TEMP_DOTFILES_INSTALL_PATH;TEMP_DOTFILES_INSTALL_PATH="$TEMP_INSTALL_PATH
 # This is the default path where the config file for the dotfiles installation will be looked up.
 export CONFIG_FILE;CONFIG_FILE="$INSTALL_PATH/.config"
 
-# Print debug utility repo name
-export PRINT_DEBUG_UTILITY_REPO_NAME="Print-debug-CLI"
-# Print debug utility bin name
-export PRINT_DEBUG_UTILITY_BIN_NAME="print-debug"
-# Temporal path for installing print debug utility
-export PRINT_DEBUG_UTILITY_TEMP_PATH="$TEMP_DOTFILES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
-
-export PRINT_DEBUG_UTILITY="$TEMP_DOTFILES_INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
-#export PRINT_DEBUG_UTILITY="$INSTALL_PATH/$PRINT_DEBUG_UTILITY_REPO_NAME/$PRINT_DEBUG_UTILITY_BIN_NAME"
-
-# Oh my zsh repo
-export OH_MY_ZSH_REPO="https://github.com/ohmyzsh/ohmyzsh.git"
-
-# utilities repositories
-export UTILS_REPOS=(
-    "https://github.com/RandomGenericUsername/$PRINT_DEBUG_UTILITY_REPO_NAME.git"
-)
-
 # Path to the directory containing the cookiecutter template
 export COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR="$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template"
 
 # Ignore these files/folders from being backed up if found in the installation path. Add more if required.
-export IGNORE_FROM_BACKUP=("environment_variables.sh" "dotfiles")
+export IGNORE_FROM_BACKUP=("environment_variables.sh" "$DOTFILES_DIRNAME")
 
 # This is required so other scripts can use this utility using the temporal installation path.
 export print_debug="$PRINT_DEBUG_UTILITY_TEMP_PATH"

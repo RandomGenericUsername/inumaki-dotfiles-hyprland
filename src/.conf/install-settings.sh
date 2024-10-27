@@ -10,7 +10,7 @@ export NODEJS_VERSION="20.9.0"
 # Name of the dotfiles, i.e. the name of the directory where it will be installed.
 export DOTFILES_NAME_RAW;DOTFILES_NAME_RAW="inumaki-dotfiles"
 
-# Temp install directory
+# This is where the dotfiles will be installed temporally -> $TEMP_INSTALL_DIR/$DOTFILES_NAME
 export TEMP_INSTALL_DIR; TEMP_INSTALL_DIR="$HOME/temp-install"
 
 # Name for dotfiles itself

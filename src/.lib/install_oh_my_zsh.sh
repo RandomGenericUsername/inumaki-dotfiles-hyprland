@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Oh my zsh repo
+export OH_MY_ZSH_REPO="https://github.com/ohmyzsh/ohmyzsh.git"
 
 install_oh_my_zsh() {
     local install_path="$1"
