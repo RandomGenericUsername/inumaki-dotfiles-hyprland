@@ -31,19 +31,22 @@ source "$lib_scripts"
 
 # Clear the terminal for clearer output.
 clear 
-# Check if the current distro is supported.
+# Check if the current distro is supported and get the package manager. If not supported, exit.
 get_package_manager
-parse_options "$@" # Parse the comand line options.
-pretty_print_installer_msg # Pretty print the installer message.
-prompt_install # Promp for proceeding with installation.
-echo "INFO: [Installing prerequisites...]" # Print message to inform the user that dependencies are being installed.
+# Parse the comand line options.
+parse_options "$@" 
+# Pretty print the installer message.
+pretty_print_installer_msg 
+# Promp for proceeding with installation.
+prompt_install 
+# Print message to inform the user that dependencies are being installed.
+echo "INFO: [Installing prerequisites...]" 
 install_print_debug_util "$TEMP_DOTFILES_INSTALL_PATH/.print-debug" # Install print debug utility
 if_arch_based_distro
-exit 0
 create_log # Create file for logging the installation (if enabled)
 check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
-
+exit 0
 install_pacman_packages "$PREREQUISITES" #  Need to install prequisites before running the tasks
 $print_debug "Prerequisites installed." -t "info"
 # --------------------------------------------------------------------------------------- #
