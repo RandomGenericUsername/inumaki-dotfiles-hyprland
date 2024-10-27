@@ -29,6 +29,7 @@ export LOG;
 # ------------------------------------ Setup ------------------------------------ #
 clear # Clear the terminal for clearer output.
 check_distro "$SUPPORTED_DISTROS" # Check if the current distro is supported.
+exit 0
 parse_options "$@" # Parse the comand line options.
 pretty_print_installer_msg # Pretty print the installer message.
 prompt_install # Promp for proceeding with installation.
@@ -39,7 +40,6 @@ check_previous_installation # Check for previous installation
 show_install_type # Show the installation type to be performed
 install_pacman_packages "$PREREQUISITES" #  Need to install prequisites before running the tasks
 $print_debug "Prerequisites installed." -t "info"
-exit 0
 # --------------------------------------------------------------------------------------- #
 
 
