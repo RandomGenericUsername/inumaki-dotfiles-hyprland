@@ -24,7 +24,7 @@ source "$lib_scripts"
 # Required to update the log path variable in the print debug script
 #export LOG;
 # This is required so other scripts can use this utility using the temporal installation path.
-#export print_debug="$TEMP_DOTFILES_INSTALL_PATH/.print-debug/print-debug"
+export print_debug="$TEMP_DOTFILES_INSTALL_PATH/.print-debug/print-debug"
 # --------------------------------------------------------------------------------------- #
 
 # ------------------------------------ Setup ------------------------------------ #

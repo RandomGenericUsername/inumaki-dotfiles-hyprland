@@ -1,19 +1,19 @@
 # ||================ Set to path to the backup directory =============_=|| #
-BACKUP_DIRECTORY="$HOME/backup"
+export BACKUP_DIRECTORY="$HOME/backup"
 # ||====================================================================|| #
 
 # ||============== Set to true hide the install directory ==============|| #
-HIDDEN_INSTALL="true"
+export HIDDEN_INSTALL="true"
 # ||====================================================================|| #
 
 # ||===================== Path to installation logs ====================|| #
-LOG="/tmp/logs/install.log"
+export LOG="/tmp/logs/install-log.log"
 # ||====================================================================|| #
 
 # ||===================== Path to existing wallpapers directory =================|| #
-WALLPAPERS_DIRECTORY="$HOME/wallpapers"
+export WALLPAPERS_DIRECTORY="$HOME/wallpapers"
 # ||====================================================================|| #
 
 # ||===================== Path to directory to install dotfiles ====================|| #
-INSTALLATION_DIRECTORY="$HOME"
+export INSTALLATION_DIRECTORY="$HOME"
 # ||====================================================================|| #
