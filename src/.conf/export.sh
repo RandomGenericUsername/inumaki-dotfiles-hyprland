@@ -3,7 +3,7 @@
 # Path to setup dir
 export CONF_DIR; CONF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-export PREREQUISITES="$CONF_DIR/prerequisites.pacman"
+export BOOTSTRAP_DEPENDENCIES="$CONF_DIR/bootstrap_dependencies"
 export PIP_PACKAGES="$CONF_DIR/packages.pip"
 export YAY_PACKAGES="$CONF_DIR/packages.yay"
 

@@ -40,15 +40,21 @@ pretty_print_installer_msg
 # Promp for proceeding with installation.
 prompt_install 
 # Print message to inform the user that dependencies are being installed.
-echo "INFO: [Installing prerequisites...]" 
+echo "INFO: [Boostraping...]" 
+# Install the print debug utility
 install_print_debug_util "$TEMP_DOTFILES_INSTALL_PATH/.print-debug" # Install print debug utility
+# Check if the current distro is based on Arch Linux and install yay if it is.
 if_arch_based_distro
-create_log # Create file for logging the installation (if enabled)
-check_previous_installation # Check for previous installation
-show_install_type # Show the installation type to be performed
+# Create file for logging the installation (if enabled)
+create_log 
+# Check for previous installation
+check_previous_installation 
+# Show the installation type to be performed
+$print_debug "Performing '$INSTALL_TYPE' installation" 
+# Install packages and utils required to run the installation tasks
+install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" "$INSTALL_TYPE"
+$print_debug "Bootstraping finished." -t "success"
 exit 0
-install_pacman_packages "$PREREQUISITES" #  Need to install prequisites before running the tasks
-$print_debug "Prerequisites installed." -t "info"
 # --------------------------------------------------------------------------------------- #
 
 

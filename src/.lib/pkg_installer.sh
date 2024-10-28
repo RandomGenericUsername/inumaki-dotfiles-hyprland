@@ -1,162 +1,70 @@
-: '
-     __ __           __              _            __        ____               __ __
-  __/ // /_   ____  / /______ _     (_)___  _____/ /_____ _/ / /__  _____   __/ // /_
- /_  _  __/  / __ \/ //_/ __ `/    / / __ \/ ___/ __/ __ `/ / / _ \/ ___/  /_  _  __/
-/_  _  __/  / /_/ / ,< / /_/ /    / / / / (__  ) /_/ /_/ / / /  __/ /     /_  _  __/
- /_//_/    / .___/_/|_|\__, /____/_/_/ /_/____/\__/\__,_/_/_/\___/_/       /_//_/
-          /_/         /____/_____/
-'
 #!/bin/bash
 
-_parsePackagesFromFile() {
-    file="$1"
-    packages=""
+# Define global variables for commands
+check_command=""
+install_command=""
 
+parse_packages_from_file() {
+    local file="$1"
+    local packages=()
     while IFS= read -r line || [[ -n "$line" ]]; do
-        # Skip empty lines and comments
-        if [[ -n "$line" && "${line:0:1}" != "#" ]]; then
-            # Expand environment variables in the line
-            expanded_line=$(eval echo "$line")
-
-            if [[ -z "$packages" ]]; then
-                packages="$expanded_line"
-            else
-                packages="$packages $expanded_line"
-            fi
-        fi
+        [[ -z "$line" || "${line:0:1}" == "#" ]] && continue
+        packages+=("$(envsubst <<< "$line")")
     done < "$file"
-
-    echo "$packages"
+    echo "${packages[@]}"
 }
 
-_isInstalledPacman() {
-    package="$1"
-    
-    # Check if the package is installed
-    check=$(pacman -Q "$package" 2>/dev/null)
-    
-    if [ -n "$check" ]; then
-        result=0
-        $print_debug "Package '$package' is already installed." -t "debug" 
-    else
-        result=1
-        $print_debug "Package '$package' is not installed." -t "debug" 
+install_packages_from_file() {
+    local packages_file_path="$1"
+
+    check_command="${PACKAGE_CHECKS[$BASE_DISTRO]}"
+    install_command="${PACKAGE_MANAGERS_INSTALL_COMMANDS[$BASE_DISTRO]}"
+
+    if [[ -z "$PACKAGE_MANAGER" || ! $(command -v "$PACKAGE_MANAGER") ]]; then
+        $print_debug "Package manager '$PACKAGE_MANAGER' not found" -t "error"
+        exit 1
     fi
-    
-    return $result
-}
-
-
-_isInstalledYay() {
-    package="$1"
-    
-    # Check if the package is installed
-    check=$(yay -Q "$package" 2>/dev/null)
-    
-    if [ -n "$check" ]; then
-        result=0
-        $print_debug "Package '$package' is already installed." -t "debug" 
-    else
-        result=1
-        $print_debug "Package '$package' is not installed." -t "debug" 
+    if [[ -z "$check_command" ]]; then
+        $print_debug "No package check function found for distro '$BASE_DISTRO'" -t "error"
+        exit 1
     fi
-    
-    return $result
+    if [[ -z "$install_command" ]]; then
+        $print_debug "No package manager install command found for distro '$BASE_DISTRO'" -t "error"
+        exit 1
+    fi
+    local packages;
+    read -a packages -r <<< "$(parse_packages_from_file "$packages_file_path")"
+    install_packages "${packages[@]}" || exit $?
 }
 
+is_installed() {
+    local package="$1"
+    $print_debug "Checking if package '$package' is installed: '$check_command $package'" -t "debug"
+    $check_command "$package" &>/dev/null
+    return $?
+}
 
-# ------------------------------------------------------
-# Function Install all package if not installed
-# ------------------------------------------------------
-_installPackagesPacman() {
-    toInstall=();
-    for pkg; do
-        if  _isInstalledPacman "${pkg}"; then
-            continue
+install_packages() {
+    local to_install=()
+    for pkg in "$@"; do
+        if is_installed "$pkg"; then
+            if [[ "$INSTALL_TYPE" == "clean" ]]; then
+                $print_debug "Package '$pkg' is already installed but will be reinstalled due to 'clean' installation." -t "debug"
+                to_install+=("$pkg")
+            else
+                $print_debug "Package '$pkg' is already installed." -t "debug"
+            fi
+        else
+            $print_debug "Package '$pkg' is not installed. Adding to installation list." -t "debug"
+            to_install+=("$pkg")
         fi
-        toInstall+=("${pkg}")
     done
 
-    if [[ "${toInstall[@]}" == "" ]] ; then
-        $print_debug "All packages are installed" -t "debug" 
+    if [[ ${#to_install[@]} -eq 0 ]]; then
+        $print_debug "All packages are already installed" -t "debug"
         return 0
-    fi;
-
-    # Join the array elements into a single string
-    local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
-    joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    $print_debug "Installing ${joined_toInstall}" -t "debug" 
-    sudo pacman --noconfirm -S "${toInstall[@]}";
-}
-
-_forcePackagesPacman() {
-    toInstall=();
-    for pkg; do
-        toInstall+=("${pkg}");
-    done;
-
-    if [[ "${toInstall[@]}" == "" ]] ; then
-        $print_debug "All packages are installed" -t "debug" 
-        return 0;
-    fi;
-
-    # printf_debug "Package not installed:\n%s\n" "${toInst
-    local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
-    joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    $print_debug "Installing ${joined_toInstall}" -t "debug" 
-    sudo pacman --noconfirm -S "${toInstall[@]}" --ask 4;
-}
-
-_installPackagesYay() {
-    toInstall=();
-    for pkg; do
-        if _isInstalledYay "${pkg}"; then
-            continue
-        fi
-        toInstall+=("${pkg}");
-    done;
-    if [[ "${toInstall[@]}" == "" ]] ; then
-        $print_debug "All packages are installed" -t "debug" 
-        return 0;
-    fi;
-    local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
-    joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    $print_debug "Installing ${joined_toInstall}" -t "debug" 
-    yay --noconfirm -S "${toInstall[@]}";
-}
-
-_forcePackagesYay() {
-    toInstall=();
-    for pkg; do
-        toInstall+=("${pkg}");
-    done;
-    if [[ "${toInstall[@]}" == "" ]] ; then
-        $print_debug "All packages are installed" -t "debug" 
-        return 0;
-    fi;
-    local joined_toInstall=$(printf "%s, " "${toInstall[@]}")
-    joined_toInstall=${joined_toInstall%, }  # Remove the trailing comma and space
-    $print_debug "Installing ${joined_toInstall}" -t "debug" 
-    yay --noconfirm -S "${toInstall[@]}" --ask 4;
-}
-
-install_pacman_packages(){
-    local packagesFilePath="$1"
-    local packages="$(_parsePackagesFromFile $packagesFilePath)"
-    if [[ "$2" == "-f" || "$2" == "--force" || "$INSTALL_TYPE" == "clean" ]]; then
-        _forcePackagesPacman $packages
-    else
-        _installPackagesPacman $packages
     fi
+    $print_debug "Packages to install: ${to_install[*]}" -t "debug"
+    $print_debug "Running : $install_command ${to_install[*]}" -t "debug"
+    run "eval $install_command ${to_install[*]}"
 }
-
-install_yay_packages(){
-    local packagesFilePath="$1"
-    local packages="$(_parsePackagesFromFile $packagesFilePath)"
-    if [[ "$2" == "-f" || "$2" == "--force" || "$INSTALL_TYPE" == "clean" ]]; then
-        _forcePackagesYay $packages
-    else
-        _installPackagesYay $packages
-    fi
-}
-
