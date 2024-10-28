@@ -3,9 +3,9 @@
 # Path to setup dir
 export CONF_DIR; CONF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-export BOOTSTRAP_DEPENDENCIES="$CONF_DIR/bootstrap_dependencies"
+export BOOTSTRAP_DEPENDENCIES="$CONF_DIR/bootstrap_dependencies.deps"
+export INSTALLATION_DEPENDENCIES="$CONF_DIR/installation_dependencies.deps"
 export PIP_PACKAGES="$CONF_DIR/packages.pip"
-export YAY_PACKAGES="$CONF_DIR/packages.yay"
 
 export COLORS="$CONF_DIR/colors.sh"
 export VARS="$CONF_DIR/vars.sh"

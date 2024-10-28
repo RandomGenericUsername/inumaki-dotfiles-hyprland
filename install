@@ -54,7 +54,6 @@ $print_debug "Performing '$INSTALL_TYPE' installation"
 # Install packages and utils required to run the installation tasks
 install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" "$INSTALL_TYPE"
 $print_debug "Bootstraping finished." -t "success"
-exit 0
 # --------------------------------------------------------------------------------------- #
 
 
@@ -62,7 +61,7 @@ exit 0
 
 
 run_tasks() {
-   $print_debug "Running installation..." -t "info"
+   $print_debug "Beginning installation..." -t "info"
 
    #create_dirs "$HOME/.cache" "$INSTALL_PATH" "$TEMP_INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
    create_dirs \
@@ -71,8 +70,8 @@ run_tasks() {
     "$TEMP_INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" || exit $?
 
-
-   install_yay_packages "$YAY_PACKAGES" || exit $?
+   install_packages_from_file "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" "$INSTALL_TYPE" || exit $?
+   exit 0
 
    install_oh_my_zsh "$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
 
