@@ -3,6 +3,8 @@
 # Define global variables for commands
 check_command=""
 install_command=""
+force_install_command=""
+
 
 parse_packages_from_file() {
     local file="$1"
@@ -16,9 +18,11 @@ parse_packages_from_file() {
 
 install_packages_from_file() {
     local packages_file_path="$1"
+    local force_install="${2:-false}"
 
     check_command="${PACKAGE_CHECKS[$BASE_DISTRO]}"
     install_command="${PACKAGE_MANAGERS_INSTALL_COMMANDS[$BASE_DISTRO]}"
+    force_install_command="${PACKAGE_MANAGERS_FORCE_INSTALL_COMMANDS[$BASE_DISTRO]}"
 
     if [[ -z "$PACKAGE_MANAGER" || ! $(command -v "$PACKAGE_MANAGER") ]]; then
         $print_debug "Package manager '$PACKAGE_MANAGER' not found" -t "error"
@@ -34,7 +38,7 @@ install_packages_from_file() {
     fi
     local packages;
     read -a packages -r <<< "$(parse_packages_from_file "$packages_file_path")"
-    install_packages "${packages[@]}" || exit $?
+    install_packages "${packages[@]}" "$force_install" || exit $?
 }
 
 is_installed() {
@@ -45,10 +49,20 @@ is_installed() {
 }
 
 install_packages() {
+
+    local force_install="${@: -1}" # Retrieve the last argument as force_install flag
+    local packages=("${@:1:$(($#-1))}")   # Set `packages` to include all arguments except the last one (force_install flag)
+    
+    local install_cmd="$install_command"
     local to_install=()
-    for pkg in "$@"; do
+
+    if [[ "$INSTALL_TYPE" == "clean" || "$force_install" == "true" ]]  &&  [[ -n "$force_install_command" ]]; then
+        install_cmd="$force_install_command"
+    fi
+
+    for pkg in "${@:1:$(($#-1))}"; do
         if is_installed "$pkg"; then
-            if [[ "$INSTALL_TYPE" == "clean" ]]; then
+            if [[ "$INSTALL_TYPE" == "clean" || "$force_install" == "true" ]]; then
                 $print_debug "Package '$pkg' is already installed but will be reinstalled due to 'clean' installation." -t "debug"
                 to_install+=("$pkg")
             else
@@ -65,6 +79,6 @@ install_packages() {
         return 0
     fi
     $print_debug "Packages to install: ${to_install[*]}" -t "debug"
-    $print_debug "Running : $install_command ${to_install[*]}" -t "debug"
-    run "eval $install_command ${to_install[*]}"
+    $print_debug "Running : $install_cmd ${to_install[*]}" -t "debug"
+    run "eval $install_cmd ${to_install[*]}"
 }

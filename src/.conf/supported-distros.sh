@@ -3,7 +3,7 @@
 export SUPPORTED_DISTROS=(
     "arch"
     "debian"
-    "fedora"
+    #"fedora"
 )
 
 declare -A PACKAGE_MANAGERS
@@ -18,6 +18,13 @@ PACKAGE_MANAGERS_INSTALL_COMMANDS=(
     ["arch"]="yay install -y"
     ["debian"]="apt install -y"
     ["fedora"]="sudo dnf install -y"
+)
+
+declare -A PACKAGE_MANAGERS_FORCE_INSTALL_COMMANDS
+PACKAGE_MANAGERS_FORCE_INSTALL_COMMANDS=(
+    ["arch"]="yay --noconfirm -S"
+    ["debian"]=""
+    ["fedora"]=""
 )
 
 declare -A PACKAGE_CHECKS

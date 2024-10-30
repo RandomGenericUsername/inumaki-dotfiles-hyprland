@@ -52,7 +52,7 @@ check_previous_installation
 # Show the installation type to be performed
 $print_debug "Performing '$INSTALL_TYPE' installation" 
 # Install packages and utils required to run the installation tasks
-install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" "$INSTALL_TYPE"
+install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" 
 $print_debug "Bootstraping finished." -t "success"
 # --------------------------------------------------------------------------------------- #
 
@@ -70,7 +70,7 @@ run_tasks() {
     "$TEMP_INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" || exit $?
 
-   install_packages_from_file "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" "$INSTALL_TYPE" || exit $?
+   install_packages_from_file "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
    exit 0
 
    install_oh_my_zsh "$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
