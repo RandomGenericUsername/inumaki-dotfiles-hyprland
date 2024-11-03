@@ -258,7 +258,11 @@ check_previous_installation() {
     if is_valid_config; then
         handle_existing_installation "$install_path"
     else
-        $print_debug "Setup will delete everything in '$install_path' and proceed to install '$DOTFILES_NAME_RAW'." -t "warn"
+        if [[ "$INSTALL_TYPE" == "update" ]];then
+            $print_debug "Installation type is update. Updating dependencies and dotfiles."
+            return 0
+        fi
+        $print_debug "Setup will delete everything in '$install_path' and proceed to install '$INSTALLATION_DIRNAME'." -t "warn"
         handle_directory_deletion "$install_path"
         was_deleted="$?"
         if [[ $was_deleted -ne 0 ]]; then

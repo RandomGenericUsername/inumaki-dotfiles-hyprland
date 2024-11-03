@@ -2,7 +2,8 @@
 
 install_wallpaper_selector(){
 
-    print_debug "Installing wallpaper selector" -t "debug"
+    $print_debug "Installing wallpaper selector"
+    return 0
     set_current_wallpaper_script="$WALLPAPER_SELECTOR_SCRIPTS_DIR/set_current_wallpaper.sh"
     generate_wallpapers="$WALLPAPER_SELECTOR_SCRIPTS_DIR/generate_wallpapers_with_effect.sh"
     change_wallpaper="$WALLPAPER_SELECTOR_SCRIPTS_DIR/change_wallpaper.sh"
