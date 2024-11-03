@@ -4,12 +4,14 @@ create_cookiecutter_project() {
     local env_file=""
     local template_dir=""
     local install_dir=""
+    local pyenv=""
 
     while [[ "$#" -gt 0 ]]; do
         case $1 in
             -e|--env) env_file="$2"; shift ;;
             -t|--template-dir) template_dir="$2"; shift ;;
             -i|--install-dir) install_dir="$2"; shift ;;
+            -p|--python-venv) pyenv="$2"; shift ;;
             -h|--help)
                 $print_debug "Usage: create_cookiecutter_project -e ENV_FILE -t TEMPLATE_DIR -i INSTALL_DIR -n DOTFILES_NAME" -t "error"
                 return 0
@@ -23,13 +25,12 @@ create_cookiecutter_project() {
     done
 
     # Ensure required parameters are provided
-    if [ -z "$env_file" ] || [ -z "$template_dir" ] || [ -z "$install_dir" ]; then
+    if [ -z "$env_file" ] || [ -z "$template_dir" ] || [ -z "$install_dir" ] || [ -z "$pyenv" ]; then
         $print_debug "Error: Environment file, template directory, install directory, and dotfiles name are required." -t "error"
         return 1
     fi
 
-    local pyenv="$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv/bin/activate"
-    if [[ ! -f "$pyenv" ]]; then
+    if [[ ! -d "$pyenv" ]] || [[ ! -f "$pyenv/bin/activate" ]]; then
         $print_debug "Python venv not found at $pyenv" -t "error"
         exit 1
     fi
@@ -41,10 +42,10 @@ create_cookiecutter_project() {
     fi
 
     # Source the python venv to use cookiecutter
-    source "$pyenv"
+    source "$pyenv/bin/activate"
 
     $print_debug "Creating cookiecutter project from $template_dir"
-    cookiecutter --no-input -f --output-dir="$install_dir/$DOTFILES_DIRNAME" "$template_dir"
+    cookiecutter --no-input -f --output-dir="$install_dir" "$template_dir"
     $print_debug "Generated cookiecutter project at $install_dir/$DOTFILES_DIRNAME"
     deactivate
     rm -r "$template_dir/cookiecutter.json"

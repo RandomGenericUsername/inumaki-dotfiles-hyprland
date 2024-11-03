@@ -10,6 +10,9 @@ rofi
 # Wlogout: Logout menu for Wayland
 #wlogout
 
+# Bluetooth manager
+blueman
+
 # 1Password: Password manager
 #1password
 

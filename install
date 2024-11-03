@@ -70,31 +70,48 @@ run_tasks() {
     "$TEMP_INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" || exit $?
 
-   install_packages_from_file "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
-   exit 0
-
-   install_oh_my_zsh "$TEMP_DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
-
-   install_nvm "$TEMP_DOTFILES_INSTALL_PATH/.nvm" || exit $?
-   install_node_version "$TEMP_DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
+   install_packages_from_file \
+      "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
 
    install_pyenv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv" || exit $?
    install_python_version "$TEMP_DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?
    create_python_venv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
    install_packages_in_venv "$PIP_PACKAGES" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
+   
+   get_env_vars "$settings" \
+      "$INSTALLATION_SETTINGS" \
+      "$INSTALLATION_DEFAULTS" \
+      "$INSTALLATION_ENVIRONMENT_VARIABLES" \
+      "$INSTALLATION_FILESYSTEM_MAPPING" \
+      "$TEMP_INSTALL_PATH/environment_variables.sh" || exit $?
+   
+   create_cookiecutter_project \
+      -e "$TEMP_INSTALL_PATH/environment_variables.sh" \
+      -t "$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template" \
+      -p "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" \
+      -i "$INSTALL_PATH" || exit $?
 
-   get_env_vars "$settings" "$INSTALLATION_SETTINGS" "$INSTALLATION_DEFAULTS" "$INSTALLATION_ENVIRONMENT_VARIABLES" "$INSTALLATION_FILESYSTEM_MAPPING" "$VARS" "$TEMP_INSTALL_PATH/environment_variables.sh" || exit $?
-   create_cookiecutter_project -e "$TEMP_INSTALL_PATH/environment_variables.sh" -t "$COOKIECUTTER_DOTFILES_VENV_TEMPLATE_DIR" -i "$TEMP_INSTALL_PATH" || exit $?
+   exit 0
+   install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
+
+   install_nvm "$TEMP_DOTFILES_INSTALL_PATH/.nvm" || exit $?
+   install_node_version "$TEMP_DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
+
+
 
    copy_files "$TEMP_INSTALL_PATH" "$INSTALL_PATH" || exit $?
    copy_files "$INSTALL_PATH/$DOTFILES_DIRNAME/$DOTFILES_NAME" "$INSTALL_PATH/$DOTFILES_DIRNAME"
    rm -rf "${INSTALL_PATH:?}/${DOTFILES_DIRNAME:?}/${DOTFILES_NAME:?}" || exit $?
+   exit 0
 
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
    create_symbolic_link "$WALLPAPERS_DIR" --source "$HOST_WALLPAPERS_DIR" --target "$DOTFILES_INSTALL_PATH"
    #create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME"
    #create_symbolic_link "$HOME/.config/nvim" --source "$CONFIG_DIR/nvim" --target "$HOME/.config"
    #create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
+
+   # Enable bluetooth service
+   sudo systemctl enable --now bluetooth
 
    $print_debug "Installation finished!!!" -t "info"
    if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then

@@ -2,7 +2,7 @@
 # Add here the supported distros
 export SUPPORTED_DISTROS=(
     "arch"
-    "debian"
+    #"debian"
     #"fedora"
 )
 
