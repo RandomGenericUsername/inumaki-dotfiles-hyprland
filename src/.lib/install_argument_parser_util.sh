@@ -14,7 +14,7 @@ check_if_installed_argument_parser_util() {
 
 install_argument_parser_util() {
     local install_path="$1"
-    if check_if_installed_print_debug_util "$install_path"; then
+    if check_if_installed_argument_parser_util "$install_path"; then
         $print_debug "Argument parser utility is already installed at $install_path"
         return 0
     fi

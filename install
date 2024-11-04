@@ -72,7 +72,8 @@ run_tasks() {
    install_packages_from_file \
       "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
 
-   install_argument_parser_util "$DOTFILES_INSTALL_PATH/.argument-parser" || exit $?
+   install_argument_parser_util "$ARGUMENT_PARSER_UTIL_PATH" || exit $?
+   install_print_debug_util "$PRINT_DEBUG_UTIL_PATH" || exit $?
 
    install_pyenv "$DOTFILES_INSTALL_PATH/.pyenv" || exit $?
    install_python_version "$DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?

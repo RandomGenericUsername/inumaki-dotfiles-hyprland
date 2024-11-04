@@ -46,6 +46,11 @@ create_cookiecutter_project() {
 
     $print_debug "Creating cookiecutter project from $template_dir"
     cookiecutter --no-input -f --output-dir="$install_dir" "$template_dir"
+    local cookiecutter_exit_code=$?
+    if [[ $cookiecutter_exit_code -ne 0 ]]; then
+        $print_debug "Error creating cookiecutter project" -t "error"
+        return 1
+    fi  
     $print_debug "Generated cookiecutter project at $install_dir/$DOTFILES_DIRNAME"
     deactivate
     rm -r "$template_dir/cookiecutter.json"
