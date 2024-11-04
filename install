@@ -15,11 +15,14 @@ SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 lib_scripts="$SCRIPT_INVOCATION_DIR/src/.lib/export.sh"
 configs="$SCRIPT_INVOCATION_DIR/src/.conf/export.sh"
 settings="$SCRIPT_INVOCATION_DIR/settings"
+variables_handler_scripts="$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template/{{cookiecutter.project_slug}}/.config/hypr/scripts/variables_handler.sh"
+assets_dir="$SCRIPT_INVOCATION_DIR/src/assets"
 
 # Settings needs to be sourced first because it contains definitions required by settings at config directory.
 source "$settings" 
 source "$configs"
 source "$lib_scripts"
+source "$variables_handler_scripts" 
 
 # Required to update the log path variable in the print debug script
 #export LOG;
@@ -61,6 +64,7 @@ $print_debug "Bootstraping finished." -t "success"
 
 
 run_tasks() {
+
    $print_debug "Beginning installation..." -t "info"
 
    #create_dirs "$HOME/.cache" "$INSTALL_PATH" "$TEMP_INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
@@ -77,8 +81,8 @@ run_tasks() {
 
    install_pyenv "$DOTFILES_INSTALL_PATH/.pyenv" || exit $?
    install_python_version "$DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?
-   create_python_venv "$DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
-   install_packages_in_venv "$PIP_PACKAGES" "$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
+   create_python_venv "$DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$PYTHON_VENV" || exit $?
+   install_packages_in_venv "$PIP_PACKAGES" "$PYTHON_VENV" || exit $?
    
    install_nvm "$DOTFILES_INSTALL_PATH/.nvm" || exit $?
    install_node_version "$DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
@@ -93,7 +97,7 @@ run_tasks() {
    create_cookiecutter_project \
       -e "$INSTALL_PATH/environment_variables.sh" \
       -t "$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template" \
-      -p "$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" \
+      -p "$PYTHON_VENV" \
       -i "$INSTALL_PATH" || exit $?
 
    install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
@@ -109,18 +113,34 @@ run_tasks() {
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
 
+   cp "$assets_dir/default_wallpaper/default.png" "$DOTFILES_INSTALL_PATH/wallpapers/default.png"
+
+   echo "" >  "$DOTFILES_METADATA"
+   tomlq ".wallpaper.current = \"$DOTFILES_INSTALL_PATH/wallpapers/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
+   tomlq ".wallpaper.effect = \"none\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
+
+
    $print_debug "Installation finished!!!" -t "info"
    if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
       $print_debug "Installation log generated at '$LOG'."
    fi
 }
 
-
 if [ "$ENABLE_DEBUG" = true ]; then
+   # In debug mode, run_tasks directly with a simple spinner
    gum spin --spinner dot --title "Installing all packages and tools..." -- sleep 1 && run_tasks
 else
-   if ! gum spin --spinner dot --title "Installing all packages and tools..." -- bash -c "$(declare -f); run_tasks";then printf "%b" "${ERROR_COLOR}" 
-      echo "!!! An error occurred during installation. Try running again the installation in debug mode with the '-d' or '--debug' options. !!!"
+   # In non-debug mode, run_tasks is executed in a subshell with gum spin
+   # We need to ensure all environment variables and function definitions are passed to the subshell.
+   # The command below:
+   # - `declare -f` captures all function definitions (e.g., run_tasks and any helper functions)
+   # - `declare -p` captures all environment variables in an exportable format
+   # - `$(declare -f); $(declare -p); run_tasks` combines both function definitions and environment variables
+   #   and executes them in the new subshell created by `gum spin`.
+   if ! gum spin --spinner dot --title "Installing all packages and tools..." -- bash -c "$(declare -f); $(declare -p); run_tasks"; then
+      # If any error occurs during the installation, print an error message with exit code
+      printf "%b" "${ERROR_COLOR}" 
+      echo "!!! An error occurred during installation: $?. Try running again the installation in debug mode with the '-d' or '--debug' options. !!!"
       printf "%b" "${NO_COLOR}" 
       exit 1
    fi

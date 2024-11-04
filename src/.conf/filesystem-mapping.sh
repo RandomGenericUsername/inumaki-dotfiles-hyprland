@@ -6,7 +6,12 @@ export PRINT_DEBUG_UTIL="$PRINT_DEBUG_UTIL_PATH/print-debug"
 export ARGUMENT_PARSER_UTIL_PATH="$DOTFILES_INSTALL_PATH/.argument-parser"
 export ARGUMENT_PARSER_UTIL="$ARGUMENT_PARSER_UTIL_PATH/argument-parser"
 
+export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
 
+export HYPR_DIR="$CONFIG_DIR/hypr"
+
+export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
+## Path to venv script
 #######################################################################################
 ################################## First level directories ##################################
 

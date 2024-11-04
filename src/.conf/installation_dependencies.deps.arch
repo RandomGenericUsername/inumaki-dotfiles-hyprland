@@ -13,6 +13,9 @@ rofi
 # Bluetooth manager
 blueman
 
+# YQ for handling toml metadata file
+yq
+
 # 1Password: Password manager
 #1password
 
