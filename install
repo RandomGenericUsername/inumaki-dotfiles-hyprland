@@ -72,6 +72,8 @@ run_tasks() {
    install_packages_from_file \
       "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
 
+   install_argument_parser_util "$DOTFILES_INSTALL_PATH/.argument-parser" || exit $?
+
    install_pyenv "$DOTFILES_INSTALL_PATH/.pyenv" || exit $?
    install_python_version "$DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?
    create_python_venv "$DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
@@ -95,7 +97,7 @@ run_tasks() {
 
    install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
 
-   install_wallpaper_selector
+   #install_wallpaper_selector
 
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
    create_symbolic_link "$DOTFILES_INSTALL_PATH/wallpapers" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH"
