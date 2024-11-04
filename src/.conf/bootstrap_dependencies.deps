@@ -1,0 +1,20 @@
+# jq
+jq
+
+# For cute command line input/output
+gum
+
+# For printing messages in the terminal in ASCII like style
+figlet
+
+# For styling text in the terminal with colors
+lolcat
+
+# ... Well, its git....
+git
+
+# Required for pyenv
+tk
+
+# rsync for handling files and stuff
+rsync

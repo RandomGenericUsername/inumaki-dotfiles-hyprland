@@ -1,0 +1,14 @@
+# Hyperland: Window tiling
+hyprland.x86_64
+
+# waybar: Status bar
+waybar.x86_64
+
+# Rofi: Application launcher
+rofi
+
+# Wlogout: Logout menu for Wayland
+wlogout.x86_64
+
+# 1Password: Password manager -> Not in dnf
+#1password
