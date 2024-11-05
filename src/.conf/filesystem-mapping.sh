@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export WALLPAPERS_DIR="$DOTFILES_INSTALL_PATH/wallpapers"
+
 export PRINT_DEBUG_UTIL_PATH="$DOTFILES_INSTALL_PATH/.print-debug"
 export PRINT_DEBUG_UTIL="$PRINT_DEBUG_UTIL_PATH/print-debug"
 
@@ -7,6 +9,12 @@ export ARGUMENT_PARSER_UTIL_PATH="$DOTFILES_INSTALL_PATH/.argument-parser"
 export ARGUMENT_PARSER_UTIL="$ARGUMENT_PARSER_UTIL_PATH/argument-parser"
 
 export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
+
+export SETTINGS_DIR="$DOTFILES_INSTALL_PATH/.settings"
+
+export ROFI_DIR="$DOTFILES_INSTALL_PATH/rofi"
+
+export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
 
 export HYPR_DIR="$CONFIG_DIR/hypr"
 
@@ -37,8 +45,6 @@ export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
 ## Path to bash venv
 #export BASH_VENV="$DEPENDENCIES_INSTALL_PATH/bash_venv"
 
-## Path to cache dir
-##export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
 
 ## Config dir
 #export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
@@ -60,8 +66,6 @@ export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
 ## Hypr dir
 #export HYPR_DIR="$CONFIG_DIR/hypr"
 
-## Rofi dir
-#export ROFI_DIR="$CONFIG_DIR/rofi"
 
 ## Waybar
 #export WAYBAR_DIR="$CONFIG_DIR/waybar"

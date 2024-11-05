@@ -33,5 +33,14 @@ set_mandatory_arguments $mandatory_arguments 1:"${allowed_commands[*]}"
 parse_command_line "$@"
 COMMAND="${POSITIONAL_ARGS[0]}"
 
+# Set the wallpaper directory
+wallpaper_dir="$( authentic_path "{{cookiecutter.WALLPAPERS_DIR}}" )"
+export wallpaper_dir
 
+# Execute the right command
+if [[ "$COMMAND" == "wallpaper" ]];then
+    rofi -show Wallpaper -i -replace -config "{{cookiecutter.ROFI_DIR}}/wallpapers-and-effects-mode.rasi"
+elif [[ "$COMMAND" == "wallpaper-effect" ]];then
+    rofi -show Effects -i -replace -config "{{cookiecutter.ROFI_DIR}}/wallpapers-and-effects-mode.rasi"
+fi
 exit 0

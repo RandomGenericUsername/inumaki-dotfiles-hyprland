@@ -104,19 +104,21 @@ run_tasks() {
 
    #install_wallpaper_selector
 
+   #rm -rf "$DOTFILES_INSTALL_PATH/wal"
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
-   create_symbolic_link "$DOTFILES_INSTALL_PATH/wallpapers" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH"
-   #create_symbolic_link "$DOTFILES_INSTALL_PATH/.config/wal" --source "$HOME/.config/wal/*" --target "$DOTFILES_INSTALL_PATH/.config/wal"
+   create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH"
+   #create_symbolic_link "$HOME/.config/wal" --source "$DOTFILES_INSTALL_PATH/wal" --target "$HOME/.config"
+   #create_symbolic_link "$DOTFILES_INSTALL_PATH/wal" --source "$HOME/.config/wal" --target "$DOTFILES_INSTALL_PATH"
 
 
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
 
-   cp "$assets_dir/default_wallpaper/default.png" "$DOTFILES_INSTALL_PATH/wallpapers/default.png"
+   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png"
 
    echo "" >  "$DOTFILES_METADATA"
-   tomlq ".wallpaper.current = \"$DOTFILES_INSTALL_PATH/wallpapers/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
+   tomlq ".wallpaper.current = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
    tomlq ".wallpaper.effect = \"none\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
 
 

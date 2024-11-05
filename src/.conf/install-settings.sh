@@ -37,7 +37,7 @@ export project_slug="$DOTFILES_DIRNAME"
 # directories, files, or lines of code containing characters conflicting with the way in which jinja2
 # and that kind of stuff uses to expand the template.
 export _copy_without_render=(
-    "dummy"
+    "wal/templates/*" # wal templates 
     #".config/*"
     #".zshrc"
     #".cache/*"
@@ -45,7 +45,6 @@ export _copy_without_render=(
     #".bashrc"
     #".config/hypr/conf/*"
     #".config/hypr/effects/*"
-    #".config/wal/templates/*" # wal templates 
     #".config/waybar"
     #".config/waypaper"
 )
