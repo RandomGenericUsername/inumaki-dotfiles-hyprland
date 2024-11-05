@@ -70,6 +70,7 @@ run_tasks() {
    #create_dirs "$HOME/.cache" "$INSTALL_PATH" "$TEMP_INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
    create_dirs \
     "$HOME/.cache" \
+    "$HOME/.config/wal" \
     "$INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" || exit $?
 
@@ -104,11 +105,17 @@ run_tasks() {
 
    #install_wallpaper_selector
 
-   #rm -rf "$DOTFILES_INSTALL_PATH/wal"
+   # Temporary move wal files to avoid conflicts with the symbolic link
+   mkdir -p "/tmp/wal"
+   mv "$DOTFILES_INSTALL_PATH/wal/"* "/tmp/wal/"
+
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
    create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH"
-   #create_symbolic_link "$HOME/.config/wal" --source "$DOTFILES_INSTALL_PATH/wal" --target "$HOME/.config"
-   #create_symbolic_link "$DOTFILES_INSTALL_PATH/wal" --source "$HOME/.config/wal" --target "$DOTFILES_INSTALL_PATH"
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/wal" --source "$HOME/.config/wal" --target "$DOTFILES_INSTALL_PATH"
+
+   # Move wal files back
+   mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/wal/"
+   rm -rf "/tmp/wal"
 
 
    # Enable services
