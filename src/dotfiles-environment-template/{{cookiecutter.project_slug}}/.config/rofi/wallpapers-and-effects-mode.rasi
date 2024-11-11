@@ -8,12 +8,12 @@ configuration {
 
 /* ---- Load font ---- */
 @import "{{cookiecutter.SETTINGS_DIR}}/wallpaper/rofi-font.rasi"
-
 /* ---- Load border width ---- */
 @import "{{cookiecutter.SETTINGS_DIR}}/wallpaper/rofi-border.rasi"
-
-/* ---- Load pywal @import "{{cookiecutter.CACHE_DIR}}/wal/colors-rofi-pywal.rasi" colors (custom wal template) ---- */
-/* ---- Load wallpaper @import "{{cookiecutter.ROFI_DIR}}/current-wallpaper.rasi" ---- */
+/* ---- Load pywal colors (custom wal template)---- */
+@import "{{cookiecutter.CACHE_DIR}}/wal/colors-rofi-pywal.rasi" 
+/* ---- Load wallpaper ---- */
+@import "{{cookiecutter.ROFI_DIR}}/current-wallpaper.rasi"
 
 
 

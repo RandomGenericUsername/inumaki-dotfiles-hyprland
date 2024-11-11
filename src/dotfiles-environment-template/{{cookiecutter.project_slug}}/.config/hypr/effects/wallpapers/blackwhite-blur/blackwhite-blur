@@ -1,0 +1,2 @@
+magick "$wallpaper_path" -set colorspace Gray -separate -average "$wallpaper_with_effect"
+magick "$wallpaper_with_effect" -blur "$blur" "$wallpaper_with_effect"

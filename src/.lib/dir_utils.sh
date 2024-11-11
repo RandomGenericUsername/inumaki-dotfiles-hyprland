@@ -14,13 +14,13 @@ delete_directory() {
 
     # Check if the directory path is provided
     if [[ -z "$dir_path" ]]; then
-        $print_debug "No directory path provided." -t "error"
+        $print_debug "No directory path provided." 
         return 1  # Exit the function with an error status
     fi
 
     # Check if the directory exists
     if [[ ! -d "$dir_path" ]]; then
-        $print_debug "Directory does not exist at path: '$dir_path'"  -t "error"
+        $print_debug "Directory does not exist at path: '$dir_path'"
         return 1
     fi
 
@@ -54,7 +54,7 @@ delete_directory() {
         return 0  # Success
     else
         $print_debug "Failed to delete '$dir_path' directory." -t "error"
-        return 3  # Failure in deletion
+        return 2  # Failure in deletion
     fi
 }
 
@@ -110,4 +110,15 @@ copy_files() {
     shopt -u dotglob
 
     $print_debug "All files from $origin copied to $destination."
+}
+
+get_base_name() {
+    local filepath="$1"
+    local filename
+
+    # Extract the base name without extensions
+    filename=$(basename "$filepath")
+    filename="${filename%%.*}"
+
+    echo "$filename"
 }

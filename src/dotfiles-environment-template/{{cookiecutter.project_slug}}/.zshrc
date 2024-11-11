@@ -1,5 +1,5 @@
 # Set the path to the Starship config file
-export STARSHIP_CONFIG="{{cookiecutter.DOTFILES_INSTALL_PATH}}/starship.toml"
+export STARSHIP_CONFIG="{{cookiecutter.DOTFILES_INSTALL_PATH}}/.config/starship.toml"
 
 export ZSH="{{cookiecutter.DOTFILES_INSTALL_PATH}}/.oh-my-zsh"
 

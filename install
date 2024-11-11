@@ -67,15 +67,26 @@ run_tasks() {
 
    $print_debug "Beginning installation..." -t "info"
 
-   #create_dirs "$HOME/.cache" "$INSTALL_PATH" "$TEMP_INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
+   # These directories are going to be deleted
+   for dir in \
+      "$HOME/.config/wal" \
+      "/tmp/wal"
+   do
+      delete_directory "$dir" --yes || [ $? -gt 1 ] && exit $?
+   done
+
+
    create_dirs \
     "$HOME/.cache" \
     "$HOME/.config/wal" \
     "$INSTALL_PATH" \
-    "$WALLPAPERS_DIRECTORY" || exit $?
+    "$WALLPAPERS_DIRECTORY" \
+    "$GENERATED_WALLPAPERS_WITH_EFFECTS_DIR" \
+   || exit $?
 
    install_packages_from_file \
-      "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
+      "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" \
+   || exit $?
 
    install_argument_parser_util "$ARGUMENT_PARSER_UTIL_PATH" || exit $?
    install_print_debug_util "$PRINT_DEBUG_UTIL_PATH" || exit $?
@@ -88,45 +99,48 @@ run_tasks() {
    install_nvm "$DOTFILES_INSTALL_PATH/.nvm" || exit $?
    install_node_version "$DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
 
+   install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
+
    get_env_vars "$settings" \
       "$INSTALLATION_SETTINGS" \
       "$INSTALLATION_DEFAULTS" \
       "$INSTALLATION_ENVIRONMENT_VARIABLES" \
       "$INSTALLATION_FILESYSTEM_MAPPING" \
-      "$INSTALL_PATH/environment_variables.sh" || exit $?
+      "$INSTALL_PATH/environment_variables.sh" \
+   || exit $?
    
    create_cookiecutter_project \
       -e "$INSTALL_PATH/environment_variables.sh" \
       -t "$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template" \
       -p "$PYTHON_VENV" \
-      -i "$INSTALL_PATH" || exit $?
+      -i "$INSTALL_PATH" \
+   || exit $?
 
-   install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
-
-   #install_wallpaper_selector
 
    # Temporary move wal files to avoid conflicts with the symbolic link
-   mkdir -p "/tmp/wal"
-   mv "$DOTFILES_INSTALL_PATH/wal/"* "/tmp/wal/"
+   mkdir -p "/tmp/wal" || exit $?
+   mv "$DOTFILES_INSTALL_PATH/.config/wal/"* "/tmp/wal/" || exit $?
 
-   create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
-   create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH"
-   create_symbolic_link "$DOTFILES_INSTALL_PATH/wal" --source "$HOME/.config/wal" --target "$DOTFILES_INSTALL_PATH"
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH" || exit $?
+   create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH" || exit $?
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/.config/wal" --source "$HOME/.config/wal" --target "$DOTFILES_INSTALL_PATH/.config" || exit $?
 
    # Move wal files back
-   mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/wal/"
-   rm -rf "/tmp/wal"
+   mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/.config/wal/" || exit $?
+   rm -rf "/tmp/wal" || exit $?
 
 
+   echo "" >  "$DOTFILES_METADATA" || exit $?
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
+   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
 
-   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png"
+   tomlq ".wallpaper.current.path = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
+   tomlq ".wallpaper.current.name = \"default\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
 
-   echo "" >  "$DOTFILES_METADATA"
-   tomlq ".wallpaper.current = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
-   tomlq ".wallpaper.effect = \"none\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA"
+   tomlq ".wallpaper.effect.current.path = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
+   tomlq ".wallpaper.effect.current.name = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
 
 
    $print_debug "Installation finished!!!" -t "info"

@@ -7,7 +7,7 @@ variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
 # Source the variables handler script
 source "$variables_handler"
 # Get the current wallpaper
-if ! current_wallpaper="$(get_variable "wallpaper.current")";then
+if ! current_wallpaper="$(get_variable "wallpaper.current.path")";then
     $print_debug_script "Error getting current wallpaper" -t "error"
     return 1
 fi

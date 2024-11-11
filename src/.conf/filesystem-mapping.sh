@@ -8,17 +8,20 @@ export PRINT_DEBUG_UTIL="$PRINT_DEBUG_UTIL_PATH/print-debug"
 export ARGUMENT_PARSER_UTIL_PATH="$DOTFILES_INSTALL_PATH/.argument-parser"
 export ARGUMENT_PARSER_UTIL="$ARGUMENT_PARSER_UTIL_PATH/argument-parser"
 
-export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
-
 export SETTINGS_DIR="$DOTFILES_INSTALL_PATH/.settings"
 
-export ROFI_DIR="$DOTFILES_INSTALL_PATH/rofi"
-
 export CACHE_DIR="$DOTFILES_INSTALL_PATH/.cache"
+
+export CONFIG_DIR="$DOTFILES_INSTALL_PATH/.config"
+
+export ROFI_DIR="$CONFIG_DIR/rofi"
 
 export HYPR_DIR="$CONFIG_DIR/hypr"
 
 export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
+
+export GENERATED_WALLPAPERS_WITH_EFFECTS_DIR="$CACHE_DIR/wallpapers-with-effects"
+
 ## Path to venv script
 #######################################################################################
 ################################## First level directories ##################################
@@ -59,7 +62,6 @@ export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
 ################################### Dotfiles .cache ##################################
 
 ## Re-evaluae this
-#export GENERATED_WALLPAPERS_WITH_EFFECTS_DIR="$CACHE_DIR/wallpapers_with_effects"
 ########################################################################################
 ################################### Dotfiles .config ##################################
 

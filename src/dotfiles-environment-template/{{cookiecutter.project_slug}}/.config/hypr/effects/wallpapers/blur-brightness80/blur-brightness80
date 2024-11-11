@@ -1,0 +1,2 @@
+magick "$wallpaper_path" -blur "$blur" "$wallpaper_with_effect"
+magick "$wallpaper_with_effect" -brightness-contrast -20% "$wallpaper_with_effect"
