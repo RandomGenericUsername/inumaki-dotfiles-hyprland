@@ -9,6 +9,9 @@
 
 '
 
+# Redirect the debug output to stderr
+export ENABLE_REDIRECT="true"
+
 # Required to source required files
 SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -162,21 +165,28 @@ run_tasks() {
    mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/.config/wal/" || exit $?
    rm -rf "/tmp/wal" || exit $?
 
-   # Create default wallpaper
+   # Copy the default wallpaper
    cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
 
+   # Generate the effects-variants for the default wallpaper
+   eval "$HYPR_DIR/scripts/wallpaper_selector/generate_wallpapers_with_effects.sh $WALLPAPERS_DIR/default.png" || exit $?
+
+   # Change the wallpaper to the default one
+   eval "$HYPR_DIR/scripts/wallpaper_selector/change_wallpaper.sh $WALLPAPERS_DIR/default.png" || exit $?
+
+
    # Create metadata file
-   echo "" >  "$DOTFILES_METADATA" || exit $?
+   #echo "" >  "$DOTFILES_METADATA" || exit $?
 
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
 
-   tomlq ".wallpaper.current.path = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
-   tomlq ".wallpaper.current.name = \"default\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
+   #tomlq ".wallpaper.current.path = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
+   #tomlq ".wallpaper.current.name = \"default\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
 
-   tomlq ".wallpaper.effect.current.path = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
-   tomlq ".wallpaper.effect.current.name = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
+   #tomlq ".wallpaper.effect.current.path = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
+   #tomlq ".wallpaper.effect.current.name = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
 
 
    $print_debug "Installation finished!!!" -t "info"

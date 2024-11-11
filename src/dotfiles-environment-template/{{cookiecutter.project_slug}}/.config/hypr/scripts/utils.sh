@@ -76,7 +76,7 @@ safe_cat() {
 
 ###################
 _or() {
-    if [ -z "$1" ]; then
+    if [ -z "$1" ] || [ "$1" == "null" ] || [ "$1" == "none" ]; then
         echo "$2"
     else
         echo "$1"

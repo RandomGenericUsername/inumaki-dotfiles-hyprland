@@ -4,6 +4,8 @@
 variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
 # Path to utils (authentic_path, _or)
 utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+# Path to print debug script
+print_debug_script="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Source the variables handler script
 # shellcheck disable=SC1090
 source "$variables_handler"
@@ -28,7 +30,7 @@ show_effects() {
             echo -en "$effect_name\x00icon\x1f$icon_file\n"
         else
             icon_file="{{cookiecutter.GENERATED_WALLPAPERS_WITH_EFFECTS_DIR}}/$current_wallpaper_name/off"
-            print_debug "No preview icon for wallpaper $current_wallpaper_name with effect $effect_name" -t "error"
+            $print_debug "No preview icon for wallpaper $current_wallpaper_name with effect $effect_name" -t "error" --redirect
             echo -en "$effect_name\x00icon\x1f$icon_file\n"
         fi
 
@@ -39,7 +41,7 @@ show_effects() {
 on_selected_effect(){
 	local selected="$1"
     set_variable "wallpaper.effect.selected.path" "$selected"
-    set_variable "wallpaper.effect.selected.name" "$(get_base_name "$selected")"
+    set_variable "wallpaper.effect.selected.name" "$(get_file_name "$selected")"
 }
 
 if [ "$ROFI_RETV" -eq 0 ]; then

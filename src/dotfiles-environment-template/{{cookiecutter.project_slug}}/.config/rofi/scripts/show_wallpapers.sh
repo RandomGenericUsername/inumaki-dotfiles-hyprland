@@ -24,7 +24,7 @@ show_wallpapers() {
 on_wallpaper_selected(){
     selected="$1"
     local current_wallpaper_path;current_wallpaper_path="$(authentic_path "$wallpaper_dir")/$selected"
-    local current_wallpaper_name;current_wallpaper_name="$(get_base_name "$current_wallpaper_path")"   
+    local current_wallpaper_name;current_wallpaper_name="$(get_file_name "$current_wallpaper_path")"   
     set_variable "wallpaper.selected.path" "$current_wallpaper_path"
     set_variable "wallpaper.selected.name" "$current_wallpaper_name"
 }
