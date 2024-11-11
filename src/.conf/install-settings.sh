@@ -31,6 +31,9 @@ export PYTHON_VERSION="3.10.4"
 # Node version to install
 export NODEJS_VERSION="20.9.0"
 
+# This is required so other scripts can use this utility using the temporal installation path.
+export print_debug="/tmp/.print-debug/print-debug"
+
 # It is required to set a slug ("name"(?)) for cookiecutter
 export project_slug="$DOTFILES_DIRNAME"
 # Since this file will be used to generate the template for cookiecutter, it is required to ignore

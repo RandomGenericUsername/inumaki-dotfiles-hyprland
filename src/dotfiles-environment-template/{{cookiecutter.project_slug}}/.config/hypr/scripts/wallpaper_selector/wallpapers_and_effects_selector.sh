@@ -43,4 +43,19 @@ if [[ "$COMMAND" == "wallpaper" ]];then
 elif [[ "$COMMAND" == "wallpaper-effect" ]];then
     rofi -show Effects -i -replace -config "{{cookiecutter.ROFI_DIR}}/wallpapers-and-effects-mode.rasi"
 fi
+
+selected_wallpaper="$(get_variable "wallpaper.selected.path")"
+selected_wallpaper_effect="$(get_variable "wallpaper.effect.selected.path")"
+
+if [[ -n "$selected_wallpaper" ]] && [[ -z "$selected_wallpaper_effect" ]];then
+    $print_debug "Selected wallpaper event" -t "info"
+    "$on_selected_wallpaper"
+elif [[ -z "$selected_wallpaper" ]] && [[ -n "$selected_wallpaper_effect" ]];then
+    $print_debug "Selected wallpaper effect event" -t "info"
+    "$on_selected_wallpaper_effect"
+else
+    $print_debug "No wallpaper nor effect selected" -t "warn"
+    exit 0
+fi
+
 exit 0

@@ -1,4 +1,8 @@
 
+
+# Path to print debug script
+print_debug_script="{{cookiecutter.PRINT_DEBUG_UTIL}}"
+
 delete_directory() {
     local dir_path="$1"
     local skip_confirmation=false

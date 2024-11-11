@@ -9,98 +9,130 @@
 
 '
 
-# ------------------ Source relevant variables/constants and functions ------------------ #
+# Required to source required files
 SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Path to setup scripts and configuration files
 lib_scripts="$SCRIPT_INVOCATION_DIR/src/.lib/export.sh"
+# Path to configuration files
 configs="$SCRIPT_INVOCATION_DIR/src/.conf/export.sh"
+# Path to users settings file
 settings="$SCRIPT_INVOCATION_DIR/settings"
+# Path to the variables handler script. Required to handle variables in the settings file.
 variables_handler_scripts="$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template/{{cookiecutter.project_slug}}/.config/hypr/scripts/variables_handler.sh"
+# Path to the assets directory
 assets_dir="$SCRIPT_INVOCATION_DIR/src/assets"
-
-# Settings needs to be sourced first because it contains definitions required by settings at config directory.
+ 
+# Source the users settings file. Needs to be sourced first than the rest because it contains definitions required by settings at config directory.
+# shellcheck disable=SC1090
 source "$settings" 
-source "$configs"
-source "$lib_scripts"
+
+# Source the configuration files
+# shellcheck disable=SC1090
+source "$configs" 
+
+# Source the setup scripts
+# shellcheck disable=SC1090
+source "$lib_scripts" 
+
+# Source the variables handler script
+# shellcheck disable=SC1090
 source "$variables_handler_scripts" 
-
-# Required to update the log path variable in the print debug script
-#export LOG;
-# This is required so other scripts can use this utility using the temporal installation path.
-export print_debug="/tmp/.print-debug/print-debug"
-# --------------------------------------------------------------------------------------- #
-
-# ------------------------------------ Setup ------------------------------------ #
 
 # Clear the terminal for clearer output.
 clear 
+
 # Check if the current distro is supported and get the package manager. If not supported, exit.
 get_package_manager
+
 # Parse the comand line options.
 parse_options "$@" 
+
 # Pretty print the installer message.
 pretty_print_installer_msg 
+
 # Promp for proceeding with installation.
 prompt_install 
+
 # Print message to inform the user that dependencies are being installed.
 echo "INFO: [Boostraping...]" 
+
 # Install the print debug utility
 install_print_debug_util "/tmp/.print-debug" # Install print debug utility
+
 # Check if the current distro is based on Arch Linux and install yay if it is.
 if_arch_based_distro
+
 # Create file for logging the installation (if enabled)
 create_log 
+
 # Check for previous installation
 check_previous_installation 
+
 # Show the installation type to be performed
 $print_debug "Performing '$INSTALL_TYPE' installation" 
+
 # Install packages and utils required to run the installation tasks
 install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" 
+
+# Print message to inform the user that the boostraping is finished.
 $print_debug "Bootstraping finished." -t "success"
-# --------------------------------------------------------------------------------------- #
 
-
-# ------------------------------------ Install ------------------------------------ #
-
-
+# Define the tasks to be performed during the installation
 run_tasks() {
 
+   # Print message to inform the user that the installation is beginning.
    $print_debug "Beginning installation..." -t "info"
 
-   # These directories are going to be deleted
+   # These directories are going to be deleted for avoiding conflicts with installation process 
    for dir in \
       "$HOME/.config/wal" \
       "/tmp/wal"
    do
-      delete_directory "$dir" --yes || [ $? -gt 1 ] && exit $?
+      delete_directory "$dir" --yes
+      local status="$?"
+      if [ "$status" -gt 1 ]; then
+         $print_debug "Failed to delete directory '$dir'." -t "error"
+         exit $status
+      fi 
    done
 
-
+   # Create directories
    create_dirs \
     "$HOME/.cache" \
     "$HOME/.config/wal" \
     "$INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" \
-    "$GENERATED_WALLPAPERS_WITH_EFFECTS_DIR" \
    || exit $?
 
+   # Install packages
    install_packages_from_file \
       "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" \
    || exit $?
 
+   # Install custom utlitity for parsing arguments in bash scripts
    install_argument_parser_util "$ARGUMENT_PARSER_UTIL_PATH" || exit $?
+   # Install custom utility for printing debug messages
    install_print_debug_util "$PRINT_DEBUG_UTIL_PATH" || exit $?
 
+   # Install pyenv
    install_pyenv "$DOTFILES_INSTALL_PATH/.pyenv" || exit $?
+   # Use pyenv to install python version
    install_python_version "$DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?
+   # Create python virtual environment
    create_python_venv "$DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$PYTHON_VENV" || exit $?
+   # Install pip packages in the virtual environment
    install_packages_in_venv "$PIP_PACKAGES" "$PYTHON_VENV" || exit $?
    
+   # Install nvm
    install_nvm "$DOTFILES_INSTALL_PATH/.nvm" || exit $?
+   # Use nvm to install a node version
    install_node_version "$DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
 
+   # Install oh-my-zsh
    install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
 
+   # Create a file containing the environment variables from all the settings files to use into the cookiecutter template
    get_env_vars "$settings" \
       "$INSTALLATION_SETTINGS" \
       "$INSTALLATION_DEFAULTS" \
@@ -109,6 +141,7 @@ run_tasks() {
       "$INSTALL_PATH/environment_variables.sh" \
    || exit $?
    
+   # Create a cookiecutter project
    create_cookiecutter_project \
       -e "$INSTALL_PATH/environment_variables.sh" \
       -t "$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template" \
@@ -117,7 +150,7 @@ run_tasks() {
    || exit $?
 
 
-   # Temporary move wal files to avoid conflicts with the symbolic link
+   # Move wal files to avoid conflicts with wal installation
    mkdir -p "/tmp/wal" || exit $?
    mv "$DOTFILES_INSTALL_PATH/.config/wal/"* "/tmp/wal/" || exit $?
 
@@ -129,12 +162,15 @@ run_tasks() {
    mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/.config/wal/" || exit $?
    rm -rf "/tmp/wal" || exit $?
 
+   # Create default wallpaper
+   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
 
+   # Create metadata file
    echo "" >  "$DOTFILES_METADATA" || exit $?
+
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
-   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
 
    tomlq ".wallpaper.current.path = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
    tomlq ".wallpaper.current.name = \"default\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
