@@ -19,8 +19,8 @@ get_variable(){
     local value; value=$(tomlq ".${variable}" "$file" 2>/dev/null | xargs)
     local status=$?
     
-    if [[ $status -ne 0 || -z "$value" ]]; then
-        # Return an empty string if the variable is not found
+     # If tomlq returns null, treat it as an unset variable and return an empty string
+    if [[ $status -ne 0 || "$value" == "null" || -z "$value" ]]; then
         echo ""
         return 0
     fi

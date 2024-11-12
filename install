@@ -175,24 +175,17 @@ run_tasks() {
    eval "$HYPR_DIR/scripts/wallpaper_selector/generate_wallpapers_with_effects.sh $WALLPAPERS_DIR/default.png" || exit $?
 
    # Source the variables handler script
+   # shellcheck disable=SC1091
    source "$DOTFILES_INSTALL_PATH/.config/hypr/scripts/variables_handler.sh" || exit $?   
    # Change the wallpaper to the default one
    eval "$HYPR_DIR/scripts/wallpaper_selector/change_wallpaper.sh $WALLPAPERS_DIR/default.png" || exit $?
    set_variable "wallpaper.current.path" "$WALLPAPERS_DIR/default.png" || exit $?
    set_variable "wallpaper.current.name" "default" || exit $?  
-
-
+   set_variable "wallpaper.cached" "default" || exit $?
 
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
-
-   #tomlq ".wallpaper.current.path = \"$WALLPAPERS_DIR/default.png\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
-   #tomlq ".wallpaper.current.name = \"default\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
-
-   #tomlq ".wallpaper.effect.current.path = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
-   #tomlq ".wallpaper.effect.current.name = \"\"" "$DOTFILES_METADATA" --toml-output > "$DOTFILES_METADATA.tmp" && mv "$DOTFILES_METADATA.tmp" "$DOTFILES_METADATA" || exit $?
-
 
    $print_debug "Installation finished!!!" -t "info"
    if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
