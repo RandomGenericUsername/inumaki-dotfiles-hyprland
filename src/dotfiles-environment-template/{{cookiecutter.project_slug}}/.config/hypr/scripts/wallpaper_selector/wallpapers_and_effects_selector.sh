@@ -17,7 +17,7 @@ apply_pywal_color_pallete="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/
 # Script to reload waybar
 toggle_waybar="{{cookiecutter.HYPR_DIR}}/scripts/waybar/toggle.sh"
 # Script to cache the generated wallpapers
-cache_wallpapers="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/cache_wallpapers.sh"
+cache_wallpaper="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/cache_wallpaper.sh"
 
 # Source required/util scripts
 # shellcheck disable=SC1090
@@ -62,16 +62,15 @@ else
     $print_debug "No wallpaper nor effect selected" -t "warn"
     exit 0
 fi
-exit 0
 
 # Apply pywal to the current wallpaper
-"$apply_pywal_color_pallete"
+#"$apply_pywal_color_pallete" 
 
 # Reload waybar
-"$toggle_waybar"
-"$toggle_waybar"
+#"$toggle_waybar"
+#"$toggle_waybar"
 
-print_debug "Finished but generating wallpapers" -t "info"
+#$print_debug "Finished but generating wallpapers" -t "info"
 # Cache the wallpapers
-"$cache_wallpapers"
+"$cache_wallpaper"
 print_debug "Finished!!!" -t "info"

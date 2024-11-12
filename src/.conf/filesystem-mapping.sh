@@ -18,6 +18,8 @@ export ROFI_DIR="$CONFIG_DIR/rofi"
 
 export HYPR_DIR="$CONFIG_DIR/hypr"
 
+export WAYBAR_DIR="$CONFIG_DIR/waybar"
+
 export PYTHON_VENV="$DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv"
 
 export GENERATED_WALLPAPERS_WITH_EFFECTS_DIR="$CACHE_DIR/wallpapers-with-effects"

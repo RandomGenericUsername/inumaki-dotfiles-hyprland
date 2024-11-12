@@ -1,0 +1,74 @@
+{
+    "clock": {
+        "interval": 1,
+        "format": "{:%H:%M:%S}",
+        "format-alt": "{:%H:%M - %B %d}",
+        "tooltip": false,
+        "actions": {
+            "on-click-right": "mode",
+        }
+    },
+    // Workspaces
+    "hyprland/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace r-1",
+        "on-scroll-down": "hyprctl dispatch workspace r+1",
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{}",
+        "format-icons": {
+            "urgent": "",
+            "active": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "*": 3
+        }
+    },
+    // Taskbar
+    "hyprland/taskbar": {
+        "format": "{icon}",
+        "icon-size": 18,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": [
+            "Alacritty"
+        ]
+    },
+    // Hyprland Window
+    "hyprland/window": {
+        "separate-outputs": true
+    },
+    // Waybar Themes
+    "custom/waybar-themes": {
+        "format": "🎨", // Gear icon from Font Awesome
+        "on-click": "{{cookiecutter.HYPR_DIR}}/scripts/waybar_themeswitcher.sh",
+        "tooltip-format": "Select a waybar theme"
+    },
+    // Wallpaper
+    "custom/wallpaper-selector": {
+        "format": "",
+        "on-click": "{{cookiecutter.HYPR_DIR}}/scripts/select_wallpaper.sh",
+        "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
+    },
+    "bluetooth": {
+        "format": "",
+        "on-click": "blueman-manager",
+        //"format-connected": " {device_alias}",
+        "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+        //"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        //"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        //"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        //"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    }
+    // Cliphist
+    //"custom/cliphist": {
+    //    "format": "",
+    //    "on-click": "sleep 0.1 && {{cookiecutter.HYPR_DIR}}/scripts/cliphist.sh",
+    //    "on-click-right": "sleep 0.1 && {{cookiecutter.HYPR_DIR}}/scripts/cliphist.sh d",
+    //    "on-click-middle": "sleep 0.1 && {{cookiecutter.HYPR_DIR}}/scripts/cliphist.sh w",
+    //    "tooltip-format": "Clipboard Manager"
+    //},
+}

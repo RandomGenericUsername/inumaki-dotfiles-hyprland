@@ -2,6 +2,7 @@
 
 print_debug_script="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 
+
 get_variable(){
     local variable="$1"
     local file="{{cookiecutter.DOTFILES_METADATA}}"
@@ -15,16 +16,19 @@ get_variable(){
     fi
     
     # Use tomlq to get the value based on the provided path
-    local value;value=$(tomlq ".${variable}" "$file" 2>/dev/null | xargs)
+    local value; value=$(tomlq ".${variable}" "$file" 2>/dev/null | xargs)
     local status=$?
     
-    if [[ $status -ne 0 ]]; then
-        $print_debug_script "Error $status: Variable $variable not found in $file" -t "error"
-        return 1
+    if [[ $status -ne 0 || -z "$value" ]]; then
+        # Return an empty string if the variable is not found
+        echo ""
+        return 0
     fi
+
     echo "$value"
     return 0
 }
+
 
 set_variable(){
     local variable="$1"

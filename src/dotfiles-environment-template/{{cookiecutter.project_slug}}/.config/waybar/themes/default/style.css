@@ -1,0 +1,25 @@
+/* Import the pywal colors */
+@import url("{{cookiecutter.CACHE_DIR}}/wal/colors-waybar.css"); 
+* {
+    background-color: transparent;
+}
+
+#clock {
+    font-family: "Roboto Mono Medium", Helvetica, Arial, sans-serif;
+    color: @color16; /* This will be replaced */
+    background-color: @color1; /* This will be replaced */
+    font-size: 1.0rem;
+    font-weight: bold;
+    border: none;
+    /*padding: 0.5em;*/
+    margin: 0.5em;
+    border-radius: 0.25rem;
+}
+
+#clock:hover {
+    background-color: @color16; /* This will be replaced */
+    color: @color1; /* This will be replaced */
+}
+
+#bluetooth {
+}
