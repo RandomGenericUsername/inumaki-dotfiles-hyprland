@@ -25,10 +25,6 @@ if ! wal -i "$current_wallpaper" -q 1>&2; then
     $print_debug_script "Error generating color scheme with wal." -t "error"
     return 1
 fi
-#if ! wal -i "$current_wallpaper" -q; then
-#    $print_debug_script "Error generating color scheme with wal." -t "error"
-#    return 1
-#fi
 
 # Deactivate the python venv
 deactivate

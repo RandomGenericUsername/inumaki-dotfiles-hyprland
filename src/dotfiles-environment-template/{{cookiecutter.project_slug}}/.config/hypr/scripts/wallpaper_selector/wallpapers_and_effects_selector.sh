@@ -64,13 +64,11 @@ else
 fi
 
 # Apply pywal to the current wallpaper
-#"$apply_pywal_color_pallete" 
+"$apply_pywal_color_pallete" 
 
 # Reload waybar
-#"$toggle_waybar"
-#"$toggle_waybar"
+"$toggle_waybar"
+"$toggle_waybar"
 
-#$print_debug "Finished but generating wallpapers" -t "info"
 # Cache the wallpapers
 "$cache_wallpaper"
-print_debug "Finished!!!" -t "info"

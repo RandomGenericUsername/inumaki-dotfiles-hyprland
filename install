@@ -165,23 +165,25 @@ run_tasks() {
    mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/.config/wal/" || exit $?
    rm -rf "/tmp/wal" || exit $?
 
-   # Copy the default wallpaper
-   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
-
    # Create metadata file
    echo "" >  "$DOTFILES_METADATA" || exit $?
-
-   # Generate the effects-variants for the default wallpaper
-   eval "$HYPR_DIR/scripts/wallpaper_selector/generate_wallpapers_with_effects.sh $WALLPAPERS_DIR/default.png" || exit $?
 
    # Source the variables handler script
    # shellcheck disable=SC1091
    source "$DOTFILES_INSTALL_PATH/.config/hypr/scripts/variables_handler.sh" || exit $?   
+
+   # Copy the default wallpaper
+   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
+
+   # Generate the effects-variants for the default wallpaper
+   eval "$HYPR_DIR/scripts/wallpaper_selector/generate_wallpapers_with_effects.sh $WALLPAPERS_DIR/default.png" || exit $?
+
    # Change the wallpaper to the default one
    eval "$HYPR_DIR/scripts/wallpaper_selector/change_wallpaper.sh $WALLPAPERS_DIR/default.png" || exit $?
-   set_variable "wallpaper.current.path" "$WALLPAPERS_DIR/default.png" || exit $?
+
+   set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
    set_variable "wallpaper.current.name" "default" || exit $?  
-   set_variable "wallpaper.cached" "default" || exit $?
+   tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIRECTORY/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
 
    # Enable services
    # Enable bluetooth service

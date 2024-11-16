@@ -1,18 +1,20 @@
 #!/bin/bash
 
 # Function to check if an element is in an array
-wallpaper_cached() {
-    local element="$1"
+is_wallpaper_cached() {
+    local current_wallpaper_name="$1"
     shift
-    local array=("$@")
-    for item in "${array[@]}"; do
-        if [[ "$item" == "$element" ]]; then
-            return 0  # Found, return success
+    local cached_wallpapers=("$@")
+
+    for wallpaper in "${cached_wallpapers[@]}"; do
+        if [[ "$wallpaper" == "$current_wallpaper_name" ]]; then
+            return 0  # Element found
         fi
     done
 
-    return 1  # Not found, return failure
+    return 1  # Element not found
 }
+
 
 # Path to utils (authentic_path, _or)
 utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
@@ -30,27 +32,17 @@ source "$variables_handler"
 
 
 current_wallpaper="$(get_variable "wallpaper.current.path")" 
-current_wallpaper_name="$(get_variable "wallpaper.current.name")"
-
-
-eval "cached_wallpapers=($(get_variable "wallpaper.cached" ))"
-wallpaper_cached "$current_wallpaper_name" "${cached_wallpapers[@]}"
+mapfile -t cached_wallpapers < <(tomlq -r '.cache.wallpapers[]' "{{cookiecutter.DOTFILES_METADATA}}")
+echo "Cached wallpapers: ${cached_wallpapers[*]}"
+is_wallpaper_cached "$current_wallpaper" "${cached_wallpapers[@]}"
 is_wallpaper_cached=$?
 if [[ "$is_wallpaper_cached" -eq 1 ]];then
     $print_debug "$current_wallpaper is not cached yet. Adding...." -t "info"
     "$generate_wallpapers_with_effect_script" "$current_wallpaper"
+    tomlq --toml-output '.cache.wallpapers += ["'"$current_wallpaper"'"]' "{{cookiecutter.DOTFILES_METADATA}}" > \
+        "{{cookiecutter.DOTFILES_METADATA}}.tmp" && \
+        mv "{{cookiecutter.DOTFILES_METADATA}}.tmp" "{{cookiecutter.DOTFILES_METADATA}}"
 
-    # Add a new item to the array
-    cached_wallpapers+=("$current_wallpaper")
-
-    # Convert the array to TOML format
-    toml_array="[$(printf '"%s", ' "${cached_wallpapers[@]}")]"
-    echo "$toml_array"  # This should display the array as expected by TOML
-
-    # Save it back to the TOML file
-    set_variable "wallpaper.cached" "$toml_array"
-
-    exit 0
+else
+    $print_debug "Wallpaper $current_wallpaper is already cached" -t "info"
 fi
-$print_debug "Wallpaper $current_wallpaper_name | $current_wallpaper is already cached" -t "info"
-exit 0
