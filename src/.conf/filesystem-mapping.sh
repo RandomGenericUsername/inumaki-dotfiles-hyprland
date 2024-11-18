@@ -83,7 +83,18 @@ export HYPRPAPER_CONFIG_TEMPLATE="$HYPR_DIR/hyprpaper.conf.template"
 export HYPRPAPER_CONFIG="$HYPR_DIR/hyprpaper.conf"
 
 export CHANGE_WALLPAPER_SCRIPT="$WALLPAPER_SELECTOR_SCRIPTS_DIR/change-wallpaper.sh"
+export ON_SELECTED_WALLPAPER_SCRIPT="$WALLPAPER_SELECTOR_SCRIPTS_DIR/on-selected-wallpaper.sh"
+export ON_SELECTED_WALLPAPER_EFFECT_SCRIPT="$WALLPAPER_SELECTOR_SCRIPTS_DIR/on-selected-wallpaper-effect.sh"
+export APPLY_PYWAL_PALLETE_SCRIPT="$WALLPAPER_SELECTOR_SCRIPTS_DIR/apply-pywal-pallete.sh"
+export CACHE_WALLPAPER_SCRIPT="$WALLPAPER_SELECTOR_SCRIPTS_DIR/cache-wallpaper.sh"
+export GENERATE_WALLPAPERS_WITH_EFFECTS_SCRIPT="$WALLPAPER_SELECTOR_SCRIPTS_DIR/generate-wallpapers-with-effects.sh"
 
+export WAYBAR_THEME_SWITCHER_SCRIPT="$WAYBAR_SCRIPTS_DIR/theme-switcher.sh"
+export WAYBAR_TOGGLE_SCRIPT="$WAYBAR_SCRIPTS_DIR/toggle.sh"
+
+export ROFI_CONFIG_WAYBAR_THEMES_MODE="$ROFI_DIR/waybar-themes.rasi"
+export ROFI_CONFIG_WALLPAPERS_AND_EFFECTS_MODE="$ROFI_DIR/wallpapers-and-effects-mode.rasi"
+export ROFI_CONFIG_CURRENT_WALLPAPER="$ROFI_DIR/current-wallpaper.rasi"
 
 
 ## Path to venv script

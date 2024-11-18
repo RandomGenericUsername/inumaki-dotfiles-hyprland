@@ -12,7 +12,7 @@ source "$utils_dir"
 source "$variables_handler"
 
 
-rofi -show "Waybar themes selector" -i replace -config "{{cookiecutter.ROFI_DIR}}/waybar-themes.rasi"
+rofi -show "Waybar themes selector" -i replace -config "{{cookiecutter.ROFI_CONFIG_WAYBAR_THEMES_MODE}}"
 
 selected_theme="$(get_variable "waybar.theme.selected")"    
 if [[ -z "$selected_theme" ]];then
@@ -33,18 +33,18 @@ fi
 config_file="config"
 style_file="style.css"
 # Standard files can be overwritten with an existing config-custom or style-custom.css
-if [ -f "{{cookiecutter.WAYBAR_DIR}}/themes/${arrThemes[0]}/custom-config" ] ;then
+if [ -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/custom-config" ] ;then
     config_file="custom-config"
 fi
-if [ -f "{{cookiecutter.WAYBAR_DIR}}/themes/${arrThemes[1]}/custom-style.css" ] ;then
+if [ -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/custom-style.css" ] ;then
     style_file="custom-style.css"
 fi
 
-launch="waybar -c {{cookiecutter.WAYBAR_DIR}}/themes/${arrThemes[0]}/$config_file -s {{cookiecutter.WAYBAR_DIR}}/themes/${arrThemes[1]}/$style_file &"
+launch="waybar -c {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/$config_file -s {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file &"
 # Check if a custom launch script exists for the theme.
-if [ -f "{{cookiecutter.WAYBAR_DIR}}/themes/${arrThemes[0]}/launch.sh" ]; then
+if [ -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/launch.sh" ]; then
 	print_debug "Custom waybar command found" -t "info"
-    launch="{{cookiecutter.WAYBAR_DIR}}/themes/${arrThemes[0]}/launch.sh"
+    launch="{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/launch.sh"
 fi
 
 set_variable "waybar.launch_command" "$launch"

@@ -17,13 +17,13 @@ is_wallpaper_cached() {
 
 
 # Path to utils (authentic_path, _or)
-utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils_dir="{{cookiecutter.UTILS_SCRIPT}}"
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Path to script that generates all of the wallpapers effects variants
-generate_wallpapers_with_effect_script="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/generate_wallpapers_with_effects.sh"
+generate_wallpapers_with_effect_script="{{cookiecutter.GENERATE_WALLPAPERS_WITH_EFFECTS_SCRIPT}}"
 # Path to variable handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 
 # Source required/util scripts
 source $utils_dir

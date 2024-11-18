@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Path to utils (authentic_path, _or)
-utils="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils="{{cookiecutter.Utils_SCRIPT}}"
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Path to dir cotaining the source code for wallpaper effects
-effects_dir="{{cookiecutter.HYPR_DIR}}/effects/wallpapers"
+effects_dir="{{cookiecutter.WALLPAPER_EFFECTS_DIR}}"
 # Path to directory that will contain the generated images
 output_dir="{{cookiecutter.GENERATED_WALLPAPERS_WITH_EFFECTS_DIR}}"
 # Path to variables handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 
 # shellcheck disable=SC1090
 source "$utils"

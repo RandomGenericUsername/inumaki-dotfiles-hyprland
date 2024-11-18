@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Path to utils (authentic_path, _or)
-utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils_dir="{{cookiecutter.UTILS_SCRIPT}}"
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Path to change wallpaper script
-change_wallpaper_script="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/change_wallpaper.sh"
+change_wallpaper_script="{{cookiecutter.CHANGE_WALLPAPER_SCRIPT}}"
 # Path to variables handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 
 # Source required/util scripts
 # shellcheck disable=SC1090
@@ -30,5 +30,5 @@ if [[ "$selected_wallpaper_effect" != "$current_wallpaper_effect" ]];then
     # Update the current wallpaper effect
     set_variable "wallpaper.current.effect" "$selected_wallpaper_effect"
     # Write the current wallpaper to rofi config
-    echo "* { current-image: url(\"$wallpaper_with_effect\", height); }" > "{{cookiecutter.ROFI_DIR}}/current-wallpaper.rasi"
+    echo "* { current-image: url(\"$wallpaper_with_effect\", height); }" > "{{cookiecutter.ROFI_CONFIG_CURRENT_WALLPAPER}}"
 fi

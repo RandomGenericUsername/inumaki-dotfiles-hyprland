@@ -46,15 +46,15 @@ change_wallpaper() {
 
 
 # Path to utils (authentic_path, _or)
-utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils_dir="{{cookiecutter.Utils_SCRIPT}}"
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Path to Argument parser script
 arg_parser_script="{{cookiecutter.ARGUMENT_PARSER_UTIL}}"
 # Path to hyprpaper config file template
-hyprpaper_config_template="{{cookiecutter.HYPR_DIR}}/hyprpaper.conf.template"
+hyprpaper_config_template="{{cookiecutter.HYPRPAPER_CONFIG_TEMPLATE}}"
 # Path to hyprpaper config file
-hyprpaper_config="{{cookiecutter.HYPR_DIR}}/hyprpaper.conf"
+hyprpaper_config="{{cookiecutter.HYPAPER_CONFIG}}"
 
 
 # Source required/util scripts

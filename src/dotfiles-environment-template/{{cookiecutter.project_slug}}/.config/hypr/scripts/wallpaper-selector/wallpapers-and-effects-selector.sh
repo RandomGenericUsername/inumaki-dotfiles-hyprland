@@ -3,21 +3,21 @@
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Path to variables handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 # Path to utils (authentic_path, _or)
-utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils_dir="{{cookiecutter.UTILS_SCRIPT}}"
 # Path to Argument parser script
 arg_parser_script="{{cookiecutter.ARGUMENT_PARSER_UTIL}}"
 # Script that will get executed if a wallpaper is selected
-on_selected_wallpaper="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/on_selected_wallpaper.sh"
+on_selected_wallpaper="{{cookiecutter.ON_SELECTED_WALLPAPER_SCRIPT}}"
 # Script that will get executed if a wallpaper effect is selected
-on_selected_wallpaper_effect="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/on_selected_wallpaper_effect.sh"
+on_selected_wallpaper_effect="{{cookiecutter.ON_SELECTED_WALLPAPER_EFFECT_SCRIPT}}"
 # Script that applies the generated color palleted using pywal
-apply_pywal_color_pallete="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/apply_pywal_pallete.sh"
+apply_pywal_color_pallete="{{cookiecutter.APPLY_PYWAL_PALLETE_SCRIPT}}"
 # Script to reload waybar
-toggle_waybar="{{cookiecutter.HYPR_DIR}}/scripts/waybar/toggle.sh"
+toggle_waybar="{{cookiecutter.WAYBAR_TOGGLE_SCRIPT}}"
 # Script to cache the generated wallpapers
-cache_wallpaper="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/cache_wallpaper.sh"
+cache_wallpaper="{{cookiecutter.CACHE_WALLPAPER_SCRIPT}}"
 
 # Source required/util scripts
 # shellcheck disable=SC1090
@@ -44,9 +44,9 @@ export wallpaper_dir
 
 # Execute the right command
 if [[ "$COMMAND" == "wallpaper" ]];then
-    rofi -show Wallpaper -i -replace -config "{{cookiecutter.ROFI_DIR}}/wallpapers-and-effects-mode.rasi"
+    rofi -show Wallpaper -i -replace -config "{{cookiecutter.ROFI_CONFIG_WALLPAPERS_AND_EFFECTS_MODE}}"
 elif [[ "$COMMAND" == "wallpaper-effect" ]];then
-    rofi -show Effects -i -replace -config "{{cookiecutter.ROFI_DIR}}/wallpapers-and-effects-mode.rasi"
+    rofi -show Effects -i -replace -config "{{cookiecutter.ROFI_CONFIG_WALLPAPERS_AND_EFFECTS_MODE}}"
 fi
 
 selected_wallpaper="$(get_variable "wallpaper.selected.path")"
