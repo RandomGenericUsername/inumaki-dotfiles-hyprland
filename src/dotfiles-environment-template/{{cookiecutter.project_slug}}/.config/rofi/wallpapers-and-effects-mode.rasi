@@ -13,7 +13,7 @@ configuration {
 /* ---- Load pywal colors (custom wal template)---- */
 @import "{{cookiecutter.CACHE_DIR}}/wal/colors-rofi-pywal.rasi" 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.WALLPAPER_SELECTOR_CURRENT_WALLPAPER_CONF}}"
+@import "{{cookiecutter.ROFI_CONFIG_CURRENT_WALLPAPER}}"
 
 /* ---- Window ---- */
 window {
