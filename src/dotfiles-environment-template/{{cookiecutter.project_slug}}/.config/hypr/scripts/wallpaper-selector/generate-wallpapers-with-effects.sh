@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to utils (authentic_path, _or)
-utils="{{cookiecutter.Utils_SCRIPT}}"
+utils="{{cookiecutter.UTILS_SCRIPT}}"
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Path to dir cotaining the source code for wallpaper effects
