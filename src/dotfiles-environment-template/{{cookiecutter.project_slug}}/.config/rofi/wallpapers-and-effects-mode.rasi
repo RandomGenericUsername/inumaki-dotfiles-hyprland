@@ -1,21 +1,19 @@
 configuration {
     sidebar-mode: true;
     click-to-exit: false;
-    modi: "{{cookiecutter.ROFI_WALLPAPER_SELECTOR_WINDOW_NAME}}:{{cookiecutter.ROFI_DIR}}/scripts/show_wallpapers.sh,Effects:{{cookiecutter.ROFI_DIR}}/scripts/show_effects.sh";
+    modi: "{{cookiecutter.ROFI_WALLPAPER_SELECTOR_WINDOW_NAME}}:{{cookiecutter.SHOW_WALLPAPER_SELECTOR_SCRIPT}},Effects:{{cookiecutter.SHOW_WALLPAPER_EFFECTS_SELECTOR_SCRIPT}}";
     show-icons: true; 
     scroll-method: 0;
 }
 
 /* ---- Load font ---- */
-@import "{{cookiecutter.SETTINGS_DIR}}/wallpaper/rofi-font.rasi"
+@import "{{cookiecutter.WALLPAPER_SELECTOR_FONT_CONF}}"
 /* ---- Load border width ---- */
-@import "{{cookiecutter.SETTINGS_DIR}}/wallpaper/rofi-border.rasi"
+@import "{{cookiecutter.WALLPAPER_SELECTOR_BORDER_CONF}}"
 /* ---- Load pywal colors (custom wal template)---- */
 @import "{{cookiecutter.CACHE_DIR}}/wal/colors-rofi-pywal.rasi" 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.ROFI_DIR}}/current-wallpaper.rasi"
-
-
+@import "{{cookiecutter.WALLPAPER_SELECTOR_CURRENT_WALLPAPER_CONF}}"
 
 /* ---- Window ---- */
 window {

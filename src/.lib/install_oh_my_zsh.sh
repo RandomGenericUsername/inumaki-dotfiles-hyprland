@@ -36,6 +36,6 @@ install_oh_my_zsh() {
         $print_debug "Failed to install oh-my-zsh." -t "error"
         exit 1
     fi
-    echo "source \"$DOTFILES_INSTALL_PATH/.zshrc\"" >> "$HOME/.zshrc"
+    #echo "source \"$DOTFILES_INSTALL_PATH/.zshrc\"" >> "$HOME/.zshrc"
     $print_debug "oh-my-zsh installed successfully." -t "debug"
 }

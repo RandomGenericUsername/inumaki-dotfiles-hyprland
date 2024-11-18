@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Path to variables handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 # Path to utils (authentic_path, _or)
-utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils_dir="{{cookiecutter.UTILS_SCRIPT}}"
 # Path to print debug script
 print_debug_script="{{cookiecutter.PRINT_DEBUG_UTIL}}"
 # Source the variables handler script

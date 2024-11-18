@@ -1,20 +1,20 @@
 configuration {
     sidebar-mode: false;
     click-to-exit: false;
-    modi: "Waybar themes selector:{{cookiecutter.ROFI_DIR}}/scripts/show_waybar_themes.sh";
+    modi: "Waybar themes selector:{{cookiecutter.SHOW_WAYBAR_THEMES_SELECTOR_SCRIPT}}";
     show-icons: false; 
     scroll-method: 0;
     mode-switcher: false;
 }
 
 /* ---- Load font ---- */
-@import "{{cookiecutter.SETTINGS_DIR}}/wallpaper/rofi-font.rasi"
+@import "{{cookiecutter.WALLPAPER_SELECTOR_FONT_CONF}}"
 /* ---- Load border width ---- */
-@import "{{cookiecutter.SETTINGS_DIR}}/wallpaper/rofi-border.rasi"
+@import "{{cookiecutter.WALLPAPER_SELECTOR_BORDER_CONF}}"
 /* ---- Load pywal colors (custom wal template)---- */
 @import "{{cookiecutter.CACHE_DIR}}/wal/colors-rofi-pywal.rasi" 
 /* ---- Load wallpaper ---- */
-@import "{{cookiecutter.ROFI_DIR}}/current-wallpaper.rasi"
+@import "{{cookiecutter.WALLPAPER_SELECTOR_CURRENT_WALLPAPER_CONF}}"
 
 /* ---- Window ---- */
 window {

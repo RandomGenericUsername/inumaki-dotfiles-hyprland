@@ -31,6 +31,7 @@ yq
 # NWG-Shell: GTK-based shell components
 nwg-shell
 
+# Fastfetch(?)
 fastfetch
 
 # NetworkManager: Manages network connections

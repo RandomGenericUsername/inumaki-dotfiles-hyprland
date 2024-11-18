@@ -119,21 +119,21 @@ run_tasks() {
    install_print_debug_util "$PRINT_DEBUG_UTIL_PATH" || exit $?
 
    # Install pyenv
-   install_pyenv "$DOTFILES_INSTALL_PATH/.pyenv" || exit $?
+   install_pyenv "$PYENV_DIR" || exit $?
    # Use pyenv to install python version
-   install_python_version "$DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?
+   install_python_version "$PYENV_DIR" "$PYTHON_VERSION" || exit $?
    # Create python virtual environment
-   create_python_venv "$DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$PYTHON_VENV" || exit $?
+   create_python_venv "$PYENV_DIR/versions/$PYTHON_VERSION/bin/python" "$PYTHON_VENV" || exit $?
    # Install pip packages in the virtual environment
    install_packages_in_venv "$PIP_PACKAGES" "$PYTHON_VENV" || exit $?
    
    # Install nvm
-   install_nvm "$DOTFILES_INSTALL_PATH/.nvm" || exit $?
+   install_nvm "$NVM_DIR" || exit $?
    # Use nvm to install a node version
-   install_node_version "$DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
+   install_node_version "$NVM_DIR" "$NODEJS_VERSION" || exit $?
 
    # Install oh-my-zsh
-   install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
+   install_oh_my_zsh "$OH_MY_ZSH_DIR" || exit $?
 
    # Create a file containing the environment variables from all the settings files to use into the cookiecutter template
    get_env_vars "$settings" \
@@ -159,7 +159,10 @@ run_tasks() {
 
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH" || exit $?
    create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH" || exit $?
-   create_symbolic_link "$DOTFILES_INSTALL_PATH/.config/wal" --source "$HOME/.config/wal" --target "$DOTFILES_INSTALL_PATH/.config" || exit $?
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/.config/wal" --source "$HOME/.config/wal" --target "$CONFIG_DIR" || exit $?
+   create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME" || exit $?
+   create_symbolic_link "$HOME/.config/nvim" --source "$DOTFILES_INSTALL_PATH/.config/nvim" --target "$HOME/.config"
+   create_symbolic_link "$HOME/.config/hypr/hyprland.conf" --source "$HYPR_DIR/hyprland.conf" --target "$HOME/.config/hypr"
 
    # Move wal files back
    mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/.config/wal/" || exit $?
@@ -170,16 +173,16 @@ run_tasks() {
 
    # Source the variables handler script
    # shellcheck disable=SC1091
-   source "$DOTFILES_INSTALL_PATH/.config/hypr/scripts/variables_handler.sh" || exit $?   
+   source "$VARIABLES_HANDLER_SCRIPT" || exit $?   
 
    # Copy the default wallpaper
    cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
 
    # Generate the effects-variants for the default wallpaper
-   eval "$HYPR_DIR/scripts/wallpaper_selector/generate_wallpapers_with_effects.sh $WALLPAPERS_DIR/default.png" || exit $?
+   eval "$HYPR_SCRIPTS_DIR/wallpaper_selector/generate_wallpapers_with_effects.sh $WALLPAPERS_DIR/default.png" || exit $?
 
    # Change the wallpaper to the default one
-   eval "$HYPR_DIR/scripts/wallpaper_selector/change_wallpaper.sh $WALLPAPERS_DIR/default.png" || exit $?
+   eval "$HYPR_SCRIPTS_DIR/wallpaper_selector/change_wallpaper.sh $WALLPAPERS_DIR/default.png" || exit $?
 
    set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
    set_variable "wallpaper.current.name" "default" || exit $?  
@@ -188,6 +191,8 @@ run_tasks() {
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
+   #sudo systemctl disable sddm
+   #sudo systemctl enable lightdm
 
    $print_debug "Installation finished!!!" -t "info"
    if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then

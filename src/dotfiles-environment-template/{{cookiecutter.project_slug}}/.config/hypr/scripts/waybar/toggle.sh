@@ -1,13 +1,11 @@
 #!/bin/bash
 
 # Path to utils (authentic_path, _or)
-utils_dir="{{cookiecutter.HYPR_DIR}}/scripts/utils.sh"
+utils_dir="{{cookiecutter.UTILS_SCRIPT}}"
 # Path to print debug script
 print_debug="{{cookiecutter.PRINT_DEBUG_UTIL}}"
-# Path to change wallpaper script
-change_wallpaper_script="{{cookiecutter.HYPR_DIR}}/scripts/wallpaper_selector/change_wallpaper.sh"
 # Path to variables handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 
 source "$utils_dir"
 source "$variables_handler"
@@ -22,7 +20,7 @@ elif [[ "$current_waybar_status" == "disabled" ]];then
     set_variable "waybar.status" "enabled"
     command="$(get_variable "waybar.launch_command")"   
     if [[ -z "$command" ]] || [[ "$command" == "none" ]] || [[ "$command" == "null" ]];then
-        command="waybar -c {{cookiecutter.WAYBAR_DIR}}/themes/default/config -s {{cookiecutter.WAYBAR_DIR}}/themes/default/style.css &"
+        command="waybar -c {{cookiecutter.WAYBAR_DEFAULT_THEME_DIR}}/config -s {{cookiecutter.WAYBAR_DEFAULT_THEME_DIR}}/style.css &"
         $print_debug "No launch command found, using default one: $command"
     fi
 else

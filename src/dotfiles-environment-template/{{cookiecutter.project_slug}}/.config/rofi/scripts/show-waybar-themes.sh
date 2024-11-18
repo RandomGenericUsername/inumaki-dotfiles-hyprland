@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to variables handler script
-variables_handler="{{cookiecutter.HYPR_DIR}}/scripts/variables_handler.sh"
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 # Source the variables handler script
 source "$variables_handler"
 
@@ -22,7 +22,7 @@ process_theme_dir() {
     fi
 }
 
-themes_path="{{cookiecutter.WAYBAR_DIR}}/themes"
+themes_path="{{cookiecutter.WAYBAR_THEMES_DIR}}"
 listThemes=()
 listNames=()
 listNames2=()
