@@ -44,6 +44,7 @@ export wallpaper_dir
 
 # Execute the right command
 if [[ "$COMMAND" == "wallpaper" ]];then
+    echo "About to show wallpapers"
     rofi -show Wallpaper -i -replace -config "{{cookiecutter.ROFI_CONFIG_WALLPAPERS_AND_EFFECTS_MODE}}"
 elif [[ "$COMMAND" == "wallpaper-effect" ]];then
     rofi -show Effects -i -replace -config "{{cookiecutter.ROFI_CONFIG_WALLPAPERS_AND_EFFECTS_MODE}}"

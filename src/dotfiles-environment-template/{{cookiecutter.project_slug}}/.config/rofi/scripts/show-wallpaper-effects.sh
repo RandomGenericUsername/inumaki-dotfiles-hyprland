@@ -21,7 +21,7 @@ show_effects() {
     cached_wallpaper_dir="{{cookiecutter.GENERATED_WALLPAPERS_WITH_EFFECTS_DIR}}/$current_wallpaper_name"
 
 	# Find all subdirectories in the effects path
-    find "{{cookiecutter.HYPR_DIR}}/effects/wallpapers" -mindepth 1 -maxdepth 1 -type d | while read -r subdir
+    find "{{cookiecutter.WALLPAPER_EFFECTS_DIR}}" -mindepth 1 -maxdepth 1 -type d | while read -r subdir
     do
         # Extract the effect name from the subdirectory
         effect_name=$(basename "$subdir")
