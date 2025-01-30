@@ -1,6 +1,9 @@
 # Default installation type. 
 export INSTALL_TYPE="update"
 
+# Screen size
+export SCREEN_SIZE="1920x1080"
+
 # Name for the installation directory
 export INSTALLATION_DIRNAME="inumaki-dotfiles"
 

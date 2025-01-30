@@ -42,6 +42,11 @@ source "$lib_scripts"
 # shellcheck disable=SC1090
 source "$variables_handler_scripts" 
 
+# If the user has not defined the screen size, get it from the system
+if [[ -z "$SCREEN_SIZE" ]]; then
+   SCREEN_SIZE="$(xrandr | grep -w connected | awk '{print $3}' | awk -Fx '{print $1}')"
+fi
+
 # Clear the terminal for clearer output.
 clear 
 
@@ -184,9 +189,14 @@ run_tasks() {
    # Change the wallpaper to the default one
    eval "$CHANGE_WALLPAPER_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
 
+   # Set the wallpaper path to the default one
    set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
+   # Set the wallpaper name to default
    set_variable "wallpaper.current.name" "default" || exit $?  
+   # Add the default wallpaper to the cache
    tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIRECTORY/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
+   # Set the screen size
+   set_variable "system.screen_size" "$SCREEN_SIZE" || exit $?
 
    # Enable services
    # Enable bluetooth service

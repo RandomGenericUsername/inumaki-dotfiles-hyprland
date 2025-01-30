@@ -1,27 +1,17 @@
 /* Import the pywal colors */
 @import url("{{cookiecutter.CACHE_DIR}}/wal/colors-waybar.css"); 
 * {
-    background-color: transparent;
-}
-
-#clock {
     font-family: "Roboto Mono Medium", Helvetica, Arial, sans-serif;
-    color: @color16; /* This will be replaced */
-    background-color: @color1; /* This will be replaced */
-    font-size: 125%;
-    border: none;
-    padding: 0.25em 0.15em 0.0em 0.15em;
-    font-weight: bold;
-    border-radius: 0.15rem;
+    font-size: 150%;
 }
 
-#clock:hover {
-    background-color: @color16; /* This will be replaced */
-    color: @color1; /* This will be replaced */
+window#waybar {
+    background-color: transparent /* rgba(43, 48, 59, 0.5) */;
+    color: @color7; 
+    transition-property: background-color;
+    transition-duration: .5s;
 }
 
-#bluetooth {
-}
-
-#bluetooth {
+window#waybar.hidden {
+    opacity: 0.2;
 }

@@ -228,7 +228,7 @@ ttf-material-design-icons
 ttf-ms-fonts
 
 # Slack: Team communication tool
-slack
+#slack
 
 # Evolution email: GNOME email client
 evolution
