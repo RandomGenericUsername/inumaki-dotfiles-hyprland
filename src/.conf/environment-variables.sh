@@ -13,3 +13,5 @@
 #export WAYBAR_CURRENT_STATUS_VAR="waybar_current_status"
 
 export ROFI_WALLPAPER_SELECTOR_WINDOW_NAME="Wallpaper"
+export ROFI_WALLPAPER_EFFECT_SELECTOR_WINDOW_NAME="Wallpaper Effect"
+export ROFI_WAYBAR_THEME_SELECTOR_WINDOW_NAME="Waybar themes selector"

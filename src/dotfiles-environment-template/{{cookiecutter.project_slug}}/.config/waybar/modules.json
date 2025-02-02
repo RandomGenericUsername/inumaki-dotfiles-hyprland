@@ -22,7 +22,7 @@
             "default": ""
         },
         "persistent-workspaces": {
-            "*": 3
+            "*": 5
         }
     },
     // Taskbar
@@ -42,15 +42,22 @@
     },
     // Waybar Themes
     "custom/waybar-themes": {
-        "format": "🎨", // Gear icon from Font Awesome
-        "on-click": "{{cookiecutter.HYPR_DIR}}/scripts/waybar_themeswitcher.sh",
-        "tooltip-format": "Select a waybar theme"
+        "format": "",
+        "on-click": "{{cookiecutter.WAYBAR_SCRIPTS_DIR}}/theme-switcher.sh",
+        "tooltip-format": "Select a theme for waybar"
     },
     // Wallpaper
     "custom/wallpaper-selector": {
         "format": "",
-        "on-click": "{{cookiecutter.HYPR_DIR}}/scripts/select_wallpaper.sh",
-        "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
+        "on-click": "{{cookiecutter.WALLPAPER_SELECTOR_SCRIPTS_DIR}}/wallpapers-and-effects-selector.sh wallpaper",
+        "tooltip-format": "Select a wallpaper/effect. Use Ctlr+tab to navigate."
+    },
+
+    "custom/power-menu": {
+        "format": "",
+        "on-click": "wlogout -C {{cookiecutter.WLOGOUT_DIR}}/style.css -l {{cookiecutter.WLOGOUT_DIR}}/layout",
+        "on-click-right": "hyprlock",
+        "tooltip-format": "Left: Power menu\nRight: Lock screen"
     },
     "bluetooth": {
         "format": "",

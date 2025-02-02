@@ -1,7 +1,7 @@
 configuration {
     sidebar-mode: false;
     click-to-exit: false;
-    modi: "Waybar themes selector:{{cookiecutter.SHOW_WAYBAR_THEMES_SELECTOR_SCRIPT}}";
+    modi: "{{cookiecutter.ROFI_WAYBAR_THEME_SELECTOR_WINDOW_NAME}}:{{cookiecutter.SHOW_WAYBAR_THEMES_SELECTOR_SCRIPT}}";
     show-icons: false; 
     scroll-method: 0;
     mode-switcher: false;

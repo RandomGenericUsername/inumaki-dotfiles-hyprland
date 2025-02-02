@@ -1,7 +1,7 @@
 configuration {
     sidebar-mode: true;
     click-to-exit: false;
-    modi: "{{cookiecutter.ROFI_WALLPAPER_SELECTOR_WINDOW_NAME}}:{{cookiecutter.SHOW_WALLPAPER_SELECTOR_SCRIPT}},Effects:{{cookiecutter.SHOW_WALLPAPER_EFFECTS_SELECTOR_SCRIPT}}";
+    modi: "{{cookiecutter.ROFI_WALLPAPER_SELECTOR_WINDOW_NAME}}:{{cookiecutter.SHOW_WALLPAPER_SELECTOR_SCRIPT}},{{cookiecutter.ROFI_WALLPAPER_EFFECT_SELECTOR_WINDOW_NAME}}:{{cookiecutter.SHOW_WALLPAPER_EFFECTS_SELECTOR_SCRIPT}}";
     show-icons: true; 
     scroll-method: 0;
 }
