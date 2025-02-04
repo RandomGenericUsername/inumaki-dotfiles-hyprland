@@ -10,43 +10,43 @@ window {
 }
 
 button {
-    border-radius: 0;
-    border-color: @foreground;
+    border-radius: 5px;
+    border-color: @color1;
 	text-decoration-color: @color1;
-    color: @color2;
-	background-color: @color3;
+    color: @color16;
+	background-color: @background;
+	background-position: center;
 	border-style: solid;
 	border-width: 1px;
 	background-repeat: no-repeat;
-	background-position: center;
 	background-size: 25%;
 }
 
-button:focus, button:active, button:hover {
-	background-color: #3700B3;
+button:active, button:focus, button:hover {
+	background-color: @foreground;
 	outline-style: none;
 }
 
 #lock {
-    background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/lock.png"));
 }
 
 #logout {
-    background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/logout.png"));
 }
 
 #suspend {
-    background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/suspend.png"));
 }
 
 #hibernate {
-    background-image: image(url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/hibernate.png"));
 }
 
 #shutdown {
-    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/shutdown.png"));
 }
 
 #reboot {
-    background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/reboot.png"));
 }

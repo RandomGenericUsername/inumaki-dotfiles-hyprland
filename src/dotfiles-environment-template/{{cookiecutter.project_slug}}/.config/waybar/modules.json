@@ -1,4 +1,7 @@
 {
+    "tray": {
+        "spacing" : 10
+    },
     "clock": {
         "interval": 1,
         "format": "{:%H:%M:%S}",
@@ -58,6 +61,22 @@
         "on-click": "wlogout -C {{cookiecutter.WLOGOUT_DIR}}/style.css -l {{cookiecutter.WLOGOUT_DIR}}/layout",
         "on-click-right": "hyprlock",
         "tooltip-format": "Left: Power menu\nRight: Lock screen"
+    },
+
+    // Battery
+    "battery": {
+      "states": {
+        // "good": 95,
+        "warning": 25,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}%",
+      "format-charging": "  {capacity}%",
+      "format-plugged": "  {capacity}%",
+      "format-alt": "{icon}  {time}",
+      // "format-good": "", // An empty format will hide the module
+      // "format-full": "",
+      "format-icons": [" ", " ", " ", " ", " "]
     },
     "bluetooth": {
         "format": "",

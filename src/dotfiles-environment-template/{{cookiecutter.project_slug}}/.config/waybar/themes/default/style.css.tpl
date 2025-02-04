@@ -78,7 +78,7 @@ window#waybar.hidden {
 tooltip {
     border-radius: 0.2em;
     background-color: @background;
-    opacity: 0.9;
+    opacity: 1.0;
     padding: 0.5em;
     margin: 0em;
 }
@@ -121,6 +121,51 @@ tooltip label {
 
 #custom-power-menu:hover {
     background-color: @color1;
+}
+
+#tray {
+    margin: 0.3em 0em;
+    padding: 0.1em 0.75em;
+    color: @foreground;
+    border-radius: 0.20em;
+}
+#tray:hover {
+    background-color: @color1;
+}
+#tray menu{
+    color: @color1;
+    background-color: @background;
+}
+
+#battery {
+    margin: 0.3em 0em;
+    padding: 0.1em 0.75em;
+    color: @foreground;
+    border-radius: 0.20em;
+}
+#battery:hover {
+    background-color: @color1;
+}
+
+#battery.charging, #battery.plugged {
+    background-color: @color1;
+}
+
+@keyframes blink {
+    to {
+        background-color: red;
+        color: cyan;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: orange;
+    color: green;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 

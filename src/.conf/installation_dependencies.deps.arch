@@ -8,7 +8,7 @@ waybar
 rofi
 
 # Wlogout: Logout menu for Wayland
-#wlogout
+wlogout
 
 # Bluetooth manager
 blueman
@@ -17,16 +17,16 @@ blueman
 yq
 
 # 1Password: Password manager
-#1password
+1password
 
 # Eww: Custom widget system
-#eww
+eww
 
 # Oxygen: Font used in KDE
-#ttf-oxygen
+ttf-oxygen
 
 # Waypaper: Wallpaper utility for Wayland
-#waypaper
+waypaper
 
 # NWG-Shell: GTK-based shell components
 nwg-shell
@@ -237,10 +237,3 @@ evolution-spamassassin
 
 # Hyprshade: Window shading tool for Hyprland
 hyprshade
-
-
-1password
-wlogout
-eww
-waypaper
-ttf-oxygen
