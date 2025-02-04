@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export WALLPAPER_BLUR_DEFAULT_VALUE="50x30"
 export WALLPAPER_BRIGHTNESS_DEFAULT_VALUE="20%"
 export WAYBAR_DEFAULT_THEME="/default;/default"

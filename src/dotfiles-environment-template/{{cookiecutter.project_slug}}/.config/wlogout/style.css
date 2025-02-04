@@ -1,0 +1,52 @@
+@import url("{{cookiecutter.CACHE_DIR}}/wal/colors-waybar.css"); 
+
+* {
+	background-image: none;
+	box-shadow: none;
+}
+
+window {
+	background-color: @background;
+}
+
+button {
+    border-radius: 5px;
+    border-color: @color1;
+	text-decoration-color: @color1;
+    color: @color16;
+	background-color: @background;
+	background-position: center;
+	border-style: solid;
+	border-width: 1px;
+	background-repeat: no-repeat;
+	background-size: 25%;
+}
+
+button:active, button:focus, button:hover {
+	background-color: @foreground;
+	outline-style: none;
+}
+
+#lock {
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/lock.png"));
+}
+
+#logout {
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/logout.png"));
+}
+
+#suspend {
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/suspend.png"));
+}
+
+#hibernate {
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/hibernate.png"));
+}
+
+#shutdown {
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/shutdown.png"));
+}
+
+#reboot {
+    background-image: image(url("{{cookiecutter.WLOGOUT_DIR}}/icons/reboot.png"));
+}

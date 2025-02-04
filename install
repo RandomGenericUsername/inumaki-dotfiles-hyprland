@@ -9,109 +9,200 @@
 
 '
 
-# ------------------ Source relevant variables/constants and functions ------------------ #
+# Redirect the debug output to stderr
+export ENABLE_REDIRECT="true"
+
+# Required to source required files
 SCRIPT_INVOCATION_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Path to setup scripts and configuration files
 lib_scripts="$SCRIPT_INVOCATION_DIR/src/.lib/export.sh"
+# Path to configuration files
 configs="$SCRIPT_INVOCATION_DIR/src/.conf/export.sh"
+# Path to users settings file
 settings="$SCRIPT_INVOCATION_DIR/settings"
-
-# Settings needs to be sourced first because it contains definitions required by settings at config directory.
+# Path to the variables handler script. Required to handle variables in the settings file.
+variables_handler_scripts="$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template/{{cookiecutter.project_slug}}/.config/hypr/scripts/variables_handler.sh"
+# Path to the assets directory
+assets_dir="$SCRIPT_INVOCATION_DIR/src/assets"
+ 
+# Source the users settings file. Needs to be sourced first than the rest because it contains definitions required by settings at config directory.
+# shellcheck disable=SC1090
 source "$settings" 
-source "$configs"
-source "$lib_scripts"
 
-# Required to update the log path variable in the print debug script
-#export LOG;
-# This is required so other scripts can use this utility using the temporal installation path.
-export print_debug="$TEMP_DOTFILES_INSTALL_PATH/.print-debug/print-debug"
-# --------------------------------------------------------------------------------------- #
+# Source the configuration files
+# shellcheck disable=SC1090
+source "$configs" 
 
-# ------------------------------------ Setup ------------------------------------ #
+# Source the setup scripts
+# shellcheck disable=SC1090
+source "$lib_scripts" 
+
+# Source the variables handler script
+# shellcheck disable=SC1090
+source "$variables_handler_scripts" 
+
+# If the user has not defined the screen size, get it from the system
+if [[ -z "$SCREEN_SIZE" ]]; then
+   SCREEN_SIZE="$(xrandr | grep -w connected | awk '{print $3}' | awk -Fx '{print $1}')"
+fi
 
 # Clear the terminal for clearer output.
 clear 
+
 # Check if the current distro is supported and get the package manager. If not supported, exit.
 get_package_manager
+
 # Parse the comand line options.
 parse_options "$@" 
+
 # Pretty print the installer message.
 pretty_print_installer_msg 
+
 # Promp for proceeding with installation.
 prompt_install 
+
 # Print message to inform the user that dependencies are being installed.
 echo "INFO: [Boostraping...]" 
+
 # Install the print debug utility
-install_print_debug_util "$TEMP_DOTFILES_INSTALL_PATH/.print-debug" # Install print debug utility
+install_print_debug_util "/tmp/.print-debug" # Install print debug utility
+
 # Check if the current distro is based on Arch Linux and install yay if it is.
 if_arch_based_distro
+
 # Create file for logging the installation (if enabled)
 create_log 
+
 # Check for previous installation
 check_previous_installation 
+
 # Show the installation type to be performed
 $print_debug "Performing '$INSTALL_TYPE' installation" 
+
 # Install packages and utils required to run the installation tasks
 install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" 
+
+# Print message to inform the user that the boostraping is finished.
 $print_debug "Bootstraping finished." -t "success"
-# --------------------------------------------------------------------------------------- #
 
-
-# ------------------------------------ Install ------------------------------------ #
-
-
+# Define the tasks to be performed during the installation
 run_tasks() {
+
+   # Print message to inform the user that the installation is beginning.
    $print_debug "Beginning installation..." -t "info"
 
-   #create_dirs "$HOME/.cache" "$INSTALL_PATH" "$TEMP_INSTALL_PATH" "$WALLPAPERS_DIRECTORY" || exit $?
+   # These directories are going to be deleted for avoiding conflicts with installation process 
+   for dir in \
+      "$HOME/.config/wal" \
+      "/tmp/wal"
+   do
+      delete_directory "$dir" --yes
+      local status="$?"
+      if [ "$status" -gt 1 ]; then
+         $print_debug "Failed to delete directory '$dir'." -t "error"
+         exit $status
+      fi 
+   done
+
+   # Create directories
    create_dirs \
     "$HOME/.cache" \
+    "$HOME/.config/wal" \
     "$INSTALL_PATH" \
-    "$TEMP_INSTALL_PATH" \
-    "$WALLPAPERS_DIRECTORY" || exit $?
+    "$WALLPAPERS_DIRECTORY" \
+   || exit $?
 
+   # Install packages
    install_packages_from_file \
-      "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" || exit $?
+      "$INSTALLATION_DEPENDENCIES.$BASE_DISTRO" \
+   || exit $?
 
-   install_pyenv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv" || exit $?
-   install_python_version "$TEMP_DOTFILES_INSTALL_PATH/.pyenv" "$PYTHON_VERSION" || exit $?
-   create_python_venv "$TEMP_DOTFILES_INSTALL_PATH/.pyenv/versions/$PYTHON_VERSION/bin/python" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
-   install_packages_in_venv "$PIP_PACKAGES" "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" || exit $?
+   # Install custom utlitity for parsing arguments in bash scripts
+   install_argument_parser_util "$ARGUMENT_PARSER_UTIL_PATH" || exit $?
+   # Install custom utility for printing debug messages
+   install_print_debug_util "$PRINT_DEBUG_UTIL_PATH" || exit $?
+
+   # Install pyenv
+   install_pyenv "$PYENV_DIR" || exit $?
+   # Use pyenv to install python version
+   install_python_version "$PYENV_DIR" "$PYTHON_VERSION" || exit $?
+   # Create python virtual environment
+   create_python_venv "$PYENV_DIR/versions/$PYTHON_VERSION/bin/python" "$PYTHON_VENV" || exit $?
+   # Install pip packages in the virtual environment
+   install_packages_in_venv "$PIP_PACKAGES" "$PYTHON_VENV" || exit $?
    
+   # Install nvm
+   install_nvm "$NVM_DIR" || exit $?
+   # Use nvm to install a node version
+   install_node_version "$NVM_DIR" "$NODEJS_VERSION" || exit $?
+
+   # Install oh-my-zsh
+   install_oh_my_zsh "$OH_MY_ZSH_DIR" || exit $?
+
+   # Create a file containing the environment variables from all the settings files to use into the cookiecutter template
    get_env_vars "$settings" \
       "$INSTALLATION_SETTINGS" \
       "$INSTALLATION_DEFAULTS" \
       "$INSTALLATION_ENVIRONMENT_VARIABLES" \
       "$INSTALLATION_FILESYSTEM_MAPPING" \
-      "$TEMP_INSTALL_PATH/environment_variables.sh" || exit $?
+      "$INSTALL_PATH/environment_variables.sh" \
+   || exit $?
    
+   # Create a cookiecutter project
    create_cookiecutter_project \
-      -e "$TEMP_INSTALL_PATH/environment_variables.sh" \
+      -e "$INSTALL_PATH/environment_variables.sh" \
       -t "$SCRIPT_INVOCATION_DIR/src/dotfiles-environment-template" \
-      -p "$TEMP_DOTFILES_INSTALL_PATH/.python-$PYTHON_VERSION-venv" \
-      -i "$INSTALL_PATH" || exit $?
-
-   exit 0
-   install_oh_my_zsh "$DOTFILES_INSTALL_PATH/.oh-my-zsh" || exit $?
-
-   install_nvm "$TEMP_DOTFILES_INSTALL_PATH/.nvm" || exit $?
-   install_node_version "$TEMP_DOTFILES_INSTALL_PATH/.nvm" "$NODEJS_VERSION" || exit $?
+      -p "$PYTHON_VENV" \
+      -i "$INSTALL_PATH" \
+   || exit $?
 
 
+   # Move wal files to avoid conflicts with wal installation
+   mkdir -p "/tmp/wal" || exit $?
+   mv "$DOTFILES_INSTALL_PATH/.config/wal/"* "/tmp/wal/" || exit $?
 
-   copy_files "$TEMP_INSTALL_PATH" "$INSTALL_PATH" || exit $?
-   copy_files "$INSTALL_PATH/$DOTFILES_DIRNAME/$DOTFILES_NAME" "$INSTALL_PATH/$DOTFILES_DIRNAME"
-   rm -rf "${INSTALL_PATH:?}/${DOTFILES_DIRNAME:?}/${DOTFILES_NAME:?}" || exit $?
-   exit 0
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH" || exit $?
+   create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH" || exit $?
+   create_symbolic_link "$DOTFILES_INSTALL_PATH/.config/wal" --source "$HOME/.config/wal" --target "$CONFIG_DIR" || exit $?
+   create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME" || exit $?
+   create_symbolic_link "$HOME/.config/nvim" --source "$DOTFILES_INSTALL_PATH/.config/nvim" --target "$HOME/.config"
+   create_symbolic_link "$HOME/.config/hypr/hyprland.conf" --source "$HYPR_DIR/hyprland.conf" --target "$HOME/.config/hypr"
 
-   create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH"
-   create_symbolic_link "$WALLPAPERS_DIR" --source "$HOST_WALLPAPERS_DIR" --target "$DOTFILES_INSTALL_PATH"
-   #create_symbolic_link "$HOME/.zshrc" --source "$DOTFILES_INSTALL_PATH/.zshrc" --target "$HOME"
-   #create_symbolic_link "$HOME/.config/nvim" --source "$CONFIG_DIR/nvim" --target "$HOME/.config"
-   #create_symbolic_link "$HOME/.config/wal" --source "$CONFIG_DIR/wal" --target "$HOME/.config"
+   # Move wal files back
+   mv "/tmp/wal/"* "$DOTFILES_INSTALL_PATH/.config/wal/" || exit $?
+   rm -rf "/tmp/wal" || exit $?
 
+   # Create metadata file
+   echo "" >  "$DOTFILES_METADATA" || exit $?
+
+   # Source the variables handler script
+   # shellcheck disable=SC1091
+   source "$VARIABLES_HANDLER_SCRIPT" || exit $?   
+
+   # Copy the default wallpaper
+   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
+
+   # Generate the effects-variants for the default wallpaper
+   eval "$GENERATE_WALLPAPERS_WITH_EFFECTS_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
+
+   # Change the wallpaper to the default one
+   eval "$CHANGE_WALLPAPER_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
+
+   # Set the wallpaper path to the default one
+   set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
+   # Set the wallpaper name to default
+   set_variable "wallpaper.current.name" "default" || exit $?  
+   # Add the default wallpaper to the cache
+   tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIRECTORY/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
+   # Set the screen size
+   set_variable "system.screen_size" "$SCREEN_SIZE" || exit $?
+
+   # Enable services
    # Enable bluetooth service
-   sudo systemctl enable --now bluetooth
+   #sudo systemctl enable --now bluetooth
+   #sudo systemctl disable sddm
+   #sudo systemctl enable lightdm
 
    $print_debug "Installation finished!!!" -t "info"
    if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
@@ -119,12 +210,21 @@ run_tasks() {
    fi
 }
 
-
 if [ "$ENABLE_DEBUG" = true ]; then
+   # In debug mode, run_tasks directly with a simple spinner
    gum spin --spinner dot --title "Installing all packages and tools..." -- sleep 1 && run_tasks
 else
-   if ! gum spin --spinner dot --title "Installing all packages and tools..." -- bash -c "$(declare -f); run_tasks";then printf "%b" "${ERROR_COLOR}" 
-      echo "!!! An error occurred during installation. Try running again the installation in debug mode with the '-d' or '--debug' options. !!!"
+   # In non-debug mode, run_tasks is executed in a subshell with gum spin
+   # We need to ensure all environment variables and function definitions are passed to the subshell.
+   # The command below:
+   # - `declare -f` captures all function definitions (e.g., run_tasks and any helper functions)
+   # - `declare -p` captures all environment variables in an exportable format
+   # - `$(declare -f); $(declare -p); run_tasks` combines both function definitions and environment variables
+   #   and executes them in the new subshell created by `gum spin`.
+   if ! gum spin --spinner dot --title "Installing all packages and tools..." -- bash -c "$(declare -f); $(declare -p); run_tasks"; then
+      # If any error occurs during the installation, print an error message with exit code
+      printf "%b" "${ERROR_COLOR}" 
+      echo "!!! An error occurred during installation: $?. Try running again the installation in debug mode with the '-d' or '--debug' options. !!!"
       printf "%b" "${NO_COLOR}" 
       exit 1
    fi

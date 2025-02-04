@@ -15,14 +15,14 @@ PACKAGE_MANAGERS=(
 
 declare -A PACKAGE_MANAGERS_INSTALL_COMMANDS
 PACKAGE_MANAGERS_INSTALL_COMMANDS=(
-    ["arch"]="yay install -y"
+    ["arch"]="yay --noconfirm -S"
     ["debian"]="apt install -y"
     ["fedora"]="sudo dnf install -y"
 )
 
 declare -A PACKAGE_MANAGERS_FORCE_INSTALL_COMMANDS
 PACKAGE_MANAGERS_FORCE_INSTALL_COMMANDS=(
-    ["arch"]="yay --noconfirm -S"
+    ["arch"]="yay --noconfirm --needed -S"
     ["debian"]=""
     ["fedora"]=""
 )

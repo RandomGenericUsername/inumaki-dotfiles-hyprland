@@ -1,11 +1,12 @@
 {
 	"layer" : "top",
 	"position" : "top",
-	//"spacing" : 4, 
+	//"spacing" : 0, 
 	//"height" : 30,
 	"include" : ["{{cookiecutter.WAYBAR_DIR}}/modules.json"],
-	//"modules-left": ["hyprland/window"],
-    "modules-center": ["clock"],
+	"modules-left": ["hyprland/workspaces", "custom/waybar-themes", "custom/wallpaper-selector"],
+    //"modules-center": ["clock"],
+	"modules-right": ["tray", "battery", "clock", "custom/power-menu"]
 	//"modules-right": ["bluetooth"]
 }
 

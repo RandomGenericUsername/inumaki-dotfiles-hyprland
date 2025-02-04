@@ -1,4 +1,7 @@
 {
+    "tray": {
+        "spacing" : 10
+    },
     "clock": {
         "interval": 1,
         "format": "{:%H:%M:%S}",
@@ -22,7 +25,7 @@
             "default": ""
         },
         "persistent-workspaces": {
-            "*": 3
+            "*": 5
         }
     },
     // Taskbar
@@ -42,15 +45,38 @@
     },
     // Waybar Themes
     "custom/waybar-themes": {
-        "format": "🎨", // Gear icon from Font Awesome
-        "on-click": "{{cookiecutter.HYPR_SCRIPTS_DIR}}/waybar_themeswitcher.sh",
-        "tooltip-format": "Select a waybar theme"
+        "format": "",
+        "on-click": "{{cookiecutter.WAYBAR_SCRIPTS_DIR}}/theme-switcher.sh",
+        "tooltip-format": "Select a theme for waybar"
     },
     // Wallpaper
     "custom/wallpaper-selector": {
         "format": "",
-        "on-click": "{{cookiecutter.HYPR_SCRIPTS_DIR}}/select_wallpaper.sh",
-        "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
+        "on-click": "{{cookiecutter.WALLPAPER_SELECTOR_SCRIPTS_DIR}}/wallpapers-and-effects-selector.sh wallpaper",
+        "tooltip-format": "Select a wallpaper/effect. Use Ctlr+tab to navigate."
+    },
+
+    "custom/power-menu": {
+        "format": "",
+        "on-click": "wlogout -C {{cookiecutter.WLOGOUT_DIR}}/style.css -l {{cookiecutter.WLOGOUT_DIR}}/layout",
+        "on-click-right": "hyprlock",
+        "tooltip-format": "Left: Power menu\nRight: Lock screen"
+    },
+
+    // Battery
+    "battery": {
+      "states": {
+        // "good": 95,
+        "warning": 25,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}%",
+      "format-charging": "  {capacity}%",
+      "format-plugged": "  {capacity}%",
+      "format-alt": "{icon}  {time}",
+      // "format-good": "", // An empty format will hide the module
+      // "format-full": "",
+      "format-icons": [" ", " ", " ", " ", " "]
     },
     "bluetooth": {
         "format": "",
@@ -66,9 +92,9 @@
     // Cliphist
     //"custom/cliphist": {
     //    "format": "",
-    //    "on-click": "sleep 0.1 && {{cookiecutter.HYPR_SCRIPTS_DIR}}/cliphist.sh",
-    //    "on-click-right": "sleep 0.1 && {{cookiecutter.HYPR_SCRIPTS_DIR}}/cliphist.sh d",
-    //    "on-click-middle": "sleep 0.1 && {{cookiecutter.HYPR_SCRIPTS_DIR}}/cliphist.sh w",
+    //    "on-click": "sleep 0.1 && {{cookiecutter.HYPR_DIR}}/scripts/cliphist.sh",
+    //    "on-click-right": "sleep 0.1 && {{cookiecutter.HYPR_DIR}}/scripts/cliphist.sh d",
+    //    "on-click-middle": "sleep 0.1 && {{cookiecutter.HYPR_DIR}}/scripts/cliphist.sh w",
     //    "tooltip-format": "Clipboard Manager"
     //},
 }

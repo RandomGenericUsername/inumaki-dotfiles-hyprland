@@ -1,0 +1,1 @@
+* { current-image: url("{{cookiecutter.WALLPAPERS_DIR}}/default.png", height); }
