@@ -38,10 +38,6 @@ source "$configs"
 # shellcheck disable=SC1090
 source "$lib_scripts" 
 
-# Source the variables handler script
-# shellcheck disable=SC1090
-source "$variables_handler_scripts" 
-
 # If the user has not defined the screen size, get it from the system
 if [[ -z "$SCREEN_SIZE" ]]; then
    SCREEN_SIZE="$(xrandr | grep -w connected | awk '{print $3}' | awk -Fx '{print $1}')"
@@ -162,6 +158,11 @@ run_tasks() {
    mkdir -p "/tmp/wal" || exit $?
    mv "$DOTFILES_INSTALL_PATH/.config/wal/"* "/tmp/wal/" || exit $?
 
+   #source "$variables_handler_scripts" 
+   # Source the variables handler script
+   # shellcheck disable=SC1091
+   source "$VARIABLES_HANDLER_SCRIPT" || exit $?
+
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.cache" --source "$HOME/.cache" --target "$DOTFILES_INSTALL_PATH" || exit $?
    create_symbolic_link "$WALLPAPERS_DIR" --source "$WALLPAPERS_DIRECTORY" --target "$DOTFILES_INSTALL_PATH" || exit $?
    create_symbolic_link "$DOTFILES_INSTALL_PATH/.config/wal" --source "$HOME/.config/wal" --target "$CONFIG_DIR" || exit $?
@@ -176,9 +177,14 @@ run_tasks() {
    # Create metadata file
    echo "" >  "$DOTFILES_METADATA" || exit $?
 
-   # Source the variables handler script
-   # shellcheck disable=SC1091
-   source "$VARIABLES_HANDLER_SCRIPT" || exit $?   
+   # Set the wallpaper path to the default one
+   set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
+   # Set the wallpaper name to default
+   set_variable "wallpaper.current.name" "default" || exit $?  
+   # Add the default wallpaper to the cache
+   tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIRECTORY/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
+   # Set the screen size
+   set_variable "system.screen_size" "$SCREEN_SIZE" || exit $?
 
    # Copy the default wallpaper
    cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
@@ -188,15 +194,6 @@ run_tasks() {
 
    # Change the wallpaper to the default one
    eval "$CHANGE_WALLPAPER_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
-
-   # Set the wallpaper path to the default one
-   set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
-   # Set the wallpaper name to default
-   set_variable "wallpaper.current.name" "default" || exit $?  
-   # Add the default wallpaper to the cache
-   tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIRECTORY/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
-   # Set the screen size
-   set_variable "system.screen_size" "$SCREEN_SIZE" || exit $?
 
    # Enable services
    # Enable bluetooth service

@@ -40,7 +40,7 @@ if [ -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/custom-style.css" ] 
     style_file="custom-style.css"
 fi
 if [ "$use_custom_style" == "false" ]; then
-    $create_waybar_stylesheet -o "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file" -e "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/config.sh" -t "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file.tpl"
+    $create_waybar_stylesheet -o {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file -e {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/config.sh -t {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file.tpl
 fi
 if [ ! -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file" ]; then
     $print_debug "Selected theme: $selected_theme does not define a CSS. Using default..." -t "error"

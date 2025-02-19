@@ -133,10 +133,10 @@ tooltip label {
     background-color: @color1;
 }
 #tray menu{
-    color: @color1;
-    background-color: @background;
+    color: @foreground;
+    font-size: 0.80em;
+    background-color: @color1;
 }
-
 #battery {
     margin: 0.3em 0em;
     padding: 0.1em 0.75em;
@@ -148,21 +148,21 @@ tooltip label {
 }
 
 #battery.charging, #battery.plugged {
-    background-color: @color1;
+    background-color: @color16;
 }
 
 @keyframes blink {
     to {
-        background-color: red;
-        color: cyan;
+        background-color: @color8;
+        color: @background;
     }
 }
 
 #battery.critical:not(.charging) {
-    background-color: orange;
-    color: green;
+    background-color: @color12;
+    color: @color14;
     animation-name: blink;
-    animation-duration: 0.5s;
+    animation-duration: 5.0s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
