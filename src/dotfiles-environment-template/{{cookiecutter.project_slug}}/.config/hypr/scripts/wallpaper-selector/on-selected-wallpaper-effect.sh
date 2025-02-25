@@ -29,6 +29,10 @@ if [[ "$selected_wallpaper_effect" != "$current_wallpaper_effect" ]];then
     set_variable "wallpaper.current.path" "$wallpaper_with_effect"
     # Update the current wallpaper effect
     set_variable "wallpaper.current.effect" "$selected_wallpaper_effect"
+    set_variable "wallpaper.effect.selected.path" "$wallpaper_with_effect"
     # Write the current wallpaper to rofi config
     echo "* { current-image: url(\"$wallpaper_with_effect\", height); }" > "{{cookiecutter.ROFI_CONFIG_CURRENT_WALLPAPER}}"
+
+    set_variable "wallpaper.selected.path" "$wallpaper_with_effect"
+    set_variable "wallpaper.selected.name" "$current_wallpaper_name"
 fi

@@ -113,6 +113,6 @@ if [[ -n "$WALLPAPER_PATH" ]] &&  [[ -z "$(check_valid_wallpaper_path "$WALLPAPE
     exit 1
 fi
 
-#$create_wlogout_stylesheet_script -o {{cookiecutter.WLOGOUT_DIR}}/style.css -t {{cookiecutter.WLOGOUT_DIR}}/style.css.tpl -b $WALLPAPER_PATH
+"$create_wlogout_stylesheet_script" -o "{{cookiecutter.WLOGOUT_DIR}}/style.css" -t "{{cookiecutter.WLOGOUT_DIR}}/style.css.tpl" -b "$WALLPAPER_PATH"
 $print_debug "Setting wallpaper: $WALLPAPER_PATH"
 change_wallpaper "$WALLPAPER_PATH"

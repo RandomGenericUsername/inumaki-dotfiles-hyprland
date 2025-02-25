@@ -78,6 +78,7 @@ options=(
 )
 
 set_options "${options[@]}"
+set_mandatory_arguments 0
 parse_command_line "$@"
 
 CSS_TEMPLATE="$(get_arg_value "css_template")"
