@@ -8,8 +8,8 @@
 }
 
 window#waybar {
-    background-color: {{WAYBAR_BACKGROUND_COLOR}};
-    color: {{WAYBAR_COLOR}}; 
+    background-color: transparent;
+    color: @color7; 
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -21,15 +21,14 @@ window#waybar.hidden {
 #clock {
     margin: 0.3em 0em;
     padding: 0 0.25em;
-    color: {{CLOCK_COLOR}};
-    background-color: {{CLOCK_BACKGROUND_COLOR}};
+    color: @foreground;
+    background-color: transparent;
     font-weight: bold;
     border: none;
     border-radius: 0.25em;
 }
 #clock:hover {
-    background-color: {{CLOCK_HOVER_BACKGROUND_COLOR}}; 
-    color: {{CLOCK_HOVER_COLOR}}; 
+    background-color: @color1; 
 }
 
 /* -----------------------------------------------------
@@ -38,8 +37,7 @@ window#waybar.hidden {
  */
 
 #workspaces {
-    background-color: {{WORKSPACES_BACKGROUND_COLOR}};
-    color: {{WORKSPACES_COLOR}};
+    background-color: transparent;
     margin: 0.3em 0.1em;
     border-radius: 0.20em;
     border: 0rem;
@@ -49,31 +47,25 @@ window#waybar.hidden {
 
 #workspaces button {
     margin: 0.05em 0.15em; 
-    /*padding: 0.05em 0.15em; */
-    border-radius: 0.20em;
-    border: 0em;
-    color: {{WORKSPACES_BUTTON_COLOR}};
-    background-color: {{WORKSPACES_BUTTON_BACKGROUND_COLOR}};
+    color: @foreground;
+    background-color: transparent;
     transition: all 0.1s linear;
-    opacity: 0.4;
     min-width: 1.0em;
 }
 
-#workspaces button.active {
-    color: {{WORKSPACES_BUTTON_ACTIVE_COLOR}};
-    background-color: {{WORKSPACES_BUTTON_ACTIVE_BACKGROUND_COLOR}};
-    border-radius: 0.20em;
-    min-width: 1.5em;
-    transition: all 0.1s linear;
-    opacity:1.0;
+#workspaces button:hover {
+    background-color: @color2;
 }
 
-#workspaces button:hover {
-    color: {{WORKSPACES_BUTTON_HOVER_COLOR}};
-    background: {{WORKSPACES_BUTTON_HOVER_BACKGROUND_COLOR}};
-    border-radius: 0.20em;
-    opacity:0.7;
+#workspaces button.active {
+    background-color: @color1;
+    min-width: 1.5em;
 }
+
+#workspaces button.active:hover {
+    background-color: @color1;
+}
+
 
 tooltip {
     border-radius: 0.2em;
@@ -137,36 +129,68 @@ tooltip label {
     font-size: 0.80em;
     background-color: @color1;
 }
+
 #battery {
     margin: 0.3em 0em;
     padding: 0.1em 0.75em;
-    color: @foreground;
+    color: @foreground; 
+    background: transparent;
     border-radius: 0.20em;
 }
+
 #battery:hover {
+    background-color: @color1; 
+}
+
+#battery.charging:hover, #battery.plugged:hover {
     background-color: @color1;
 }
 
 #battery.charging, #battery.plugged {
-    background-color: @color16;
+    background-color: transparent; 
+    color: @foreground;
 }
+
 
 @keyframes blink {
     to {
-        background-color: @color8;
-        color: @background;
+        background-color: @color1; 
+        color: @color15; 
     }
 }
 
 #battery.critical:not(.charging) {
-    background-color: @color12;
-    color: @color14;
+    background-color: transparent; 
+    color: @foreground; 
     animation-name: blink;
-    animation-duration: 5.0s;
+    animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
+
+
+/* Modify only the tooltip for the clock (calendar) */
+#clock tooltip {
+    background-color: #222831; /* Dark background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px;
+    border: 1px solid #393E46; /* Border color */
+}
+
+/* Styling the text inside the calendar tooltip */
+#clock tooltip label {
+    font-size: 14px;
+    font-family: "Fira Code", monospace;
+    color: #EEEEEE; /* Light text color */
+}
+
+/* Highlight today's date (underlined text in calendar) */
+#clock tooltip label u {
+    color: #00ADB5; /* Custom color for today */
+    font-weight: bold;
+}
+
 
 
 {% endraw %}

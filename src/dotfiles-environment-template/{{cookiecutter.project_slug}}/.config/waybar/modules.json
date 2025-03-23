@@ -1,14 +1,24 @@
 {
     "tray": {
-        "spacing" : 10
+        "spacing" : 10,
+        "show-passive-items": true
     },
     "clock": {
         "interval": 1,
         "format": "{:%H:%M:%S}",
-        "format-alt": "{:%H:%M - %B %d}",
-        "tooltip": false,
+        "tooltip": true,
+        "tooltip-format": "<tt><big>{calendar}</big></tt>",
+        "calendar": {
+            "mode": "month",
+            "format": {
+                "months": "<b>{}</b>",
+                "days": "{}",
+                "today": "<b><u>{}</u></b>"
+            }
+        },
+        "locale": "en_US.UTF-8",
         "actions": {
-            "on-click-right": "mode",
+            "on-click-right": "mode"
         }
     },
     // Workspaces
@@ -31,13 +41,13 @@
     // Taskbar
     "hyprland/taskbar": {
         "format": "{icon}",
-        "icon-size": 18,
+        //"icon-size": 18,
         "tooltip-format": "{title}",
         "on-click": "activate",
         "on-click-middle": "close",
-        "ignore-list": [
-            "Alacritty"
-        ]
+        //"ignore-list": [
+        //    "Alacritty"
+        //]
     },
     // Hyprland Window
     "hyprland/window": {
@@ -66,16 +76,14 @@
     // Battery
     "battery": {
       "states": {
-        // "good": 95,
-        "warning": 80,
-        "critical": 76
+        "good": 9,
+        "warning": 92,
+        "critical": 20
       },
       "format": "{icon} {capacity}%",
-      "format-charging": "  {capacity}%",
+      //"format-charging": "  {capacity}%",
       "format-plugged": "  {capacity}%",
-      "format-alt": "{icon}  {time}",
-      // "format-good": "", // An empty format will hide the module
-      // "format-full": "",
+      //"format-alt": "{icon}  {time}",
       "format-icons": [" ", " ", " ", " ", " "]
     },
     "bluetooth": {
