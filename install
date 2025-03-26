@@ -195,6 +195,12 @@ run_tasks() {
    # Change the wallpaper to the default one
    eval "$CHANGE_WALLPAPER_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
 
+   # Apply pywal color palette (required for proper function)
+   eval "$APPLY_PYWAL_PALLETE_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
+
+   # Cache the default wallpaper
+   eval "$CACHE_WALLPAPER_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
+
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
