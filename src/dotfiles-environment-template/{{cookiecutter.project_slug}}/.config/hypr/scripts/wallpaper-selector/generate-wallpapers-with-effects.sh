@@ -10,11 +10,16 @@ effects_dir="{{cookiecutter.WALLPAPER_EFFECTS_DIR}}"
 output_dir="{{cookiecutter.GENERATED_WALLPAPERS_WITH_EFFECTS_DIR}}"
 # Path to variables handler script
 variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
+# Path to run_process script
+run_process="{{cookiecutter.RUN_PROCESS_SCRIPT}}"
+
 
 # shellcheck disable=SC1090
 source "$utils"
 # shellcheck disable=SC1090
 source "$variables_handler"
+# shellcheck disable=SC1090
+source "$run_process"
 
 # Check if the required arguments are provided
 if [[ $# -ne 1 ]]; then
@@ -52,16 +57,10 @@ find "$effects_dir" -mindepth 1 -maxdepth 1 -type d | while read -r subdir; do
     
     if [[ -f "$effect_script" ]]; then
         wallpaper_with_effect="$wallpaper_effects_dir/$effect_name"
-        $print_debug "Applying $effect_name on $wallpaper_name. Wallpaper generated at $wallpaper_with_effect"
+        $print_debug "Applying effect '$effect_name' on $wallpaper_name."
+        $print_debug "Wallpaper generated at $wallpaper_with_effect."
         export wallpaper_with_effect 
-        # Source the effect script
-        if [[ "$ENABLE_DEBUG" == "true" ]];then
-            # shellcheck disable=SC1090
-            source "$effect_script"
-        else
-            # shellcheck disable=SC1090
-            source "$effect_script" > /dev/null 2>&1
-        fi
+        run "$effect_script"
     fi
 done
 

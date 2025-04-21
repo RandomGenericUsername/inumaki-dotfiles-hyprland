@@ -8,6 +8,7 @@ source "$variables_handler"
 
 launch_command="$(get_variable "waybar.launch_command")"
 $print_debug "Executing waybar launch command: $launch_command"  -t "info"
+killall waybar
 eval "$launch_command"
 
 

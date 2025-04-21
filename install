@@ -63,16 +63,16 @@ pretty_print_installer_msg
 prompt_install 
 
 # Print message to inform the user that dependencies are being installed.
-echo "INFO: [Boostraping...]" 
+echo "INFO: [Boostraping.]" 
 
 # Install the print debug utility
 install_print_debug_util "/tmp/.print-debug" # Install print debug utility
 
-# Check if the current distro is based on Arch Linux and install yay if it is.
-if_arch_based_distro
-
 # Create file for logging the installation (if enabled)
 create_log 
+
+# Check if the current distro is based on Arch Linux and install yay if it is.
+if_arch_based_distro
 
 # Check for previous installation
 check_previous_installation 
@@ -84,13 +84,14 @@ $print_debug "Performing '$INSTALL_TYPE' installation"
 install_packages_from_file "$BOOTSTRAP_DEPENDENCIES" 
 
 # Print message to inform the user that the boostraping is finished.
-$print_debug "Bootstraping finished." -t "success"
+$print_debug "Bootstraping finished." -t "info"
+
+# Print message to inform the user that the installation is beginning.
+$print_debug "Beginning installation." -t "info"
+
 
 # Define the tasks to be performed during the installation
 run_tasks() {
-
-   # Print message to inform the user that the installation is beginning.
-   $print_debug "Beginning installation..." -t "info"
 
    # These directories are going to be deleted for avoiding conflicts with installation process 
    for dir in \
@@ -109,6 +110,7 @@ run_tasks() {
    create_dirs \
     "$HOME/.cache" \
     "$HOME/.config/wal" \
+    "$HOME/.config/hypr" \
     "$INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" \
    || exit $?
@@ -180,34 +182,34 @@ run_tasks() {
    # shellcheck disable=SC1091
    source "$VARIABLES_HANDLER_SCRIPT" || exit $?   
 
-   # Copy the default wallpaper
-   cp "$assets_dir/default_wallpaper/default.png" "$WALLPAPERS_DIR/default.png" || exit $?
-
-   # Generate the effects-variants for the default wallpaper
-   eval "$GENERATE_WALLPAPERS_WITH_EFFECTS_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
-
-   # Change the wallpaper to the default one
-   eval "$CHANGE_WALLPAPER_SCRIPT $WALLPAPERS_DIR/default.png" || exit $?
-
-   # Set the wallpaper path to the default one
-   set_variable "wallpaper.current.path" "$WALLPAPERS_DIRECTORY/default.png" || exit $?
-   # Set the wallpaper name to default
-   set_variable "wallpaper.current.name" "default" || exit $?  
-   # Add the default wallpaper to the cache
-   tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIRECTORY/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
    # Set the screen size
    set_variable "system.screen_size" "$SCREEN_SIZE" || exit $?
 
+   #
+   tar -xzf "$assets_dir/wallpapers/wallpapers.tar.gz" -C "$WALLPAPERS_DIR"
+
+   # Set the wallpaper path to the default one
+   set_variable "wallpaper.current.path" "$WALLPAPERS_DIR/default.png" || exit $?
+   # Set the wallpaper name to default
+   set_variable "wallpaper.current.name" "default" || exit $?  
+   # Add the default wallpaper to the cache
+   tomlq --toml-output '.cache.wallpapers += ["'"$WALLPAPERS_DIR/default.png"'"]' "$DOTFILES_METADATA" > "${DOTFILES_METADATA}.tmp" && mv "${DOTFILES_METADATA}.tmp" "$DOTFILES_METADATA"
+   # Generate the effects-variants for the default wallpaper
+   "$GENERATE_WALLPAPERS_WITH_EFFECTS_SCRIPT" "$WALLPAPERS_DIR/default.png" || exit $?
+   # Change the wallpaper to the default one
+   "$CHANGE_WALLPAPER_SCRIPT" "$WALLPAPERS_DIR/default.png" || exit $?
+   # Apply pywal color palette (required for proper function)
+   "$APPLY_PYWAL_PALLETE_SCRIPT" "$WALLPAPERS_DIR/default.png" || exit $?
+   # apply waybar default theme
+   "$WAYBAR_THEME_SWITCHER_SCRIPT" "$WAYBAR_DEFAULT_THEME" || exit $?
+
+   
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
    #sudo systemctl disable sddm
    #sudo systemctl enable lightdm
-
-   $print_debug "Installation finished!!!" -t "info"
-   if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
-      $print_debug "Installation log generated at '$LOG'."
-   fi
+   run "hyprctl reload"
 }
 
 if [ "$ENABLE_DEBUG" = true ]; then
@@ -230,7 +232,15 @@ else
    fi
 fi
 
+
+
+$print_debug "Installation finished!!!" -t "success"
+
 $print_debug "You can now use dotfiles" -t "success"
+
+if [ "$ENABLE_LOG" == "true" ] && [ "$ENABLE_DEBUG" == "true" ]; then
+   $print_debug "Installation log generated at '$LOG'."
+fi
 # --------------------------------------------------------------------------------------- #
 
 

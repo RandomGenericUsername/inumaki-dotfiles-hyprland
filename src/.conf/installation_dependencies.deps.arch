@@ -23,7 +23,7 @@ yq
 eww
 
 # Oxygen: Font used in KDE
-ttf-oxygen
+#ttf-oxygen
 
 # Waypaper: Wallpaper utility for Wayland
 waypaper

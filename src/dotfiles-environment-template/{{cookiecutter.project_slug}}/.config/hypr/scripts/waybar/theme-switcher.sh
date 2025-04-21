@@ -13,10 +13,13 @@ create_waybar_stylesheet="{{cookiecutter.GENERATE_WAYBAR_STYLESHEET_SCRIPT}}"
 source "$utils_dir"
 source "$variables_handler"
 
+if [[ -z "$@" ]]; then
+    rofi -show "Waybar themes selector" -i replace -config "{{cookiecutter.ROFI_CONFIG_WAYBAR_THEMES_MODE}}"
+    selected_theme="$(get_variable "waybar.theme.selected")"    
+else
+    selected_theme="$@"
+fi
 
-rofi -show "Waybar themes selector" -i replace -config "{{cookiecutter.ROFI_CONFIG_WAYBAR_THEMES_MODE}}"
-
-selected_theme="$(get_variable "waybar.theme.selected")"    
 if [[ -z "$selected_theme" ]];then
     $print_debug "No theme was selected..." -t "error"
     exit 1
@@ -47,11 +50,11 @@ if [ ! -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file" ]; th
     #waybar_theme="{{cookiecutter.WAYBAR_DEFAULT_THEME}}"
 fi
 
-launch="waybar -c {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/$config_file -s {{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[1]}/$style_file &"
+launch="waybar -c {{cookiecutter.WAYBAR_THEMES_DIR}}${arrThemes[0]}/$config_file -s {{cookiecutter.WAYBAR_THEMES_DIR}}${arrThemes[1]}/$style_file &"
 # Check if a custom launch script exists for the theme.
 if [ -f "{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/launch.sh" ]; then
 	print_debug "Custom waybar command found" -t "info"
-    launch="{{cookiecutter.WAYBAR_THEMES_DIR}}/${arrThemes[0]}/launch.sh"
+    launch="{{cookiecutter.WAYBAR_THEMES_DIR}}${arrThemes[0]}/launch.sh"
 fi
 
 set_variable "waybar.launch_command" "$launch"

@@ -55,6 +55,10 @@ arg_parser_script="{{cookiecutter.ARGUMENT_PARSER_UTIL}}"
 hyprpaper_config_template="{{cookiecutter.HYPRPAPER_CONFIG_TEMPLATE}}"
 # Path to hyprpaper config file
 hyprpaper_config="{{cookiecutter.HYPRPAPER_CONFIG}}"
+# Path to wlogout scripts dir
+create_wlogout_stylesheet_script="{{cookiecutter.CREATE_WLOGOUT_STYLESHEET_SCRIPT}}"
+# Path to variables handlerscript
+variables_handler="{{cookiecutter.VARIABLES_HANDLER_SCRIPT}}"
 
 
 # Source required/util scripts
@@ -107,5 +111,6 @@ if [[ -n "$WALLPAPER_PATH" ]] &&  [[ -z "$(check_valid_wallpaper_path "$WALLPAPE
     exit 1
 fi
 
+"$create_wlogout_stylesheet_script" -o "{{cookiecutter.WLOGOUT_DIR}}/style.css" -t "{{cookiecutter.WLOGOUT_DIR}}/style.css.tpl" -b "$WALLPAPER_PATH"
 $print_debug "Setting wallpaper: $WALLPAPER_PATH"
 change_wallpaper "$WALLPAPER_PATH"
