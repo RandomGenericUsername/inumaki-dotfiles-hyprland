@@ -130,78 +130,43 @@ tooltip label {
     background-color: @color1;
 }
 
-#battery {
-    margin: 0.3em 0em;
-    padding: 0.1em 0.75em;
+#custom-battery-percentage {
+    min-width: 2.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left: 1.5em;
+    padding-right: 0em;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: auto 60%;
     color: @foreground; 
-    background: transparent;
+    margin: 0.3em 0em;
     border-radius: 0.20em;
-    background-image: url('/home/inumaki/Downloads/21.svg');
-}
+    
 
-#battery:hover {
-    background-color: @color1; 
 }
-
-#battery.charging:hover, #battery.plugged:hover {
+#custom-battery-percentage:hover{
     background-color: @color1;
 }
 
-#battery.charging, #battery.plugged {
-    background-color: transparent; 
-    color: @foreground;
-}
-
-#battery.warning:not(.charging) {
-    background-color: @color1; 
-    color: @foreground; 
-}
-
-@keyframes blink {
-    to {
-        background-color: @color1; 
-        color: @color15; 
-    }
-}
-
-#battery.critical:not(.charging) {
-    background-color: transparent; 
-    color: @foreground; 
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-#custom-battery {
-    min-width: 24px;
-    min-height: 24px;
-    padding-left: 28px;
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: contain;
-    color: @foreground; 
-}
-
 /* Custom battery levels */
-#custom-battery.battery-100 {
+#custom-battery-percentage.battery-100 {
     background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-100.svg");
     color: @foreground; 
 }
-#custom-battery.battery-75 {
+#custom-battery-percentage.battery-75 {
     background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-75.svg");
     color: @foreground; 
 }
-#custom-battery.battery-50 {
+#custom-battery-percentage.battery-50 {
     background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-50.svg");
     color: @foreground; 
 }
-#custom-battery.battery-25 {
+#custom-battery-percentage.battery-25 {
     background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-25.svg");
     color: @foreground; 
 }
-#custom-battery.battery-0 {
+#custom-battery-percentage.battery-0 {
     background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-0.svg");
     color: @foreground; 
 }

@@ -69,7 +69,7 @@
         "tooltip-format": "Left: Power menu\nRight: Lock screen"
     },
 
-    "custom/battery": {
+    "custom/battery-percentage": {
         "return-type": "json",
         "exec": "{{cookiecutter.DISPLAY_BATTERY_PERCENTAGE_SCRIPT}}",
         "interval": 2

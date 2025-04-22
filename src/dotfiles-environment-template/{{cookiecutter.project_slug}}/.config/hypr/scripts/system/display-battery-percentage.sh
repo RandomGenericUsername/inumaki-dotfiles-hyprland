@@ -26,4 +26,4 @@ else
 fi
 
 # Output JSON
-echo "{\"text\": \"\", \"class\": \"$CLASS\", \"percentage\": $CHARGE}"
+echo "{\"text\": \"${CHARGE}%\", \"class\": \"$CLASS\"}"
