@@ -73,7 +73,13 @@
         "return-type": "json",
         "exec": "{{cookiecutter.DISPLAY_BATTERY_PERCENTAGE_SCRIPT}}",
         "interval": 2
+    },
+    "custom/battery-percentage-icon": {
+        "return-type": "json",
+        "exec": "{{cookiecutter.DISPLAY_BATTERY_PERCENTAGE_ICON_SCRIPT}}",
+        "interval": 2
     }
+
     // Cliphist
     //"custom/cliphist": {
     //    "format": "",

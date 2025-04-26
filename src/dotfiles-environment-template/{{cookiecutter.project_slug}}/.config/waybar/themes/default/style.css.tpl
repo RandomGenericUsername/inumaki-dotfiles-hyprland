@@ -131,46 +131,56 @@ tooltip label {
 }
 
 #custom-battery-percentage {
-    min-width: 2.5em;
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
-    padding-left: 1.5em;
-    padding-right: 0em;
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: auto 60%;
-    color: @foreground; 
     margin: 0.3em 0em;
-    border-radius: 0.20em;
-    
-
+    padding: 0 0.25em;
+    color: @foreground;
+    background-color: transparent;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.25em;
 }
+
 #custom-battery-percentage:hover{
     background-color: @color1;
 }
 
-/* Custom battery levels */
-#custom-battery-percentage.battery-100 {
-    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-100.svg");
-    color: @foreground; 
-}
-#custom-battery-percentage.battery-75 {
-    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-75.svg");
-    color: @foreground; 
-}
-#custom-battery-percentage.battery-50 {
-    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-50.svg");
-    color: @foreground; 
-}
-#custom-battery-percentage.battery-25 {
-    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-25.svg");
-    color: @foreground; 
-}
-#custom-battery-percentage.battery-0 {
-    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-0.svg");
-    color: @foreground; 
+#custom-battery-percentage-icon {
+    margin: 0.3em 0em;
+    padding: 0 0.25em;
+    min-width: 1.5em; 
+    min-height: 1.5em;
+    background-size: auto 75%; /* 40% 80%; */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    color: transparent; /* hide the . text */
+    border: none;
+    border-radius: 0.25em;
 }
 
+#custom-battery-percentage-icon:hover{
+    background-color: @color1;
+}
+
+#custom-battery-percentage-icon.battery-100 {
+    background-image: url("/home/inumaki/Development/temp/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-100.svg");
+}
+
+#custom-battery-percentage-icon.battery-75 {
+    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-0.svg");
+}
+
+#custom-battery-percentage-icon.battery-50 {
+    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-0.svg");
+}
+
+#custom-battery-percentage-icon.battery-25 {
+    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-0.svg");
+}
+
+#custom-battery-percentage-icon.battery-0 {
+    background-image: url("/home/inumaki/Development/inumaki-dotfiles-hyprland/src/assets/waybar/battery-icons/battery-0.svg");
+}
 
 
 #bluetooth {
