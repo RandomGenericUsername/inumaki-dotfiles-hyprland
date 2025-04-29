@@ -18,6 +18,8 @@ apply_pywal_color_pallete="{{cookiecutter.APPLY_PYWAL_PALLETE_SCRIPT}}"
 toggle_waybar="{{cookiecutter.WAYBAR_TOGGLE_SCRIPT}}"
 # Script to cache the generated wallpapers
 cache_wallpaper="{{cookiecutter.CACHE_WALLPAPER_SCRIPT}}"
+# path to create battery icon script
+create_battery_icon="{{cookiecutter.WAYBAR_CREATE_BATTERY_ICON_SCRIPT}}"
 
 # Source required/util scripts
 # shellcheck disable=SC1090
@@ -66,6 +68,19 @@ fi
 
 # Apply pywal to the current wallpaper
 "$apply_pywal_color_pallete" 
+
+# Create waybar battery icon
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-0.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-0.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-25.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-25.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-50.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-50.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-75.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-75.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-100.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-100.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-0-charging.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-0-charging.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-25-charging.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-25-charging.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-50-charging.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-50-charging.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-75-charging.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-75-charging.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+"$create_battery_icon" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/templates/battery-icons/battery-100-charging.svg" "{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-100-charging.svg" "$HOME/.cache/wal/colors.sh" "foreground"
+
 
 # Reload waybar
 "$toggle_waybar"

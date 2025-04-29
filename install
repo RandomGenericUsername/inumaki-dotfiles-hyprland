@@ -113,6 +113,8 @@ run_tasks() {
     "$HOME/.config/hypr" \
     "$INSTALL_PATH" \
     "$WALLPAPERS_DIRECTORY" \
+    "$WAYBAR_ASSETS_DIR/templates" \
+    "$WAYBAR_ASSETS_DIR/battery-icons" \
    || exit $?
 
    # Install packages
@@ -187,6 +189,7 @@ run_tasks() {
 
    #
    tar -xzf "$assets_dir/wallpapers/wallpapers.tar.gz" -C "$WALLPAPERS_DIR"
+   cp -r "$assets_dir/waybar/battery-icons" "$WAYBAR_ASSETS_DIR/templates"
 
    # Set the wallpaper path to the default one
    set_variable "wallpaper.current.path" "$WALLPAPERS_DIR/default.png" || exit $?

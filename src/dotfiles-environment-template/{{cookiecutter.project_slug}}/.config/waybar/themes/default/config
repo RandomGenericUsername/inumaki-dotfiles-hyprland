@@ -6,6 +6,6 @@
 	"include" : ["{{cookiecutter.WAYBAR_DIR}}/modules.json"],
 	"modules-left": ["hyprland/workspaces", "custom/waybar-themes", "custom/wallpaper-selector"],
     //"modules-center": ["clock"],
-	"modules-right": ["tray", "custom/battery-percentage", "custom/battery-percentage-icon", "clock", "custom/power-menu"]
+	"modules-right": ["tray", "custom/battery-percentage-icon", "custom/battery-percentage", "clock", "custom/power-menu"]
 	//"modules-right": ["bluetooth"]
 }
