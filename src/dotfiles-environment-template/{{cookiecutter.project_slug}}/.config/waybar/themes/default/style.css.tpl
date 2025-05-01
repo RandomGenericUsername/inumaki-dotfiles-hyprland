@@ -10,7 +10,7 @@
     border-radius: 0.25em;
     color: @foreground;
     background-color: transparent;
-    font-weight: bold;
+    /* font-weight: bold; */
     margin: 0.1em 0.0em;
 }
 {% endraw %}
@@ -53,11 +53,13 @@
 
 /*======= TRAY =======*/
 #tray {
-    padding: 0.1em 0.5em;
+    padding: 0.1em 0em;
 }
+/*
 #tray:hover {
     background-color: @color1;
 }
+*/
 #tray menu{
     font-size: 0.80em;
     background-color: @color1;
@@ -65,16 +67,19 @@
 
 /*======= CUSTOM/BATTERY-PERCENTAGE-ICON =======*/
 #custom-battery-percentage-icon {
-    padding: 0.1em 0.5em;
-    min-width: 0.75em;
-    background-size: auto 65%;
+    padding: 0em;
+    min-width: 1em;
+    margin: 0.1em 0em 0.1em 0.2em;
+    background-size: auto 55%;
     background-repeat: no-repeat;
     background-position: center;
     color: transparent; /* hide the . text */
 }
+/*
 #custom-battery-percentage-icon:hover{
     background-color: @color1;
 }
+*/
 #custom-battery-percentage-icon.battery-100 {
     background-image: url("{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-100.svg");
 }
@@ -108,23 +113,32 @@
 
 /*======= CUSTOM/BATTERY-PERCENTAGE =======*/
 #custom-battery-percentage {
-    padding: 0.1em 0.5em;
+    padding: 0em;
+    margin: 0.1em 0.2em 0.1em 0em;
 }
+/*
 #custom-battery-percentage:hover{
     background-color: @color1;
 }
+*/
 
 /*======= CLOCK =======*/
 #clock {
-    padding: 0.1 0.5em;
+    padding: 0.1em 0em;
+    margin: 0.1em 0.0em 0.1em 0.2em;
+    min-width: 4em;
 }
+/*
 #clock:hover {
     background-color: @color1; 
 }
+*/
+
 
 /*======= CUSTOM/POWER-MENU =======*/
 #custom-power-menu {
     padding: 0.1em 0.5em;
+    margin: 0.1em 0.25em 0.1em 0em;
 }
 #custom-power-menu:hover {
     background-color: @color1;

@@ -210,6 +210,7 @@ run_tasks() {
    # Enable services
    # Enable bluetooth service
    #sudo systemctl enable --now bluetooth
+   #systemctl enable --now power-profiles-daemon.service
    #sudo systemctl disable sddm
    #sudo systemctl enable lightdm
    run "hyprctl reload"

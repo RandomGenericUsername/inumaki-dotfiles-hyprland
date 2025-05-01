@@ -72,12 +72,15 @@
     "custom/battery-percentage": {
         "return-type": "json",
         "exec": "{{cookiecutter.DISPLAY_BATTERY_PERCENTAGE_SCRIPT}}",
-        "interval": 2
+        "interval": 2,
+        "on-click": "{{cookiecutter.SYSTEM_SCRIPTS_DIR}}/toggle_power_profile.sh"
+       
     },
     "custom/battery-percentage-icon": {
         "return-type": "json",
         "exec": "{{cookiecutter.DISPLAY_BATTERY_PERCENTAGE_ICON_SCRIPT}}",
-        "interval": 2
+        "interval": 2,
+        "on-click": "{{cookiecutter.SYSTEM_SCRIPTS_DIR}}/toggle_power_profile.sh"
     }
 
     // Cliphist

@@ -16,6 +16,9 @@ blueman
 # YQ for handling toml metadata file
 yq
 
+# This is for power toggle button in waybar
+power-profiles-daemon
+
 # 1Password: Password manager
 1password
 
