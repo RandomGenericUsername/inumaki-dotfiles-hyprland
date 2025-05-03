@@ -66,11 +66,19 @@
 }
 
 /*======= CUSTOM/BATTERY-PERCENTAGE-ICON =======*/
+
+@keyframes blink {
+    to {
+        background-color: @color1; 
+        color: @color15; 
+    }
+}
+
 #custom-battery-percentage-icon {
     padding: 0em;
-    min-width: 1em;
+    min-width: 2.0em;
     margin: 0.1em 0em 0.1em 0.2em;
-    background-size: auto 55%;
+    background-size: auto 95%;
     background-repeat: no-repeat;
     background-position: center;
     color: transparent; /* hide the . text */
@@ -93,6 +101,12 @@
     background-image: url("{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-25.svg");
 }
 #custom-battery-percentage-icon.battery-0 {
+    color: @foreground; 
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
     background-image: url("{{cookiecutter.WAYBAR_ASSETS_DIR}}/battery-icons/battery-0.svg");
 }
 #custom-battery-percentage-icon.battery-100-charging {

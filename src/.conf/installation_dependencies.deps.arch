@@ -13,9 +13,6 @@ wlogout
 # Bluetooth manager
 blueman
 
-# YQ for handling toml metadata file
-yq
-
 # This is for power toggle button in waybar
 power-profiles-daemon
 
@@ -54,6 +51,9 @@ cliphist
 
 # Grim: Screenshot tool for Wayland
 grim
+slurp
+swappy
+wl-clipboard
 
 # XDG Desktop Portal: D-Bus API for desktop integration
 xdg-desktop-portal
@@ -231,7 +231,7 @@ ttf-material-design-icons
 ttf-ms-fonts
 
 # Slack: Team communication tool
-#slack
+slack
 
 # Evolution email: GNOME email client
 evolution
@@ -240,3 +240,5 @@ evolution-spamassassin
 
 # Hyprshade: Window shading tool for Hyprland
 hyprshade
+
+wl-clipboard
